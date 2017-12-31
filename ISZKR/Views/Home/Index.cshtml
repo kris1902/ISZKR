@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.Title = "ISZKR - Strona Główna";
+}
+
+@if (Request.IsAuthenticated)
+{
+    <h3>Statystyki kroniki</h3>
+    <div class="panel-group col-sm-10 panel-group-stats">
+
+        <div class="panel panel-info col-sm-5 stats stats-persons">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#close-relatives-collapse">Osoby</a>
+                </h4>
+            </div>
+            <div class="panel-body">
+                Ilość osób: 21<br />
+                Ilość mężczyzn: 11<br />
+                Ilość kobiet: 10<br />
+            </div>
+        </div>
+
+        <div class="panel panel-info col-sm-5 stats stats-content">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#close-relatives-collapse">Inne</a>
+                </h4>
+            </div>
+            <div class="panel-body">
+                Ilość zdarzeń: 19<br />
+                Ilość zdjęć: 69<br />
+            </div>
+
+        </div>
+    </div>
+                <br />
+
+                <h3 style="clear: both">Ostatnio dodane</h3>
+                <div class="panel-group col-sm-10 panel-group-stats">
+                    <div class="panel panel-info col-sm-5 stats last-persons">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#close-relatives-collapse">Osoby</a>
+                            </h4>
+                        </div>
+                        <div class="panel-body">
+                            <a href="./osoba1.html">Adam Kowalski</a><br />
+                            Martyna Zioło<br />
+                            Janina Białkowska<br />
+                            Stefan Białkowski<br />
+                            Ryszard Kawka<br />
+                        </div>
+                    </div>
+
+                    <div class="panel panel-info col-sm-5 stats last-content">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#close-relatives-collapse">Zdarzenia</a>
+                            </h4>
+                        </div>
+                        <div class="panel-body">
+                            <a href="./zdarzenie1.html">Jakieś zdarzenie</a><br />
+                            Wypad w góry 20 lipca 2011<br />
+                            Wakacje - Barcelona 2008<br />
+                            Pasowanie na przedszkolaka<br />
+                            Narodziny Natalki<br />
+                        </div>
+                    </div>
+                </div>
+}
+else
+{
+<div class="jumbotron">
+    <h1 class="display-3">ISZKR</h1>
+    <p class="lead">Czyli <b>Internetowy System Zarządzania Kroniką Rodzinną</b>.</p>
+    <hr class="my-4">
+    <p>
+        Oferowane funkcjonalności:
+        <ul>
+            <li>Osoby - informacje o relacjach rodzinnych, wykształceniu, historii zawodowej, miejscach zamieszkania</li>
+            <li>Zdarzenia - podobne do wpisu na blogu/w pamiętniku. Gdzie miało miejsce, kto brał udział.</li>
+            <li>Zdjęcia - przypisane do osób lub zdarzeń.</li>
+        </ul>
+    </p>
+    <p class="lead text-center">
+        <a class="btn btn-primary btn-lg" data-toggle="collapse" href="#login-form" aria-expanded="false" aria-controls="nav-collapse2">Zaloguj się</a>
+        @Html.ActionLink("Zarejestruj się", "Register", "Account", new { ReturnUrl = "" }, new { @class = "btn btn-warning btn-lg", role = "button" })
+
+    </p>
+</div>
+}

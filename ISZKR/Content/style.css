@@ -1,0 +1,320 @@
+.hover .dropdown-menu {
+  display:block;
+}
+
+div.circle-avatar {
+/* make it responsive */
+max-width: 100%;
+width:100%;
+height:auto;
+display:block;
+/* div height to be the same as width*/
+padding-top:100%;
+
+/* make it a circle */
+border-radius:50%;
+
+/* Centering on image`s center*/
+background-position-y: center;
+background-position-x: center;
+background-repeat: no-repeat;
+
+/* it makes the clue thing, takes smaller dimension to fill div */
+background-size: cover;
+}
+
+/* Stats */
+
+.panel+.panel .panel-group-stats{
+    margin-top: 0px !important;
+}
+
+.panel-group-stats {
+	left: 50%;
+    transform: translateX(-50%);
+}
+
+.stats {
+	margin-bottom: 5px;
+	margin-left: 10px;
+}
+
+/* Account menu panel */
+
+.account-menu-panel {
+	margin: 0px 7px 0px 7px;
+}
+
+/* Footer */
+
+body {
+	height: 100%;
+}
+
+.footer{
+	position: relative;
+	margin-top: -120px; /* negative value of footer height */
+	height: 120px;
+	clear:both;
+	padding-top:20px;
+    background-color: #424558;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: #CCC;
+}
+
+footer p {
+    padding: 5px;
+    margin: 0px;
+}
+
+.wrap {
+	min-height: 100%;
+}
+
+.content {
+	overflow: auto;
+	box-shadow: 0px 0px 17px 0px rgba(0,0,0,0.8);
+	padding: 25px;
+    margin-bottom: 140px;
+}
+
+/* person-site-content */
+
+.person-site-content {
+	padding-top: 120px;
+}
+
+.born-info {
+	font-size: 12px;
+	color: gray;
+	margin-top: -10px;
+}
+
+.death-info {
+	font-size: 12px;
+	color: gray;
+}
+
+.burial-info {
+	font-size: 11px;
+	color: gray;
+}
+
+.family-name {
+	font-size: 22px;
+	color: gray;
+}
+
+.event-site-content .description {
+	clear: both;
+}
+
+/* Events */
+
+
+.basic-info {
+	margin-bottom: 10px;
+}
+
+.event-start-date-info {
+	font-size: 12px;
+	color: gray;
+	margin-top: -10px;
+}
+
+.event-end-date-info {
+	font-size: 12px;
+	color: gray;
+	margin-top: -10px;
+}
+
+.event-place-info {
+	font-size: 11px;
+	color: gray;
+}
+
+
+/* Search */
+
+.search-input {
+	display: inline-block;
+}
+
+.search-result {
+	margin-left: 20px;
+	clear: both;
+	margin-bottom: 30px;
+}
+
+.search-result h4 {
+	margin: 0px 0px 5px 0px;
+}
+
+.sort-options {
+	display: inline-block;
+}
+
+/* Search - persons */
+
+.persons-search-results .search-result img {
+	display: inline;
+    margin: 0 auto;
+    height: 100%;
+    width: auto;
+	width: 70px;
+	height: 70px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 70%;
+	float: left;
+	margin-bottom: 10px;
+	margin-right: 10px;
+	object-fit:cover;
+	-o-object-fit:cover;
+}
+
+.persons-search-results .search-result a {
+	text-decoration: none;
+}
+
+.persons-search-results .search-result a .name {
+}
+
+/* Search - events */
+
+.events-search-results .search-result img {
+	display: inline;
+    margin: 0 auto;
+    height: 100%;
+    width: auto;
+	width: 70px;
+	height: 70px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 70%;
+	float: left;
+	margin-bottom: 10px;
+	margin-right: 10px;
+	object-fit:cover;
+	-o-object-fit:cover;
+}
+
+.events-search-results {
+	clear: both;
+	margin-top: 20px;
+}
+
+.events-search-results .search-result a {
+	text-decoration: none;
+}
+
+/* Search - photos */
+
+.photos-search-results {
+	clear: both;
+	margin-top: 20px;
+}
+
+.photos-search-results {
+	clear: both;
+	margin-top: 20px;
+}
+
+.photos-search-results .search-result a {
+	text-decoration: none;
+}
+
+@media screen and (max-width: 767px) {
+	
+	.person-site-content {
+		padding: 0;
+	}
+	
+	.basic-info {
+		margin: 0;
+	}
+	
+	.navbar-right .input-group {
+		margin-bottom: 15px;
+	}
+}
+
+/* tables */
+
+.tables {
+	clear: both;
+	padding-top: 20px;
+}
+
+/* Ustawienia */
+
+.save-settings-btn {
+	clear:both;
+	margin-top: 10px;
+}
+
+/* The switch - the box around the slider */
+.switch {
+    top: 8px;
+    left: 10px;
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(20px);
+  -ms-transform: translateX(20px);
+  transform: translateX(20px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 10px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+#sharing-link {
+	display: none;
+}

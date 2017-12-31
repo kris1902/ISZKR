@@ -1,0 +1,154 @@
+/* Style edytowania danych */
+
+#overlay {
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 100;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+#person-name-edit {
+	display: none; 
+	position: relative;
+    z-index: 999;
+}
+
+input#person-name-edit-textbox {
+	font-size: 30px;
+	min-width: 350px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+	color: gray;
+}
+
+button#person-name-edit-btn {
+	margin-bottom: 7px;
+}
+
+#born-info-edit {
+	display: none; 
+	position: relative;
+    z-index: 999;
+}
+
+input#born-info-edit-city {
+	font-size: 12px;
+	min-width: 150px;
+	color: gray;
+}
+
+#death-info-edit {
+	display: none; 
+	position: relative;
+    z-index: 999;
+}
+
+input#death-info-edit-city {
+	font-size: 12px;
+	min-width: 150px;
+	color: gray;
+}
+
+#burial-info-edit {
+	display: none; 
+	position: relative;
+    z-index: 999;
+}
+
+input#burial-info-edit-textbox {
+	font-size: 12px;
+	min-width: 300px;
+	color: gray;
+}
+
+/* Edycja tabel */
+
+button.table-save-btn {
+	display: none;
+	border: none;
+    font-size: 10px;
+    padding: 6px;
+    height: 22px;
+}
+
+button.table-edit-btn {
+	border: none;
+    font-size: 10px;
+    padding: 6px;
+    height: 22px;	
+}
+
+button.table-delete-btn {
+	border: none;
+    font-size: 10px;
+    padding: 6px;
+    height: 22px;	
+}
+
+button.table-add-btn {
+	border: none;
+    font-size: 10px;
+    padding: 6px;
+    height: 22px;	
+}
+
+#edu-table input {
+	max-width: 125px;
+	height: 21px;
+}
+
+#work-table input {
+	max-width: 125px;
+	height: 21px;
+}
+
+#home-table input {
+	max-width: 125px;
+	height: 21px;
+}
+
+/* Alignment styles for images, videos and iframes in editable regions */
+
+/* Center (default) */
+[data-editable] iframe,
+[data-editable] image,
+[data-editable] [data-ce-tag=img],
+[data-editable] img,
+[data-editable] video {
+    clear: both;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+}
+
+/* Left align */
+[data-editable] .align-left {
+    clear: initial;
+    float: left;
+    margin-right: 0.5em;
+}
+
+/* Right align */
+[data-editable].align-right {
+    clear: initial;
+    float: right;
+    margin-left: 0.5em;
+}
+
+/* Alignment styles for text in editable regions */
+[data-editable] .text-center {
+    text-align: center;
+}
+
+[data-editable] .text-left {
+    text-align: left;
+}
+
+[data-editable] .text-right {
+    text-align: right;
+}

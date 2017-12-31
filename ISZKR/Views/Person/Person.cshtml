@@ -1,0 +1,753 @@
+﻿@model ISZKR.ViewModels.OutsideViewModel
+
+@{
+    ViewBag.Title = "Person";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Person</h2>
+
+Hi @Model.Person.Name
+
+<div class="family-tree">
+    <div class="family-tree-parents">
+        <div class="family-tree-father">
+            <div class="family-tree-image">
+                <a href="#">
+                    <img src="./img/ojciec.jpg" alt="">
+                    <center><div class="name">Zbigniew<br />Kowalski</div></center>
+                    <center>
+                        <div class="family-edit-group">
+                            <a href="#" class="edit" onclick="edit_relative();"><i class="glyphicon glyphicon-pencil"></i></a>
+                            <a href="#" class="show"><i class="glyphicon glyphicon-user"></i></a>
+                        </div>
+                    </center>
+                </a>
+            </div>
+        </div>
+
+        <div class="family-tree-mother">
+            <div class="family-tree-image">
+                <a href="#">
+                    <img src="./img/matka.jpg" alt="">
+                    <center><div class="name">Maria<br />Kowalska</div></center>
+                    <center>
+                        <div class="family-edit-group">
+                            <a href="#" class="edit" onclick="edit_relative();"><i class="glyphicon glyphicon-pencil"></i></a>
+                            <a href="#" class="show"><i class="glyphicon glyphicon-user"></i></a>
+                        </div>
+                    </center>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="family-tree-partner">
+        <div class="family-tree-image">
+            <a href="#">
+                <img src="./img/zona.jpg" alt="">
+                <center><div class="name">Aneta<br />Kowalska</div></center>
+                <center>
+                    <div class="family-edit-group">
+                        <a href="#" class="edit" onclick="edit_relative();"><i class="glyphicon glyphicon-pencil"></i></a>
+                        <a href="#" class="show"><i class="glyphicon glyphicon-user"></i></a>
+                    </div>
+                </center>
+            </a>
+        </div>
+    </div>
+
+    <div class="line-horizontal"></div>
+    <div class="line-left"></div>
+    <div class="line-right"></div>
+
+    <div class="family-tree-person">
+        <div class="family-tree-image">
+            <a href="#"><img src="./img/osoba.jpg" alt=""></a>
+        </div>
+    </div>
+
+    <div class="family-tree-child">
+        <div class="family-tree-image">
+            <a href="#">
+                <img src="./img/dziecko.jpg" alt="">
+                <center><div class="name">Łucja<br />Kowalska</div></center>
+                <center>
+                    <div class="family-edit-group-small">
+                        <a href="#" class="edit edit-small" onclick="edit_relative();"><i class="glyphicon glyphicon-pencil"></i></a>
+                        <a href="#" class="show show-small"><i class="glyphicon glyphicon-user"></i></a>
+                    </div>
+                </center>
+            </a>
+        </div>
+    </div>
+
+    <div class="family-tree-child">
+        <div class="family-tree-image">
+            <a href="#">
+                <img src="./img/bez_zdjecia.png" alt="">
+                <center><div class="name">Marcin<br />Kowalski</div></center>
+                <center>
+                    <div class="family-edit-group-small">
+                        <a href="#" class="edit edit-small" onclick="edit_relative();"><i class="glyphicon glyphicon-pencil"></i></a>
+                        <a href="#" class="show show-small"><i class="glyphicon glyphicon-user"></i></a>
+                    </div>
+                </center>
+            </a>
+        </div>
+    </div>
+
+    <div class="family-tree-child">
+        <div class="family-tree-image">
+            <a href="#">
+                <img src="./img/dziecko.jpg" alt="">
+                <center><div class="name">Małgorzata<br />Kowalska</div></center>
+                <center>
+                    <div class="family-edit-group-small">
+                        <a href="#" class="edit edit-small" onclick="edit_relative();"><i class="glyphicon glyphicon-pencil"></i></a>
+                        <a href="#" class="show show-small"><i class="glyphicon glyphicon-user"></i></a>
+                    </div>
+                </center>
+
+            </a>
+        </div>
+    </div>
+
+    <!-- ############################## PANEL BLISKIEGO POKREWIEŃSTWA (tylko mały ekran - zamiast drzewka) ############################## -->
+
+    <div class="panel-group close-relatives-panel">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#close-relatives-collapse">Bliskie pokrewieństwo</a>
+                </h4>
+            </div>
+            <div id="close-relatives-collapse" class="panel-collapse collapse">
+                <div class="panel-body">
+                    Małżonek:
+                    <a href="#">Aneta Kowalska </a>
+                    <br />
+                    Rodzice:
+                    <a href="#">Zbigniew Kowalski </a>
+                    <a href="#">Maria Kowalska </a>
+                    <br />
+                    Dzieci:
+                    <a href="#">Łucja Kowalska </a>
+                    <a href="#">Marcin Kowalski </a>
+                    <a href="#">Małgorzata Kowalska </a>
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ############################## PANEL DALSZEGO POKREWIEŃSTWA ############################## -->
+
+    <div class="panel-group other-relatives-panel">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#other-relatives-collapse">Dalsze pokrewieństwo</a>
+                </h4>
+            </div>
+            <div id="other-relatives-collapse" class="panel-collapse collapse">
+                <div class="panel-body">
+                    Rodzeństwo:
+                    <a href="#">Milena Kowalska-Rak </a>
+                    <br />
+                    Stryjostwo/Wujostwo:
+                    <a href="#">Zenon Adamiec </a>
+                    <a href="#">Tomasz Styczeń </a>
+                    <a href="#">Zbigniew Adamiec </a>
+                    <br />
+                    Kuzynostwo:
+                    <a href="#">Marek Adamiec </a>
+                    <a href="#">Szymon Kowalski </a>
+                    <a href="#">Renata Kowalska </a>
+                    <a href="#">Maria Adamiec </a>
+                    <br />
+                    Teściowie:
+                    <a href="#">Roman Zioło </a>
+                    <a href="#">Maria Zioło </a>
+                    <br />
+                    Szwagrowie/Szwagierki:
+                    <a href="#">Teresa Wilk </a>
+                    <a href="#">Marlena Zioło </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ############################## PANEL POWIĄZANYCH ZDARZEŃ ############################## -->
+
+    <div class="panel-group linked-events-panel">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#linked-events-collapse">Powiązane zdarzenia</a>
+                </h4>
+            </div>
+            <div id="linked-events-collapse" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <ul>
+                        <li><a href="zdarzenie1.html">Przykładowe zdarzenie</a></li>
+                        <li><a href="#">Urodziny Adama w Parku 2008</a></li>
+                        <li><a href="#">Ślub Adama i Anety</a></li>
+                        <li><a href="#">Urodziny Adama 2004</a></li>
+                        <li><a href="#">Trzydziestka Adama</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ############################## KONIEC DRZEWKA ############################## -->
+<!-- ############################## TREŚĆ OSOBY ############################## -->
+
+<div class="person-site-content">
+    <div class="basic-info">
+        <h1 id="person-name">Adam Kowalski<span class="family-name"></span></h1>
+        <!--EDIT --><div id="person-name-edit">
+            <input type="text" id="person-name-edit-textbox">
+            <button class="btn btn-success person-name-edit-btn" id="person-name-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
+        </div>
+
+        <span id="born-info" class="born-info"><b>Urodzony:</b> <span id="born-date">1981-12-22</span> (<span id="born-city">Chorzów</span>)</span><br />
+        <!--EDIT --><div id="born-info-edit">
+            <input type="date" id="born-info-edit-date">
+            <input type="text" id="born-info-edit-city">
+            <button class="btn btn-success born-info-edit-btn" id="born-info-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
+        </div>
+
+        <span id="death-info" class="death-info"><b>Zmarły:</b> <span id="death-date">2012-10-12</span> (<span id="death-city">Katowice</span>)</span><br />
+        <!--EDIT --><div id="death-info-edit">
+            <input type="date" id="death-info-edit-date">
+            <input type="text" id="death-info-edit-city">
+            <button class="btn btn-success death-info-edit-btn" id="death-info-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
+        </div>
+
+        <span id="burial-info" class="burial-info"><b>Miejsce pochówku:</b> <span id="burial-place">Cmentarz przy ul. Francuskiej w Katowicach</span></span>
+        <!--EDIT --><div id="burial-info-edit">
+            <input type="text" id="burial-info-edit-textbox">
+            <button class="btn btn-success burial-info-edit-btn" id="burial-info-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
+        </div>
+    </div>
+    <h3>Opis</h3>
+    <button class="btn btn-primary description-edit-btn" id="description-edit-btn" type="submit"><i class="glyphicon glyphicon-edit"></i></button>
+
+    <div data-editable class="description" data-name="description-content">
+
+        <p>
+            Adam urodził się w chorzowskim szpitalu. Po szkole podstawowej wybrał technikum elektryczne, ale jego zainteresowania skierowały go na studia matematyczne.
+            Po ukończeniu studiów pierwszego stopnia zdecydował się na połączenie pracy zarobkowej ze studiami magisterskimi, ale porzucił te drugie wkrótce po rozpoczęciu.
+            Najpierw zarabiał jako taksówkarz, ale w międzyczasie znalazł zatrudnienie jako programista w Comarchu. Niedługo później przeprowadził się do Katowic.
+        </p>
+
+        <p>
+            Jeszcze na studiach poznał Marię, z którą ożenił się już po przeprowadzce w katowickiej parafii pw. św. Piotra i Pawła.
+            Zamieszkali razem i mieli troje dzieci. Adam interesował się lotnictwem i uwielbiał modelować samoloty. Jeździł na wystawy i zainteresował tym też swojego tatę.
+            Ich wyjazdy na wystawy były niejako rytuałem weekendowym.
+        </p>
+
+        <p>Adam zginął w wypadku samochodowym pod Jaworznem i został pochowany przy ul.Francuskiej w Katowicach. Jego nagrobek znajduje się na prawo od wejścia od strony ulicy francuskiej.</p>
+    </div>
+</div>
+
+<div class="tables">
+    <h3>Wykształcenie</h3>
+    <table class="table table-striped" id="edu-table">
+        <thead>
+            <tr>
+                <th>Wykształcenie</th>
+                <th>Nazwa</th>
+                <th>Rozpoczęcie</th>
+                <th>Ukończenie</th>
+                <th>Uwagi</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr id="edu-row1">
+                <td id="edu-level-row1">Podstawowe</td>
+                <td id="edu-name-row1">SP nr 13 w Chorzowie</td>
+                <td id="edu-start-row1">1988-09-02</td>
+                <td id="edu-end-row1">1988-09-03</td>
+                <td id="edu-comment-row1"></td>
+                <td>
+                    <button id="edu_edit_button1" value="Edit" class="btn-primary table-edit-btn" onclick="edu_edit_row('1')"><i class="glyphicon glyphicon-pencil"></i></button>
+                    <button id="edu_save_button1" value="Save" class="btn-success table-save-btn" onclick="edu_save_row('1')"><i class="glyphicon glyphicon-ok"></i></button>
+                    <button value="Delete" class="btn-danger table-delete-btn" onclick="edu_delete_row('1')"><i class="glyphicon glyphicon-trash"></i></button>
+                </td>
+            </tr>
+            <tr id="edu-row2">
+                <td id="edu-level-row2">Gimnazjalne</td>
+                <td id="edu-name-row2">SP nr 13 w Chorzowie</td>
+                <td id="edu-start-row2">1988-09-07</td>
+                <td id="edu-end-row2">1988-10-10</td>
+                <td id="edu-comment-row2">Jakiś komentarz</td>
+                <td>
+                    <button id="edu_edit_button2" value="Edit" class="btn-primary table-edit-btn" onclick="edu_edit_row('2')"><i class="glyphicon glyphicon-pencil"></i></button>
+                    <button id="edu_save_button2" value="Save" class="btn-success table-save-btn" onclick="edu_save_row('2')"><i class="glyphicon glyphicon-ok"></i></button>
+                    <button value="Delete" class="btn-danger table-delete-btn" onclick="edu_delete_row('2')"><i class="glyphicon glyphicon-trash"></i></button>
+                </td>
+            </tr>
+            <tr id="edu-row3">
+                <td id="edu-level-row3">Licencjackie</td>
+                <td id="edu-name-row3">Uniwersytet Śląski</td>
+                <td id="edu-start-row3">1988-09-01</td>
+                <td id="edu-end-row3">1996-06-26</td>
+                <td id="edu-comment-row3"></td>
+                <td>
+                    <button id="edu_edit_button3" value="Edit" class="btn-primary table-edit-btn" onclick="edu_edit_row('3')"><i class="glyphicon glyphicon-pencil"></i></button>
+                    <button id="edu_save_button3" value="Save" class="btn-success table-save-btn" onclick="edu_save_row('3')"><i class="glyphicon glyphicon-ok"></i></button>
+                    <button value="Delete" class="btn-danger table-delete-btn" onclick="edu_delete_row('3')"><i class="glyphicon glyphicon-trash"></i></button>
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    <select id="new-edu-level">
+                        <option value="Podstawowe">Podstawowe</option>
+                        <option value="Gimnazjalne">Gimnazjalne</option>
+                        <option value="Techniczne">Techniczne</option>
+                        <option value="Zawodowe">Zawodowe</option>
+                        <option value="Licealne">Licealne</option>
+                        <option value="Licencjackie">Licencjackie</option>
+                        <option value="Inżynierskie">Inżynierskie</option>
+                        <option value="Magisterskie">Magisterskie</option>
+                        <option value="Doktorskie">Doktorskie</option>
+                        <option value="Profesorskie">Profesorskie</option>
+                    </select>
+                </td>
+                <td><input type="text" id="new-edu-name"></td>
+                <td><input type="date" id="new-edu-start"></td>
+                <td><input type="date" id="new-edu-end"></td>
+                <td><input type="text" id="new-edu-comment"></td>
+                <td><button class="btn-primary table-add-btn" onclick="edu_add_row();"><i class="glyphicon glyphicon-plus"></button></i></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Historia zawodowa</h3>
+    <table class="table table-striped" id="work-table">
+        <thead>
+            <tr>
+                <th>Stanowisko</th>
+                <th>Pracodawca</th>
+                <th>Rozpoczęcie</th>
+                <th>Zakończenie</th>
+                <th>Adres</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr id='work-row1'>
+                <td id='work-name-row1'>Kierowca</td>
+                <td id='work-employer-row1'>Taxi Radio</td>
+                <td id='work-start-row1'>16 sierpnia 2005 r.</td>
+                <td id='work-end-row1'>9 grudnia 2005 r.</td>
+                <td id='work-address-row1'>Katowice, Grundmana 2</td>
+                <td>
+                    <button id="work_edit_button1" value="Edit" class="btn-primary table-edit-btn" onclick="work_edit_row('1')"><i class="glyphicon glyphicon-pencil"></i></button>
+                    <button id="work_save_button1" value="Save" class="btn-success table-save-btn" onclick="work_save_row('1')"><i class="glyphicon glyphicon-ok"></i></button>
+                    <button value="Delete" class="btn-danger table-delete-btn" onclick="work_delete_row('1')"><i class="glyphicon glyphicon-trash"></i></button>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="text" id='new-work-name'></td>
+                <td><input type="text" id='new-work-employer'></td>
+                <td><input type="date" id='new-work-start'></td>
+                <td><input type="date" id='new-work-end'></td>
+                <td><input type="text" id='new-work-address'></td>
+                <td><button class="btn-primary table-add-btn" onclick="work_add_row();"><i class="glyphicon glyphicon-plus"></button></i></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Historia zamieszkania</h3>
+    <table class="table table-striped" id="home-table">
+        <thead>
+            <tr>
+                <th>Miasto</th>
+                <th>Adres</th>
+                <th>Kraj</th>
+                <th>Rozpoczęcie</th>
+                <th>Zakończenie</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr id='home-row1'>
+                <td id='home-city-row1'>Chorzów</td>
+                <td id='home-address-row1'>Katowicka 14</td>
+                <td id='home-country-row1'>Polska</td>
+                <td id='home-start-row1'>1981-11-21</td>
+                <td id='home-end-row1'>2005-10-15</td>
+                <td>
+                    <button id="home_edit_button1" value="Edit" class="btn-primary table-edit-btn" onclick="home_edit_row('1')"><i class="glyphicon glyphicon-pencil"></i></button>
+                    <button id="home_save_button1" value="Save" class="btn-success table-save-btn" onclick="home_save_row('1')"><i class="glyphicon glyphicon-ok"></i></button>
+                    <button value="Delete" class="btn-danger table-delete-btn" onclick="home_delete_row('1')"><i class="glyphicon glyphicon-trash"></i></button>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="text" id='new-home-city'></td>
+                <td><input type="text" id='new-home-address'></td>
+                <td><input type="text" id='new-home-country'></td>
+                <td><input type="date" id='new-home-start'></td>
+                <td><input type="date" id='new-home-end'></td>
+                <td><button class="btn-primary table-add-btn" onclick="home_add_row();"><i class="glyphicon glyphicon-plus"></button></i></td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<!-- ############################## GALERIA ZDJĘĆ ############################## -->
+<h3>Zdjęcia</h3>
+<section>
+    <div class="gal-container">
+        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
+            <div class="box">
+                <a href="#" data-toggle="modal" data-target="#1">
+                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/1.jpg">
+                </a>
+                <div class="modal fade" id="1" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <div class="modal-body">
+                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/1.jpg">
+                            </div>
+                            <div class="col-md-12 description">
+                                <h4>This is the first one on my Gallery</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
+            <div class="box">
+                <a href="#" data-toggle="modal" data-target="#2">
+                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/2.jpg">
+                </a>
+                <div class="modal fade" id="2" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <div class="modal-body">
+                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/2.jpg">
+                            </div>
+                            <div class="col-md-12 description">
+                                <h4>This is the second one on my Gallery</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
+            <div class="box">
+                <a href="#" data-toggle="modal" data-target="#3">
+                    <img src="./img/osoba.jpg">
+                </a>
+                <div class="modal fade" id="3" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <div class="modal-body">
+                                <img src="./img/osoba.jpg">
+                            </div>
+                            <div class="col-md-12 description">
+                                <h4>This is the third one on my Gallery</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
+            <div class="box">
+                <a href="#" data-toggle="modal" data-target="#4">
+                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/4.jpg">
+                </a>
+                <div class="modal fade" id="4" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <div class="modal-body">
+                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/4.jpg">
+                            </div>
+                            <div class="col-md-12 description">
+                                <h4>This is the fourth one on my Gallery</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
+            <div class="box">
+                <a href="#" data-toggle="modal" data-target="#5">
+                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/5.jpg">
+                </a>
+                <div class="modal fade" id="5" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <div class="modal-body">
+                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/5.jpg">
+                            </div>
+                            <div class="col-md-12 description">
+                                <h4>This is the fifth one on my Gallery</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
+            <div class="box">
+                <a href="#" data-toggle="modal" data-target="#6">
+                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/6.jpg">
+                </a>
+                <div class="modal fade" id="6" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <div class="modal-body">
+                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/6.jpg">
+                            </div>
+                            <div class="col-md-12 description">
+                                <h4>This is the sixth one on my Gallery</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
+            <div class="box">
+                <a href="#" data-toggle="modal" data-target="#7">
+                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/7.jpg">
+                </a>
+                <div class="modal fade" id="7" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <div class="modal-body">
+                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/7.jpg">
+                            </div>
+                            <div class="col-md-12 description">
+                                <h4>This is the seventh one on my Gallery</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
+            <div class="box">
+                <a href="#" data-toggle="modal" data-target="#8">
+                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/8.jpg">
+                </a>
+                <div class="modal fade" id="8" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <div class="modal-body">
+                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/8.jpg">
+                            </div>
+                            <div class="col-md-12 description">
+                                <h4>This is the eighth one on my Gallery</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
+            <div class="box">
+                <a href="#" data-toggle="modal" data-target="#9">
+                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/9.jpg">
+                </a>
+                <div class="modal fade" id="9" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <div class="modal-body">
+                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/9.jpg">
+                            </div>
+                            <div class="col-md-12 description">
+                                <h4>This is the ninth one on my Gallery</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
+            <div class="box">
+                <a href="#" data-toggle="modal" data-target="#10">
+                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/10.jpg">
+                </a>
+                <div class="modal fade" id="10" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <div class="modal-body">
+                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/10.jpg">
+                            </div>
+                            <div class="col-md-12 description">
+                                <h4>This is the tenth one on my Gallery</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
+            <div class="box">
+                <a href="#" data-toggle="modal" data-target="#11">
+                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/11.jpg">
+                </a>
+                <div class="modal fade" id="11" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <div class="modal-body">
+                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/11.jpg">
+                            </div>
+                            <div class="col-md-12 description">
+                                <h4>This is the leventh one on my Gallery</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
+            <div class="box">
+                <a href="#" data-toggle="modal" data-target="#12">
+                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/12.jpg">
+                </a>
+                <div class="modal fade" id="12" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <div class="modal-body">
+                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/12.jpg">
+                            </div>
+                            <div class="col-md-12 description">
+                                <h4>This is the 12th one on my Gallery</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
+            <div class="box">
+                <a href="#" data-toggle="modal" data-target="#13">
+                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/13.jpg">
+                </a>
+                <div class="modal fade" id="13" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <div class="modal-body">
+                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/13.jpg">
+                            </div>
+                            <div class="col-md-12 description">
+                                <h4>This is the 13th one on my Gallery</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
+            <div class="box">
+                <a href="#" data-toggle="modal" data-target="#14">
+                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/14.jpg">
+                </a>
+                <div class="modal fade" id="14" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <div class="modal-body">
+                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/14.jpg">
+                            </div>
+                            <div class="col-md-12 description">
+                                <h4>This is the 14th one on my Gallery</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
+            <div class="box">
+                <a href="#" data-toggle="modal" data-target="#15">
+                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/15.jpg">
+                </a>
+                <div class="modal fade" id="15" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <div class="modal-body">
+                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/15.jpg">
+                            </div>
+                            <div class="col-md-12 description">
+                                <h4>This is the 15th one on my Gallery</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
+            <div class="box">
+                <a href="#" data-toggle="modal" data-target="#16">
+                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/16.jpg">
+                </a>
+                <div class="modal fade" id="16" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <div class="modal-body">
+                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/16.jpg">
+                            </div>
+                            <div class="col-md-12 description">
+                                <h4>This is the 16th one on my Gallery</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal micromodal-slide" id="modal-1" aria-hidden="true">
+    <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+        <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+            <header class="modal__header">
+                <h2 class="modal__title" id="modal-1-title">
+                    Micromodal
+                </h2>
+                <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+            </header>
+            <main class="modal__content" id="modal-1-content">
+                <p>
+                    Try hitting the <code>tab</code> key and notice how the focus stays within the modal itself. Also, <code>esc</code> to close modal.
+                </p>
+            </main>
+            <footer class="modal__footer">
+                <button class="modal__btn modal__btn-primary">Continue</button>
+                <button class="modal__btn" data-micromodal-close aria-label="Close this dialog window">Close</button>
+            </footer>
+        </div>
+    </div>
+</div>
