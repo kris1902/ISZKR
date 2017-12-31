@@ -11,7 +11,7 @@
                 </div>
             </div>
             <a class="account-menu-panel" href="./ustawienia.html">Twoje konto</a>
-            <a class="btn btn-default btn-primary" aria-expanded="false" aria-controls="nav-collapse2">Wyloguj się</a>
+            @Html.ActionLink("Wyloguj się", "LogOff", "Account", new { ReturnUrl = "" }, new { @class = "btn btn-default btn-primary", role = "button" })
         </form>
     }
     else

@@ -141,3 +141,4 @@ C:\Users\KRIS\Documents\Visual Studio 2017\Projects\ISZKR\ISZKR\bin\System.Diagn
 C:\Users\KRIS\Documents\Visual Studio 2017\Projects\ISZKR\ISZKR\obj\Debug\ISZKR.Migrations.ISZKR_DB.resources
 C:\Users\KRIS\Documents\Visual Studio 2017\Projects\ISZKR\ISZKR\obj\Debug\ISZKR.csproj.GenerateResource.Cache
 C:\Users\KRIS\Documents\Visual Studio 2017\Projects\ISZKR\ISZKR\obj\Debug\ISZKR.Migrations.ISZKR_DB_1.resources
+C:\Users\KRIS\Documents\Visual Studio 2017\Projects\ISZKR\ISZKR\obj\Debug\ISZKR.Migrations.ISZKR2.resources

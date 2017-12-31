@@ -1,39 +1,38 @@
-﻿@using ISZKR.Models
-@model LoginViewModel
+﻿@model ISZKR.ViewModels.OutsideViewModel
 @{
     ViewBag.Title = "Zaloguj";
 }
 
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
                 @Html.AntiForgeryToken()
                 <h2>@ViewBag.Title</h2>
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                    @Html.LabelFor(m => m.LoginAndRegisterViewModel.loginViewModel.Email, new { @class = "col-md-2 control-label" })
                     <div class="col-sm-6">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.LoginAndRegisterViewModel.loginViewModel.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.LoginAndRegisterViewModel.loginViewModel.Email, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                    @Html.LabelFor(m => m.LoginAndRegisterViewModel.loginViewModel.Password, new { @class = "col-md-2 control-label" })
                     <div class="col-sm-6">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        @Html.PasswordFor(m => m.LoginAndRegisterViewModel.loginViewModel.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.LoginAndRegisterViewModel.loginViewModel.Password, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-6 col-md-offset-3 ">
                         <div class="checkbox">
-                            @Html.CheckBoxFor(m => m.RememberMe)
-                            @Html.LabelFor(m => m.RememberMe)
+                            @Html.CheckBoxFor(m => m.LoginAndRegisterViewModel.loginViewModel.RememberMe)
+                            @Html.LabelFor(m => m.LoginAndRegisterViewModel.loginViewModel.RememberMe)
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-6 col-md-offset-3 ">
-                        <input type="submit" value="Zaloguj" class="btn btn-default" />
+                        <input type="submit" value="Zaloguj" class="btn btn-primary" />
                     </div>
                 </div>
                 <p>

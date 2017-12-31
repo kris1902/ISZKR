@@ -157,16 +157,31 @@ namespace ISZKR.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Wyślij wiadomość e-mail z tym łączem
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Potwierdź konto", "Potwierdź konto, klikając <a href=\"" + callbackUrl + "\">tutaj</a>");
 
-                    //Here You will create a new Chronicle! ;D
-
-                    return RedirectToAction("Index", "Home");
+                    //Tworzenie kroniki użytkownika
+                    using (var context = new ISZKRDbContext())
+                    {
+                        var new_chronicle = new Chronicle()
+                        {
+                            IsPublic = false,
+                            SharingLinkCode = ""
+                        };
+                        context.Chronicle.Add(new_chronicle);
+                        context.SaveChanges();
+                        user.UsersChronicleID = new_chronicle.ID;
+                        result = await UserManager.UpdateAsync(user);
+                        if (!result.Succeeded)
+                        {
+                            AddErrors(result);
+                        }
+                    }
+                        return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
             }

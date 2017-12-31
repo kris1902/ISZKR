@@ -12,7 +12,6 @@ namespace ISZKR.Models
         [Required]
         public int ID { get; set; }
         [Required]
-        public DateTime CreateDate { get; set; }
         public bool IsPublic { get; set; }
         public string SharingLinkCode { get; set; }
     }
