@@ -5,9 +5,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Person</h2>
 
-Hi @Model.Person.Name
+@**if (Request.IsAuthenticated)*@
+{
+
+
 
 <div class="family-tree">
     <div class="family-tree-parents">
@@ -305,29 +307,29 @@ Hi @Model.Person.Name
                 </td>
 
             </tr>
-            <tr>
-                <td>
-                    <select id="new-edu-level">
-                        <option value="Podstawowe">Podstawowe</option>
-                        <option value="Gimnazjalne">Gimnazjalne</option>
-                        <option value="Techniczne">Techniczne</option>
-                        <option value="Zawodowe">Zawodowe</option>
-                        <option value="Licealne">Licealne</option>
-                        <option value="Licencjackie">Licencjackie</option>
-                        <option value="Inżynierskie">Inżynierskie</option>
-                        <option value="Magisterskie">Magisterskie</option>
-                        <option value="Doktorskie">Doktorskie</option>
-                        <option value="Profesorskie">Profesorskie</option>
-                    </select>
-                </td>
-                <td><input type="text" id="new-edu-name"></td>
-                <td><input type="date" id="new-edu-start"></td>
-                <td><input type="date" id="new-edu-end"></td>
-                <td><input type="text" id="new-edu-comment"></td>
-                <td><button class="btn-primary table-add-btn" onclick="edu_add_row();"><i class="glyphicon glyphicon-plus"></button></i></td>
-            </tr>
-        </tbody>
-    </table>
+			<tr>
+			<td>
+				<select id="new-edu-level">
+					<option value="Podstawowe">Podstawowe</option>
+					<option value="Gimnazjalne">Gimnazjalne</option>
+					<option value="Techniczne">Techniczne</option>
+					<option value="Zawodowe">Zawodowe</option>
+					<option value="Licealne">Licealne</option>
+					<option value="Licencjackie">Licencjackie</option>
+					<option value="Inżynierskie">Inżynierskie</option>
+					<option value="Magisterskie">Magisterskie</option>
+					<option value="Doktorskie">Doktorskie</option>
+					<option value="Profesorskie">Profesorskie</option>
+				</select>
+			</td>
+			<td><input type="text" id="new-edu-name"></td>
+			<td><input type="date" id="new-edu-start"></td>
+			<td><input type="date" id="new-edu-end"></td>
+			<td><input type="text" id="new-edu-comment"></td>
+			<td><button class="btn-primary table-add-btn" onclick="edu_add_row();"><i class="glyphicon glyphicon-plus"></i></button></td>
+			</tr>
+		</tbody>
+		</table>
 
     <h3>Historia zawodowa</h3>
     <table class="table table-striped" id="work-table">
@@ -360,7 +362,7 @@ Hi @Model.Person.Name
                 <td><input type="date" id='new-work-start'></td>
                 <td><input type="date" id='new-work-end'></td>
                 <td><input type="text" id='new-work-address'></td>
-                <td><button class="btn-primary table-add-btn" onclick="work_add_row();"><i class="glyphicon glyphicon-plus"></button></i></td>
+                <td><button class="btn-primary table-add-btn" onclick="work_add_row();"><i class="glyphicon glyphicon-plus"></i></button></td>
             </tr>
         </tbody>
     </table>
@@ -396,7 +398,7 @@ Hi @Model.Person.Name
                 <td><input type="text" id='new-home-country'></td>
                 <td><input type="date" id='new-home-start'></td>
                 <td><input type="date" id='new-home-end'></td>
-                <td><button class="btn-primary table-add-btn" onclick="home_add_row();"><i class="glyphicon glyphicon-plus"></button></i></td>
+                <td><button class="btn-primary table-add-btn" onclick="home_add_row();"><i class="glyphicon glyphicon-plus"></i></button></td>
             </tr>
         </tbody>
     </table>
@@ -751,3 +753,4 @@ Hi @Model.Person.Name
         </div>
     </div>
 </div>
+}

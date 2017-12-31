@@ -15,7 +15,7 @@ namespace ISZKR.ViewModels
                 loginViewModel = new LoginViewModel()
             };
         }
-
+        public ApplicationUser User { get; }
         public LoginAndRegisterViewModel LoginAndRegisterViewModel { get; set; }
         public Person Person { get; set; }
     }

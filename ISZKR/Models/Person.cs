@@ -25,6 +25,7 @@ namespace ISZKR.Models
         public string FamilySurname { get; set; }
         public int FathersID { get; set; }
         public int MothersID { get; set; }
+        public int PartnerID { get; set; }
         public string Description { get; set; }
         public string RestingPlace { get; set; }
         public virtual ICollection<Photo> IsOnPhotos { get; private set; }

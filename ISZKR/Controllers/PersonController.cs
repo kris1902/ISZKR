@@ -2,6 +2,7 @@
 using ISZKR.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -13,22 +14,13 @@ namespace ISZKR.Controllers
         // GET: Person
         public ActionResult Person()
         {
-            //using (var context = new ISZKRDbContext())
-            //{
-            //    var chronicle = context.Chronicle.Find(2);
-            //    var person = new Person()
-            //    {
-            //        Name = "Janusz",
-            //        Surname = "Wolszczak",
-            //        BirthDateTime = DateTime.Now,
-            //        DeathDateTime = DateTime.Now,
-            //        MarriageDateTime = DateTime.Now,
-            //        Chronicle = chronicle
-            //    };
+            using (var context = new ISZKRDbContext())
+            {
+                var chronicle = context.Chronicle.Find(10);
+                
+                context.SaveChanges();
+            }
 
-            //    context.Person.Add(person);
-            //    context.SaveChanges();
-            //}
             var person = new Person();
 
             using (var context = new ISZKRDbContext())
@@ -38,7 +30,7 @@ namespace ISZKR.Controllers
 
             outsideViewModel.Person = person;
 
-            return View(outsideViewModel);
+            return View();
         }
 
         // GET: Person/Details/5
