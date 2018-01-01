@@ -6,9 +6,9 @@
 }
 
 
-@**if (Request.IsAuthenticated)*@
-{
-
+@**if (Request.IsAuthenticated)
+    {
+*@
 
 
 <div class="family-tree">
@@ -209,17 +209,27 @@
 
 <div class="person-site-content">
     <div class="basic-info">
-        <h1 id="person-name">Adam Kowalski<span class="family-name"></span></h1>
-        <!--EDIT --><div id="person-name-edit">
-            <input type="text" id="person-name-edit-textbox">
-            <button class="btn btn-success person-name-edit-btn" id="person-name-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
+        <h1 id="person-name">@Model.Person.Name @Model.Person.Surname
+        <span class="family-name">@if (Model.Person.FamilySurname != null)
+                                    {@: (@Model.Person.FamilySurname
+                                    ;})</span></h1>
+
+<!--EDIT --><div id="person-name-edit">
+
+<input type="text" id="person-name-edit-textbox">
+
+<button class="btn btn-success person-name-edit-btn" id="person-name-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
         </div>
 
-        <span id="born-info" class="born-info"><b>Urodzony:</b> <span id="born-date">1981-12-22</span> (<span id="born-city">Chorzów</span>)</span><br />
-        <!--EDIT --><div id="born-info-edit">
-            <input type="date" id="born-info-edit-date">
-            <input type="text" id="born-info-edit-city">
-            <button class="btn btn-success born-info-edit-btn" id="born-info-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
+       <span id="born-info" class="born-info"><b> @Model.Person.Gender @if (Model.Person.Gender == 'K') { <text>Urodzona:</text> } else { <text>Urodzony:</text> } </b> <span id="born-date">1981-12-22</span> (<span id="born-city">Chorzów</span>)</span><br />
+
+<!--EDIT --><div id="born-info-edit">
+
+<input type="date" id="born-info-edit-date">
+
+<input type="text" id="born-info-edit-city">
+
+<button class="btn btn-success born-info-edit-btn" id="born-info-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
         </div>
 
         <span id="death-info" class="death-info"><b>Zmarły:</b> <span id="death-date">2012-10-12</span> (<span id="death-city">Katowice</span>)</span><br />
@@ -310,19 +320,27 @@
 			<tr>
 			<td>
 				<select id="new-edu-level">
-					<option value="Podstawowe">Podstawowe</option>
+
+                    <option value="Podstawowe">Podstawowe</option>
 					<option value="Gimnazjalne">Gimnazjalne</option>
-					<option value="Techniczne">Techniczne</option>
+
+                    <option value="Techniczne">Techniczne</option>
 					<option value="Zawodowe">Zawodowe</option>
-					<option value="Licealne">Licealne</option>
+
+                    <option value="Licealne">Licealne</option>
 					<option value="Licencjackie">Licencjackie</option>
-					<option value="Inżynierskie">Inżynierskie</option>
+
+                    <option value="Inżynierskie">Inżynierskie</option>
 					<option value="Magisterskie">Magisterskie</option>
-					<option value="Doktorskie">Doktorskie</option>
+
+                    <option value="Doktorskie">Doktorskie</option>
 					<option value="Profesorskie">Profesorskie</option>
-				</select>
-			</td>
-			<td><input type="text" id="new-edu-name"></td>
+
+                </select>
+
+            </td>
+
+            <td><input type="text" id="new-edu-name"></td>
 			<td><input type="date" id="new-edu-start"></td>
 			<td><input type="date" id="new-edu-end"></td>
 			<td><input type="text" id="new-edu-comment"></td>

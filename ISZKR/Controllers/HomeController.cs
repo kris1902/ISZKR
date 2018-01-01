@@ -11,9 +11,7 @@ namespace ISZKR.Controllers
     public class HomeController : BaseController
     {
         public ActionResult Index()
-
         {
-            outsideViewModel.Person = new Person();
 
             return View(outsideViewModel);
         }

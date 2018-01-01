@@ -12,25 +12,18 @@ namespace ISZKR.Controllers
     public class PersonController : BaseController
     {
         // GET: Person
-        public ActionResult Person()
+        public ActionResult Person(int id)
         {
-            using (var context = new ISZKRDbContext())
-            {
-                var chronicle = context.Chronicle.Find(10);
-                
-                context.SaveChanges();
-            }
-
             var person = new Person();
 
             using (var context = new ISZKRDbContext())
             {
-                person = context.Person.Find(3);
+                person = context.Person.Find(id);
             }
 
             outsideViewModel.Person = person;
 
-            return View();
+            return View(outsideViewModel);
         }
 
         // GET: Person/Details/5
