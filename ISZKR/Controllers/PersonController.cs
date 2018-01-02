@@ -12,18 +12,25 @@ namespace ISZKR.Controllers
     public class PersonController : BaseController
     {
         // GET: Person
-        public ActionResult Person(int id)
+        public ActionResult Person(int id=0)
         {
-            var person = new Person();
-
-            using (var context = new ISZKRDbContext())
+            if (id != 0)
             {
-                person = context.Person.Find(id);
+                var person = new Person();
+
+                using (var context = new ISZKRDbContext())
+                {
+                    person = context.Person.Find(id);
+                }
+
+                outsideViewModel.Person = person;
+                outsideViewModel.FamilyTreeViewModel = BuildFamilyTree(id);
+                return View(outsideViewModel);
             }
-
-            outsideViewModel.Person = person;
-
-            return View(outsideViewModel);
+            else
+            {
+                return RedirectToAction("Index", "Home");   //Tutaj będzie przeniesienie do listy osób
+            }
         }
 
         // GET: Person/Details/5
@@ -96,6 +103,52 @@ namespace ISZKR.Controllers
             {
                 return View();
             }
+        }
+        private FamilyTreeViewModel BuildFamilyTree(int PersonID)
+        {
+            FamilyTreeViewModel vm = new FamilyTreeViewModel();
+            using (var context = new ISZKRDbContext())
+            {
+                //Father
+                vm.FathersName = (from p in context.Person
+                                  where p.ID == outsideViewModel.Person.FathersID
+                                  select p.Name).SingleOrDefault();
+                vm.FathersSurname = (from p in context.Person
+                                  where p.ID == outsideViewModel.Person.FathersID
+                                  select p.Surname).SingleOrDefault();
+                vm.FathersPhotoURL = (from p in context.Person
+                                      where p.ID == outsideViewModel.Person.FathersID
+                                      select p.PhotoURL).SingleOrDefault();
+                //Mother
+                vm.MothersName = (from p in context.Person
+                                where p.ID == outsideViewModel.Person.MothersID
+                                select p.Name).SingleOrDefault();
+                vm.MothersSurname = (from p in context.Person
+                                   where p.ID == outsideViewModel.Person.MothersID
+                                   select p.Surname).SingleOrDefault();
+                vm.MothersPhotoURL = (from p in context.Person
+                                      where p.ID == outsideViewModel.Person.MothersID
+                                      select p.PhotoURL).SingleOrDefault();
+                //Partner
+                vm.PartnersName = (from p in context.Person
+                                where p.ID == outsideViewModel.Person.PartnerID
+                                select p.Name).SingleOrDefault();
+                vm.PartnersSurname = (from p in context.Person
+                                   where p.ID == outsideViewModel.Person.PartnerID
+                                      select p.Surname).SingleOrDefault();
+                vm.PartnersPhotoURL = (from p in context.Person
+                                       where p.ID == outsideViewModel.Person.PartnerID
+                                       select p.PhotoURL).SingleOrDefault();
+                //Kids
+                vm.Kids = (from p in context.Person
+                          where p.FathersID == PersonID || p.MothersID == PersonID
+                          select p).ToList();
+                //Person photo
+                vm.PersonPhotoURL = (from p in context.Person
+                                     where p.ID == PersonID
+                                     select p.PhotoURL).SingleOrDefault();
+            }
+            return vm;
         }
     }
 }

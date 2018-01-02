@@ -1,7 +1,7 @@
 ﻿@model ISZKR.ViewModels.OutsideViewModel
 
 @{
-    ViewBag.Title = "Person";
+    ViewBag.Title = Model.Person.Name + " " + Model.Person.Surname;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -15,9 +15,10 @@
     <div class="family-tree-parents">
         <div class="family-tree-father">
             <div class="family-tree-image">
+
                 <a href="#">
-                    <img src="./img/ojciec.jpg" alt="">
-                    <center><div class="name">Zbigniew<br />Kowalski</div></center>
+                    <img src="@Model.FamilyTreeViewModel.FathersPhotoURL" alt="">
+                    <center><div class="name">@Model.FamilyTreeViewModel.FathersName<br />@Model.FamilyTreeViewModel.FathersSurname</div></center>
                     <center>
                         <div class="family-edit-group">
                             <a href="#" class="edit" onclick="edit_relative();"><i class="glyphicon glyphicon-pencil"></i></a>
@@ -25,6 +26,7 @@
                         </div>
                     </center>
                 </a>
+
             </div>
         </div>
 
@@ -32,7 +34,7 @@
             <div class="family-tree-image">
                 <a href="#">
                     <img src="./img/matka.jpg" alt="">
-                    <center><div class="name">Maria<br />Kowalska</div></center>
+                    <center><div class="name">@Model.FamilyTreeViewModel.MothersName<br />@Model.FamilyTreeViewModel.MothersSurname</div></center>
                     <center>
                         <div class="family-edit-group">
                             <a href="#" class="edit" onclick="edit_relative();"><i class="glyphicon glyphicon-pencil"></i></a>
@@ -48,7 +50,7 @@
         <div class="family-tree-image">
             <a href="#">
                 <img src="./img/zona.jpg" alt="">
-                <center><div class="name">Aneta<br />Kowalska</div></center>
+                <center><div class="name">@Model.FamilyTreeViewModel.PartnersName<br />@Model.FamilyTreeViewModel.PartnersSurname</div></center>
                 <center>
                     <div class="family-edit-group">
                         <a href="#" class="edit" onclick="edit_relative();"><i class="glyphicon glyphicon-pencil"></i></a>
@@ -65,7 +67,7 @@
 
     <div class="family-tree-person">
         <div class="family-tree-image">
-            <a href="#"><img src="./img/osoba.jpg" alt=""></a>
+            <a href="#"><img src="@Model.FamilyTreeViewModel.PersonPhotoURL" alt=""></a>
         </div>
     </div>
 
@@ -127,11 +129,11 @@
             <div id="close-relatives-collapse" class="panel-collapse collapse">
                 <div class="panel-body">
                     Małżonek:
-                    <a href="#">Aneta Kowalska </a>
+                    <a href="#">@Model.FamilyTreeViewModel.PartnersName @Model.FamilyTreeViewModel.PartnersSurname </a>
                     <br />
                     Rodzice:
-                    <a href="#">Zbigniew Kowalski </a>
-                    <a href="#">Maria Kowalska </a>
+                    <a href="#">@Model.FamilyTreeViewModel.FathersName @Model.FamilyTreeViewModel.FathersSurname </a>
+                    <a href="#">@Model.FamilyTreeViewModel.MothersName @Model.FamilyTreeViewModel.MothersSurname </a>
                     <br />
                     Dzieci:
                     <a href="#">Łucja Kowalska </a>
@@ -211,15 +213,31 @@
     <div class="basic-info">
         <h1 id="person-name">@Model.Person.Name @Model.Person.Surname
         <span class="family-name">@if (Model.Person.FamilySurname != null)
-                                    {@: (@Model.Person.FamilySurname
-                                    ;})</span></h1>
+                                    {@: (@Model.Person.FamilySurname )
+                                    ;}</span></h1>
 
-<!--EDIT --><div id="person-name-edit">
+        @using (Ajax.BeginForm("Person", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "person-name" }))
+        {
+            @Html.EditorFor(Model => Model.Person.Name, new { htmlAttributes = new { @id = "person-name-edit-textbox" } })
+            @Html.EditorFor(Model => Model.Person.Surname, new { htmlAttributes = new { @id = "person-name-edit-textbox" } })
+            @:(@Html.EditorFor(Model => Model.Person.FamilySurname, new { htmlAttributes = new { @id = "person-name-edit-textbox" } }))
+            <button class="btn btn-success person-name-edit-btn" id="person-name-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
+            @Html.ValidationMessageFor(Model => Model.Person.Name, "", new { @class = "text-danger" })
+        }
 
-<input type="text" id="person-name-edit-textbox">
+   <!--  <h1 id="person-name">
+            @**Model.Person.Name @Model.Person.Surname
+            <span class="family-name">
+                @if (Model.Person.FamilySurname != null)
+            {@: (@Model.Person.FamilySurname )
+                                    ;
+            }*@
+        </span>
+    </h1>
+       -->   
 
-<button class="btn btn-success person-name-edit-btn" id="person-name-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
-        </div>
+
+<!--EDIT -->
 
        <span id="born-info" class="born-info"><b> @Model.Person.Gender @if (Model.Person.Gender == 'K') { <text>Urodzona:</text> } else { <text>Urodzony:</text> } </b> <span id="born-date">1981-12-22</span> (<span id="born-city">Chorzów</span>)</span><br />
 
@@ -250,19 +268,8 @@
 
     <div data-editable class="description" data-name="description-content">
 
-        <p>
-            Adam urodził się w chorzowskim szpitalu. Po szkole podstawowej wybrał technikum elektryczne, ale jego zainteresowania skierowały go na studia matematyczne.
-            Po ukończeniu studiów pierwszego stopnia zdecydował się na połączenie pracy zarobkowej ze studiami magisterskimi, ale porzucił te drugie wkrótce po rozpoczęciu.
-            Najpierw zarabiał jako taksówkarz, ale w międzyczasie znalazł zatrudnienie jako programista w Comarchu. Niedługo później przeprowadził się do Katowic.
-        </p>
+        @Model.Person.Description
 
-        <p>
-            Jeszcze na studiach poznał Marię, z którą ożenił się już po przeprowadzce w katowickiej parafii pw. św. Piotra i Pawła.
-            Zamieszkali razem i mieli troje dzieci. Adam interesował się lotnictwem i uwielbiał modelować samoloty. Jeździł na wystawy i zainteresował tym też swojego tatę.
-            Ich wyjazdy na wystawy były niejako rytuałem weekendowym.
-        </p>
-
-        <p>Adam zginął w wypadku samochodowym pod Jaworznem i został pochowany przy ul.Francuskiej w Katowicach. Jego nagrobek znajduje się na prawo od wejścia od strony ulicy francuskiej.</p>
     </div>
 </div>
 
