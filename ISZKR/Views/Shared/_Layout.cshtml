@@ -11,6 +11,12 @@
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/Content/js")
+@RenderSection("scripts", required: false)
 <body>
     <div id="overlay"></div>
         <div class="container">
@@ -58,9 +64,6 @@
             <p>Praca inżynierska: Uniwersytet Śląski, Informatyka Stosowana<br />Autor: Krzysztof Dubiel</p>
         </footer>
 
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        @Scripts.Render("~/Content/js")
-        @RenderSection("scripts", required: false)
+
 </body>
 </html>

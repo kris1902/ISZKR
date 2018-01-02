@@ -17,12 +17,12 @@
             <div class="family-tree-image">
 
                 <a href="#">
-                    <img src="@Model.FamilyTreeViewModel.FathersPhotoURL" alt="">
+                    <img src="~/Content/Images/@Model.FamilyTreeViewModel.FathersPhotoURL" alt="">
                     <center><div class="name">@Model.FamilyTreeViewModel.FathersName<br />@Model.FamilyTreeViewModel.FathersSurname</div></center>
                     <center>
                         <div class="family-edit-group">
                             <a href="#" class="edit" onclick="edit_relative();"><i class="glyphicon glyphicon-pencil"></i></a>
-                            <a href="#" class="show"><i class="glyphicon glyphicon-user"></i></a>
+                            <a href="@Url.Action("Person", "Person", new { id = Model.Person.FathersID })" class="show"><i class="glyphicon glyphicon-user"></i></a>
                         </div>
                     </center>
                 </a>
@@ -33,12 +33,12 @@
         <div class="family-tree-mother">
             <div class="family-tree-image">
                 <a href="#">
-                    <img src="./img/matka.jpg" alt="">
+                    <img src="~/Content/Images/@Model.FamilyTreeViewModel.MothersPhotoURL" alt="">
                     <center><div class="name">@Model.FamilyTreeViewModel.MothersName<br />@Model.FamilyTreeViewModel.MothersSurname</div></center>
                     <center>
                         <div class="family-edit-group">
                             <a href="#" class="edit" onclick="edit_relative();"><i class="glyphicon glyphicon-pencil"></i></a>
-                            <a href="#" class="show"><i class="glyphicon glyphicon-user"></i></a>
+                            <a href="@Url.Action("Person", "Person", new { id = Model.Person.MothersID })" class="show"><i class="glyphicon glyphicon-user"></i></a>
                         </div>
                     </center>
                 </a>
@@ -49,12 +49,12 @@
     <div class="family-tree-partner">
         <div class="family-tree-image">
             <a href="#">
-                <img src="./img/zona.jpg" alt="">
+                <img src="~/Content/Images/@Model.FamilyTreeViewModel.PartnersPhotoURL" alt="">
                 <center><div class="name">@Model.FamilyTreeViewModel.PartnersName<br />@Model.FamilyTreeViewModel.PartnersSurname</div></center>
                 <center>
                     <div class="family-edit-group">
                         <a href="#" class="edit" onclick="edit_relative();"><i class="glyphicon glyphicon-pencil"></i></a>
-                        <a href="#" class="show"><i class="glyphicon glyphicon-user"></i></a>
+                        <a href="@Url.Action("Person", "Person", new { id = Model.Person.PartnerID })" class="show"><i class="glyphicon glyphicon-user"></i></a>
                     </div>
                 </center>
             </a>
@@ -67,7 +67,7 @@
 
     <div class="family-tree-person">
         <div class="family-tree-image">
-            <a href="#"><img src="@Model.FamilyTreeViewModel.PersonPhotoURL" alt=""></a>
+            <a href="#"><img src="~/Content/Images/@Model.FamilyTreeViewModel.PersonPhotoURL" alt=""></a>
         </div>
     </div>
 
@@ -212,15 +212,17 @@
 <div class="person-site-content">
     <div class="basic-info">
         <h1 id="person-name">@Model.Person.Name @Model.Person.Surname
-        <span class="family-name">@if (Model.Person.FamilySurname != null)
+        <span id="person-familyname">@if (Model.Person.FamilySurname != null)
                                     {@: (@Model.Person.FamilySurname )
                                     ;}</span></h1>
 
-        @using (Ajax.BeginForm("Person", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "person-name" }))
+        @using (Ajax.BeginForm("EditName", "Person", new { },
+                            new AjaxOptions { OnSuccess = "successCreatePostFunction(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "name-edit-form" }))
         {
+            @Html.HiddenFor(Model => Model.Person.ID)
             @Html.EditorFor(Model => Model.Person.Name, new { htmlAttributes = new { @id = "person-name-edit-textbox" } })
-            @Html.EditorFor(Model => Model.Person.Surname, new { htmlAttributes = new { @id = "person-name-edit-textbox" } })
-            @:(@Html.EditorFor(Model => Model.Person.FamilySurname, new { htmlAttributes = new { @id = "person-name-edit-textbox" } }))
+            @Html.EditorFor(Model => Model.Person.Surname, new { htmlAttributes = new { @id = "person-surname-edit-textbox" } })
+            @:(@Html.EditorFor(Model => Model.Person.FamilySurname, new { htmlAttributes = new { @id = "person-familyname-edit-textbox" } }))
             <button class="btn btn-success person-name-edit-btn" id="person-name-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
             @Html.ValidationMessageFor(Model => Model.Person.Name, "", new { @class = "text-danger" })
         }
@@ -476,266 +478,6 @@
         </div>
         <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
             <div class="box">
-                <a href="#" data-toggle="modal" data-target="#3">
-                    <img src="./img/osoba.jpg">
-                </a>
-                <div class="modal fade" id="3" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                            <div class="modal-body">
-                                <img src="./img/osoba.jpg">
-                            </div>
-                            <div class="col-md-12 description">
-                                <h4>This is the third one on my Gallery</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-            <div class="box">
-                <a href="#" data-toggle="modal" data-target="#4">
-                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/4.jpg">
-                </a>
-                <div class="modal fade" id="4" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                            <div class="modal-body">
-                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/4.jpg">
-                            </div>
-                            <div class="col-md-12 description">
-                                <h4>This is the fourth one on my Gallery</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-            <div class="box">
-                <a href="#" data-toggle="modal" data-target="#5">
-                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/5.jpg">
-                </a>
-                <div class="modal fade" id="5" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                            <div class="modal-body">
-                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/5.jpg">
-                            </div>
-                            <div class="col-md-12 description">
-                                <h4>This is the fifth one on my Gallery</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-            <div class="box">
-                <a href="#" data-toggle="modal" data-target="#6">
-                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/6.jpg">
-                </a>
-                <div class="modal fade" id="6" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                            <div class="modal-body">
-                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/6.jpg">
-                            </div>
-                            <div class="col-md-12 description">
-                                <h4>This is the sixth one on my Gallery</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-            <div class="box">
-                <a href="#" data-toggle="modal" data-target="#7">
-                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/7.jpg">
-                </a>
-                <div class="modal fade" id="7" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                            <div class="modal-body">
-                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/7.jpg">
-                            </div>
-                            <div class="col-md-12 description">
-                                <h4>This is the seventh one on my Gallery</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-            <div class="box">
-                <a href="#" data-toggle="modal" data-target="#8">
-                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/8.jpg">
-                </a>
-                <div class="modal fade" id="8" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                            <div class="modal-body">
-                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/8.jpg">
-                            </div>
-                            <div class="col-md-12 description">
-                                <h4>This is the eighth one on my Gallery</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-            <div class="box">
-                <a href="#" data-toggle="modal" data-target="#9">
-                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/9.jpg">
-                </a>
-                <div class="modal fade" id="9" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                            <div class="modal-body">
-                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/9.jpg">
-                            </div>
-                            <div class="col-md-12 description">
-                                <h4>This is the ninth one on my Gallery</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-            <div class="box">
-                <a href="#" data-toggle="modal" data-target="#10">
-                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/10.jpg">
-                </a>
-                <div class="modal fade" id="10" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                            <div class="modal-body">
-                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/10.jpg">
-                            </div>
-                            <div class="col-md-12 description">
-                                <h4>This is the tenth one on my Gallery</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-            <div class="box">
-                <a href="#" data-toggle="modal" data-target="#11">
-                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/11.jpg">
-                </a>
-                <div class="modal fade" id="11" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                            <div class="modal-body">
-                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/11.jpg">
-                            </div>
-                            <div class="col-md-12 description">
-                                <h4>This is the leventh one on my Gallery</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-            <div class="box">
-                <a href="#" data-toggle="modal" data-target="#12">
-                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/12.jpg">
-                </a>
-                <div class="modal fade" id="12" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                            <div class="modal-body">
-                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/12.jpg">
-                            </div>
-                            <div class="col-md-12 description">
-                                <h4>This is the 12th one on my Gallery</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-            <div class="box">
-                <a href="#" data-toggle="modal" data-target="#13">
-                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/13.jpg">
-                </a>
-                <div class="modal fade" id="13" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                            <div class="modal-body">
-                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/13.jpg">
-                            </div>
-                            <div class="col-md-12 description">
-                                <h4>This is the 13th one on my Gallery</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-            <div class="box">
-                <a href="#" data-toggle="modal" data-target="#14">
-                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/14.jpg">
-                </a>
-                <div class="modal fade" id="14" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                            <div class="modal-body">
-                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/14.jpg">
-                            </div>
-                            <div class="col-md-12 description">
-                                <h4>This is the 14th one on my Gallery</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-            <div class="box">
-                <a href="#" data-toggle="modal" data-target="#15">
-                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/15.jpg">
-                </a>
-                <div class="modal fade" id="15" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                            <div class="modal-body">
-                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/15.jpg">
-                            </div>
-                            <div class="col-md-12 description">
-                                <h4>This is the 15th one on my Gallery</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-            <div class="box">
                 <a href="#" data-toggle="modal" data-target="#16">
                     <img src="http://nabeel.co.in/files/bootsnipp/gallery/16.jpg">
                 </a>
@@ -779,3 +521,40 @@
     </div>
 </div>
 }
+
+<script type="text/javascript">
+
+    //person_name.onclick = function () {
+    //    overlay.style.display = "inherit";
+    //    person_name.style.display = "none";
+    //    person_name_edit_txt.value = person_name.firstChild.textContent;
+    //    person_name_edit.style.display = "inherit";
+    //}
+
+    $('#person-name').click(function () {
+        $(this).css('display', 'none');
+        $('form#name-edit-form').css('display', 'inline-block');
+    });
+
+
+    function successCreatePostFunction(data) {
+        if (data.result === "success") {
+            $('form#name-edit-form').css('display', 'none');
+            $('#person-name').text($('#person-name-edit-textbox').val() + " " + $('#person-surname-edit-textbox').val());
+            $('#person-familyname').text($('#person-familyname-edit-textbox').val());   //coś nie dziala
+            $('#person-name').css('display', 'inherit');
+
+            @*$('#AddCategoryModal').modal('hide');
+
+            var row = $('<tr id="' + data.id + '"><th>@Html.CheckBox("chkSelect")</th><td>' + data.name + '</td><td><a href="javascript:void(0);"><span class="glyphicon glyphicon-edit Edit" data-id="' + data.id + '"></span> </a><a href="javascript:void(0);"><span class="glyphicon glyphicon-remove Remove" data-id="' + data.id + '"></span></a></td></tr>');
+            row.on('click', '.Edit', Edit);
+            row.on('click', '.Remove', Remove);
+
+            var table = $('#dataTable').DataTable();
+            row.hide('slow');
+            row.fadeIn('slow');
+            table.row.add(row).draw();
+            DisplayRowsCounter();*@
+        }
+    };
+</script>

@@ -33,18 +33,6 @@ namespace ISZKR.Controllers
             }
         }
 
-        // GET: Person/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Person/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
         // POST: Person/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection)
@@ -61,49 +49,43 @@ namespace ISZKR.Controllers
             }
         }
 
-        // GET: Person/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Person/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult EditName(OutsideViewModel outsideViewModel)
         {
             try
             {
-                // TODO: Add update logic here
+                //Category category = unitOfWork.CategoriesRepository.GetById(model.Id);
+                //category.Name = model.Name;
 
-                return RedirectToAction("Index");
+                //unitOfWork.CategoriesRepository.Edit(category);
+                //unitOfWork.SaveChanges();
+
+                using (var context = new ISZKRDbContext())
+                {
+                    Person person = context.Person.Find(outsideViewModel.Person.ID);
+
+                    person.Name = outsideViewModel.Person.Name;
+                    person.Surname = outsideViewModel.Person.Surname;
+                    person.FamilySurname = outsideViewModel.Person.FamilySurname;
+
+                    context.Set<Person>().Attach(person);
+                    context.Entry(person).State = System.Data.Entity.EntityState.Modified;
+
+                    context.SaveChanges();
+                }
             }
-            catch
+            catch (Exception)
             {
-                return View();
+                throw;
             }
+
+
+            return Json(new
+            {
+                result = "success"
+            });
         }
 
-        // GET: Person/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Person/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
         private FamilyTreeViewModel BuildFamilyTree(int PersonID)
         {
             FamilyTreeViewModel vm = new FamilyTreeViewModel();
