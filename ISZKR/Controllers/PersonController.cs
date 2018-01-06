@@ -1,5 +1,6 @@
 ﻿using ISZKR.Models;
 using ISZKR.ViewModels;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -12,20 +13,31 @@ namespace ISZKR.Controllers
     public class PersonController : BaseController
     {
         // GET: Person
+        [Route("Person/{id:int}")]
         public ActionResult Person(int id=0)
         {
             if (id != 0)
             {
                 var person = new Person();
+                int usersChronicleID;
 
                 using (var context = new ISZKRDbContext())
                 {
                     person = context.Person.Find(id);
-                }
+                    usersChronicleID = context.Users.Find(User.Identity.GetUserId());
+                    (UserManagerExtensions.FindById(User.Identity.GetUserId())).
+                        }
 
-                outsideViewModel.Person = person;
-                outsideViewModel.FamilyTreeViewModel = BuildFamilyTree(id);
-                return View(outsideViewModel);
+                if (User. == person.Chronicle.ID)
+                {
+                    outsideViewModel.Person = person;
+                    outsideViewModel.FamilyTreeViewModel = BuildFamilyTree(id);
+                    return View(outsideViewModel);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
             else
             {
