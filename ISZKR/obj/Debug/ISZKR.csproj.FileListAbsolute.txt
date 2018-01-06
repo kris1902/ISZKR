@@ -288,3 +288,4 @@ C:\Users\Kris\Documents\Visual Studio 2017\ISZKR\ISZKR\obj\Debug\ISZKR.csproj.Ge
 C:\Users\Kris\Documents\Visual Studio 2017\ISZKR\ISZKR\obj\Debug\ISZKR.csproj.CoreCompileInputs.cache
 C:\Users\Kris\Documents\Visual Studio 2017\ISZKR\ISZKR\obj\Debug\ISZKR.dll
 C:\Users\Kris\Documents\Visual Studio 2017\ISZKR\ISZKR\obj\Debug\ISZKR.pdb
+C:\Users\KRIS\Documents\Visual Studio 2017\Projects\ISZKR\ISZKR\obj\Debug\ISZKR.Migrations.ISZKR4.resources

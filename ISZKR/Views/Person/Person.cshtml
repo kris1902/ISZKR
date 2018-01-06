@@ -1,4 +1,19 @@
-﻿@model ISZKR.ViewModels.OutsideViewModel
+﻿@*
+    TO DO:
+        1.Forma do dodania członka rodziny (modal) - wybór z listy istniejących osób + link do formy z dodaniem osoby
+                                                    (w miarę możliwości z pamietaniem że ma być tym kimś dla obecnie oglądanej osoby)
+        2.
+        3.Edytowanie tabelek:
+            - historia wykształcenia
+            - historia zawodowa
+            - historia zamieszkania
+        4.Wyświetlanie, dodawanie zdjęć.
+        5.Ustawienie profilowego dla osoby. (przekierowanie do modala z miniaturkami zdjęć na których jest i tam wybór)
+        6.Autentykacja dostępu do kroniki (role?)
+        
+*@
+
+@model ISZKR.ViewModels.OutsideViewModel
 
 @{
     ViewBag.Title = Model.Person.Name + " " + Model.Person.Surname;
@@ -19,7 +34,14 @@
                 @if (Model.Person.FathersID != 0)
                 {
                     <a href="#">
-                        <img src="~/Content/Images/@Model.FamilyTreeViewModel.FathersPhotoURL" alt="">
+                        @if (Model.FamilyTreeViewModel.FathersPhotoURL == null)
+                        {
+                            <img src="~/Content/Images/person.jpg" alt="">
+                        }
+                        else
+                        {
+                            <img src="~/Content/Images/@Model.FamilyTreeViewModel.FathersPhotoURL" alt="">
+                        }
                         <center><div class="name">@Model.FamilyTreeViewModel.FathersName<br />@Model.FamilyTreeViewModel.FathersSurname</div></center>
                         <center>
                             <div class="family-edit-group">
@@ -43,7 +65,14 @@
                 @if (Model.Person.MothersID != 0)
                 {
                     <a href="#">
-                        <img src="~/Content/Images/@Model.FamilyTreeViewModel.MothersPhotoURL" alt="">
+                        @if (Model.FamilyTreeViewModel.MothersPhotoURL == null)
+                        {
+                            <img src="~/Content/Images/person.jpg" alt="">
+                        }
+                        else
+                        {
+                            <img src="~/Content/Images/@Model.FamilyTreeViewModel.MothersPhotoURL" alt="">
+                        }
                         <center><div class="name">@Model.FamilyTreeViewModel.MothersName<br />@Model.FamilyTreeViewModel.MothersSurname</div></center>
                         <center>
                             <div class="family-edit-group">
@@ -68,7 +97,14 @@
             @if (Model.Person.PartnerID != 0)
             {
                 <a href="#">
-                    <img src="~/Content/Images/@Model.FamilyTreeViewModel.PartnersPhotoURL" alt="">
+                    @if (Model.FamilyTreeViewModel.PartnersPhotoURL == null)
+                    {
+                        <img src="~/Content/Images/person.jpg" alt="">
+                    }
+                    else
+                    {
+                        <img src="~/Content/Images/@Model.FamilyTreeViewModel.PartnersPhotoURL" alt="">
+                    }
                     <center><div class="name">@Model.FamilyTreeViewModel.PartnersName<br />@Model.FamilyTreeViewModel.PartnersSurname</div></center>
                     <center>
                         <div class="family-edit-group">
@@ -102,7 +138,14 @@
         <div class="family-tree-child">
             <div class="family-tree-image">
                 <a href="#">
-                    <img src="~/Content/Images/@kid.PhotoURL" alt="">
+                    @if (kid.PhotoURL == null)
+                    {
+                        <img src="~/Content/Images/person.jpg" alt="">
+                    }
+                    else
+                    {
+                        <img src="~/Content/Images/@kid.PhotoURL" alt="">
+                    }
                     <center><div class="name">@kid.Name<br />@kid.Surname</div></center>
                     <center>
                         <div class="family-edit-group-small">
@@ -221,14 +264,14 @@
                     @Model.Person.Name @Model.Person.Surname
                     <span id="person-familyname">
                         @if (Model.Person.FamilySurname != null)
-                    {@: (@Model.Person.FamilySurname )
+                        {@: (@Model.Person.FamilySurname )
                                     ;
-                    }
+                        }
                 </span>
             </h1>
 
             @using (Ajax.BeginForm("EditName", "Person", new { },
-                            new AjaxOptions { OnSuccess = "successCreatePostFunction(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "name-edit-form" }))
+                new AjaxOptions { OnSuccess = "successEditPersonName(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "name-edit-form" }))
             {
                 @Html.HiddenFor(Model => Model.Person.ID)
                 @Html.EditorFor(Model => Model.Person.Name, new { htmlAttributes = new { @id = "person-name-edit-textbox" } })
@@ -250,33 +293,76 @@
                 -->
             <!--EDIT -->
 
-            <span id="born-info" class="born-info"><b> @Model.Person.Gender @if (Model.Person.Gender == 'K')
+            <span id="born-info" class="born-info"><b> 
+            @Model.Person.Gender @if (Model.Person.Gender == 'K')
             { <text>Urodzona:</text> }
             else
-            { <text>Urodzony:</text> } </b> <span id="born-date">1981-12-22</span> (<span id="born-city">Chorzów</span>)</span><br />
-
-            <!--EDIT --><div id="born-info-edit">
-
-                <input type="date" id="born-info-edit-date">
-
-                <input type="text" id="born-info-edit-city">
-
+            { <text>Urodzony:</text> } </b> 
+            @if (Model.Person.BirthDateTime == DateTime.Parse("1900-01-01") && Model.Person.BirthPlace == null)
+            {
+                @:Brak danych
+            }
+            else
+            {
+                <span id="born-date">@Model.Person.BirthDateTime</span> @:(<span id = "born-city"> @Model.Person.BirthPlace </span >)<br />
+            }
+            </span>
+            
+                <!--EDIT -->
+            @using (Ajax.BeginForm("EditBirth", "Person", new { },
+                new AjaxOptions { OnSuccess = "successEditPersonBirth(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "born-info-edit" }))
+            {
+                @Html.HiddenFor(Model => Model.Person.ID)
+                @Html.EditorFor(Model => Model.Person.BirthDateTime, new { htmlAttributes = new { @id = "born-info-edit-date" } })
+                @Html.EditorFor(Model => Model.Person.BirthPlace, new { htmlAttributes = new { @id = "born-info-edit-city" } })
                 <button class="btn btn-success born-info-edit-btn" id="born-info-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
-            </div>
+            }
+                <br />
 
-            <span id="death-info" class="death-info"><b>Zmarły:</b> <span id="death-date">2012-10-12</span> (<span id="death-city">Katowice</span>)</span><br />
-            <!--EDIT --><div id="death-info-edit">
-                <input type="date" id="death-info-edit-date">
-                <input type="text" id="death-info-edit-city">
+            
+            <span id="death-info" class="death-info">
+            <b>Zmarły:</b>
+            @if (Model.Person.DeathDateTime == DateTime.Parse("1900-01-01") && Model.Person.DeathPlace == null)
+            {
+                @:Nie dotyczy
+            }
+            else
+            {
+            <span id="death-date">@Model.Person.DeathDateTime</span> @:(<span id="death-city">@Model.Person.DeathPlace</span><br />
+            }
+           </span>
+                <!--EDIT -->
+            @using (Ajax.BeginForm("EditDeath", "Person", new { },
+        new AjaxOptions { OnSuccess = "successEditPersonDeath(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "death-info-edit" }))
+            {
+                @Html.HiddenFor(Model => Model.Person.ID)
+                @Html.EditorFor(Model => Model.Person.DeathDateTime, new { htmlAttributes = new { @id = "death-info-edit-date" } })
+                @Html.EditorFor(Model => Model.Person.DeathPlace, new { htmlAttributes = new { @id = "death-info-edit-city" } })
                 <button class="btn btn-success death-info-edit-btn" id="death-info-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
-            </div>
-
-            <span id="burial-info" class="burial-info"><b>Miejsce pochówku:</b> <span id="burial-place">Cmentarz przy ul. Francuskiej w Katowicach</span></span>
-            <!--EDIT --><div id="burial-info-edit">
-                <input type="text" id="burial-info-edit-textbox">
+            }
+            <br />
+            
+            <span id="burial-info" class="burial-info"><b>Miejsce pochówku:</b>
+            @if (Model.Person.RestingPlace == null)
+            {
+                @:Nie dotyczy
+            }
+            else
+            {
+                <span id = "burial-place" > @Model.Person.RestingPlace </span >
+            }
+            </span>
+                <!--EDIT -->
+            @using (Ajax.BeginForm("EditBurial", "Person", new { },
+            new AjaxOptions { OnSuccess = "successEditPersonBurial(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "burial-info-edit" }))
+            {
+                @Html.HiddenFor(Model => Model.Person.ID)
+                @Html.EditorFor(Model => Model.Person.RestingPlace, new { htmlAttributes = new { @id = "burial-info-edit-text" } })
                 <button class="btn btn-success burial-info-edit-btn" id="burial-info-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
-            </div>
+            }
+            <br />
         </div>
+
         <h3>Opis</h3>
         <button class="btn btn-primary description-edit-btn" id="description-edit-btn" type="submit"><i class="glyphicon glyphicon-edit"></i></button>
 
@@ -534,39 +620,4 @@
     </div>
     }
 
-    <script type="text/javascript">
-
-    //person_name.onclick = function () {
-    //    overlay.style.display = "inherit";
-    //    person_name.style.display = "none";
-    //    person_name_edit_txt.value = person_name.firstChild.textContent;
-    //    person_name_edit.style.display = "inherit";
-    //}
-
-    $('#person-name').click(function () {
-        $(this).css('display', 'none');
-        $('form#name-edit-form').css('display', 'inline-block');
-    });
-
-
-    function successCreatePostFunction(data) {
-        if (data.result === "success") {
-            $('form#name-edit-form').css('display', 'none');
-            $('#person-name').text($('#person-name-edit-textbox').val() + " " + $('#person-surname-edit-textbox').val());
-            $('#person-familyname').text($('#person-familyname-edit-textbox').val());   //coś nie dziala
-            $('#person-name').css('display', 'inherit');
-
-            @*$('#AddCategoryModal').modal('hide');
-
-            var row = $('<tr id="' + data.id + '"><th>@Html.CheckBox("chkSelect")</th><td>' + data.name + '</td><td><a href="javascript:void(0);"><span class="glyphicon glyphicon-edit Edit" data-id="' + data.id + '"></span> </a><a href="javascript:void(0);"><span class="glyphicon glyphicon-remove Remove" data-id="' + data.id + '"></span></a></td></tr>');
-            row.on('click', '.Edit', Edit);
-            row.on('click', '.Remove', Remove);
-
-            var table = $('#dataTable').DataTable();
-            row.hide('slow');
-            row.fadeIn('slow');
-            table.row.add(row).draw();
-            DisplayRowsCounter();*@
-        }
-    };
-    </script>
+@Scripts.Render("~/Scripts/PersonEdit.js")

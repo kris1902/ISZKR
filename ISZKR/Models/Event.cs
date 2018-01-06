@@ -17,6 +17,11 @@ namespace ISZKR.Models
         public virtual EventType EventType { get; set; }
         public virtual ICollection<Person> MainEventParticipants { get; private set; }
         public virtual ICollection<Person> EventParticipants { get; private set; }
+        [DataType(DataType.Date)]
+        public DateTime StartDateTime { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime EndDateTime { get; set; }
+        public string Place { get; set; }
     }
     public class EventType
     {

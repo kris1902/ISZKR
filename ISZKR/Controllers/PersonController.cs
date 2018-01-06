@@ -16,7 +16,7 @@ namespace ISZKR.Controllers
         [Route("Person/{id:int}")]
         public ActionResult Person(int id=0)
         {
-            if (id != 0)
+            if (isPersonExist(id))
             {
                 var person = new Person();
                 int usersChronicleID;
@@ -24,25 +24,41 @@ namespace ISZKR.Controllers
                 using (var context = new ISZKRDbContext())
                 {
                     person = context.Person.Find(id);
-                    usersChronicleID = context.Users.Find(User.Identity.GetUserId());
-                    (UserManagerExtensions.FindById(User.Identity.GetUserId())).
-                        }
 
-                if (User. == person.Chronicle.ID)
-                {
-                    outsideViewModel.Person = person;
-                    outsideViewModel.FamilyTreeViewModel = BuildFamilyTree(id);
-                    return View(outsideViewModel);
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Home");
+                    if (true)   //Miejsce na sprawdzenie tożsamości użytkownika (czy może oglądać tą rzecz)
+                    {
+                        outsideViewModel.Person = person;
+                        outsideViewModel.FamilyTreeViewModel = BuildFamilyTree(id);
+                        return View(outsideViewModel);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
             }
             else
             {
                 return RedirectToAction("Index", "Home");   //Tutaj będzie przeniesienie do listy osób
             }
+        }
+
+
+
+        private bool isPersonExist(int id)
+        {
+            if (id == 0)
+            {
+                return false;
+            }
+            using (var context = new ISZKRDbContext())
+            {
+                if (context.Person.Any(p => p.ID == id))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         // POST: Person/Create
@@ -66,12 +82,6 @@ namespace ISZKR.Controllers
         {
             try
             {
-                //Category category = unitOfWork.CategoriesRepository.GetById(model.Id);
-                //category.Name = model.Name;
-
-                //unitOfWork.CategoriesRepository.Edit(category);
-                //unitOfWork.SaveChanges();
-
                 using (var context = new ISZKRDbContext())
                 {
                     Person person = context.Person.Find(outsideViewModel.Person.ID);
@@ -91,6 +101,92 @@ namespace ISZKR.Controllers
                 throw;
             }
             
+            return Json(new
+            {
+                result = "success"
+            });
+        }
+
+        [HttpPost]
+        public ActionResult EditBirth(OutsideViewModel outsideViewModel)
+        {
+            try
+            {
+                using (var context = new ISZKRDbContext())
+                {
+                    Person person = context.Person.Find(outsideViewModel.Person.ID);
+
+                    person.BirthDateTime = outsideViewModel.Person.BirthDateTime;
+                    person.BirthPlace = outsideViewModel.Person.BirthPlace;
+
+                    context.Set<Person>().Attach(person);
+                    context.Entry(person).State = System.Data.Entity.EntityState.Modified;
+
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return Json(new
+            {
+                result = "success"
+            });
+        }
+
+        [HttpPost]
+        public ActionResult EditDeath(OutsideViewModel outsideViewModel)
+        {
+            try
+            {
+                using (var context = new ISZKRDbContext())
+                {
+                    Person person = context.Person.Find(outsideViewModel.Person.ID);
+
+                    person.DeathDateTime = outsideViewModel.Person.DeathDateTime;
+                    person.DeathPlace = outsideViewModel.Person.DeathPlace;
+
+                    context.Set<Person>().Attach(person);
+                    context.Entry(person).State = System.Data.Entity.EntityState.Modified;
+
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return Json(new
+            {
+                result = "success"
+            });
+        }
+
+        [HttpPost]
+        public ActionResult EditBurial(OutsideViewModel outsideViewModel)
+        {
+            try
+            {
+                using (var context = new ISZKRDbContext())
+                {
+                    Person person = context.Person.Find(outsideViewModel.Person.ID);
+                    
+                    person.RestingPlace = outsideViewModel.Person.RestingPlace;
+
+                    context.Set<Person>().Attach(person);
+                    context.Entry(person).State = System.Data.Entity.EntityState.Modified;
+
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
             return Json(new
             {
                 result = "success"

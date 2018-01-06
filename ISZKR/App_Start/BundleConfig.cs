@@ -12,10 +12,10 @@ namespace ISZKR
                         "~/Scripts/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                 "~/Scripts/jquery.unobtrusive-ajax.js",
+                "~/Scripts/jquery.unobtrusive-ajax.js",
                 "~/Scripts/jquery.validate.js",
-                        "~/Scripts/jquery.validate.unobtrusive.js"
-                       ));
+                "~/Scripts/jquery.validate.unobtrusive.js"
+             ));
 
             // Użyj wersji deweloperskiej biblioteki Modernizr do nauki i opracowywania rozwiązań. Następnie, kiedy wszystko będzie
             // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
@@ -27,9 +27,7 @@ namespace ISZKR
                       "~/Scripts/respond.js"));
 
             bundles.Add(new ScriptBundle("~/Content/js").Include(
-                      "~/Scripts/moment.js",
-                      "~/Scripts/tables-edit.js",
-                      "~/Scripts/iszkr-small-scripts.js"));
+                      "~/Scripts/moment.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

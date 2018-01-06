@@ -217,6 +217,10 @@
     <Compile Include="Migrations\201712311236539_ISZKR-3.Designer.cs">
       <DependentUpon>201712311236539_ISZKR-3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801061604181_[ISZKR-4].cs" />
+    <Compile Include="Migrations\201801061604181_[ISZKR-4].Designer.cs">
+      <DependentUpon>201801061604181_[ISZKR-4].cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\EducationHistory.cs" />
     <Compile Include="Models\Event.cs" />
@@ -272,6 +276,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\PersonEdit.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
@@ -338,6 +343,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712311236539_ISZKR-3.resx">
       <DependentUpon>201712311236539_ISZKR-3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801061604181_[ISZKR-4].resx">
+      <DependentUpon>201801061604181_[ISZKR-4].cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
