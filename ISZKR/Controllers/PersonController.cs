@@ -78,8 +78,7 @@ namespace ISZKR.Controllers
             {
                 throw;
             }
-
-
+            
             return Json(new
             {
                 result = "success"
