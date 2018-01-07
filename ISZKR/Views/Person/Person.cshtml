@@ -2,7 +2,7 @@
     TO DO:
         1.Forma do dodania członka rodziny (modal) - wybór z listy istniejących osób + link do formy z dodaniem osoby
                                                     (w miarę możliwości z pamietaniem że ma być tym kimś dla obecnie oglądanej osoby)
-        2.
+        2.???
         3.Edytowanie tabelek:
             - historia wykształcenia
             - historia zawodowa
@@ -53,7 +53,7 @@
                 }
                 else
                 {
-                    <a href="#" data-toggle="modal" data-target="#setFatherModal">
+                    <a href="#" id="father-edit" class="edit" data-toggle="modal" data-target="#setFatherModal">
                         <img src="~/Content/Images/add_person.png" alt="">
                     </a>
                 }
@@ -76,7 +76,7 @@
                         <center><div class="name">@Model.FamilyTreeViewModel.MothersName<br />@Model.FamilyTreeViewModel.MothersSurname</div></center>
                         <center>
                             <div class="family-edit-group">
-                                <a href="#" class="edit" onclick="edit_relative();"><i class="glyphicon glyphicon-pencil"></i></a>
+                                <a href="#" id="mother-edit" class="edit" data-toggle="modal" data-target="#setMotherModal"><i class="glyphicon glyphicon-pencil"></i></a>
                                 <a href="@Url.Action("Person", "Person", new { id = Model.Person.MothersID })" class="show"><i class="glyphicon glyphicon-user"></i></a>
                             </div>
                         </center>
@@ -84,7 +84,7 @@
                 }
                 else
                 {
-                    <a href="#" data-toggle="modal" data-target="#basicModal">
+                    <a href="#" id="mother-edit" class="edit" data-toggle="modal" data-target="#setMotherModal">
                         <img src="~/Content/Images/add_person.png" alt="">
                     </a>
                 }
@@ -108,7 +108,7 @@
                     <center><div class="name">@Model.FamilyTreeViewModel.PartnersName<br />@Model.FamilyTreeViewModel.PartnersSurname</div></center>
                     <center>
                         <div class="family-edit-group">
-                            <a href="#" class="edit" onclick="edit_relative();"><i class="glyphicon glyphicon-pencil"></i></a>
+                            <a href="#" id="partner-edit" class="edit" data-toggle="modal" data-target="#setPartnerModal"><i class="glyphicon glyphicon-pencil"></i></a>
                             <a href="@Url.Action("Person", "Person", new { id = Model.Person.PartnerID })" class="show"><i class="glyphicon glyphicon-user"></i></a>
                         </div>
                     </center>
@@ -149,7 +149,7 @@
                     <center><div class="name">@kid.Name<br />@kid.Surname</div></center>
                     <center>
                         <div class="family-edit-group-small">
-                            <a href="#" class="edit edit-small" onclick="edit_relative();"><i class="glyphicon glyphicon-pencil"></i></a>
+                            <a href="#" id="kid-edit" class="edit edit-small" data-toggle="modal" data-target="#setKidModal"><i class="glyphicon glyphicon-pencil"></i></a>
                             <a href="@Url.Action("Person", "Person", new { id = kid.ID })" class="show show-small"><i class="glyphicon glyphicon-user"></i></a>
                         </div>
                     </center>
@@ -630,9 +630,11 @@
     }
 
 <!--MODALS -->
+<!--Coś nie działa (poza ojcem) SPRAWDZIĆ! -->
 
-<div class="modal fade" id="setFatherModal" data-url="@Url.Action("setPersonsRelative", "Person", new { personid = Model.Person.ID, relative = "father" })" tabindex="-1" role="dialog" aria-labelledby="setFatherModal" aria-hidden="true">
-
-</div>
+<div class="modal fade" id="setFatherModal" data-url="@Url.Action("setPersonsRelative", "Person", new { personid = Model.Person.ID, relative = "father" })" tabindex="-1" role="dialog" aria-labelledby="setFatherModal" aria-hidden="true"></div>
+<div class="modal fade" id="setMotherModal" data-url="@Url.Action("setPersonsRelative", "Person", new { personid = Model.Person.ID, relative = "mother" })" tabindex="-1" role="dialog" aria-labelledby="setMotherModal" aria-hidden="true"></div>
+<div class="modal fade" id="setPartnerModal" data-url="@Url.Action("setPersonsRelative", "Person", new { personid = Model.Person.ID, relative = "partner" })" tabindex="-1" role="dialog" aria-labelledby="setPartnerModal" aria-hidden="true"></div>
+<div class="modal fade" id="setKidModal" data-url="@Url.Action("setPersonsRelative", "Person", new { personid = Model.Person.ID, relative = "kid" })" tabindex="-1" role="dialog" aria-labelledby="setKidModal" aria-hidden="true"></div>
 
 @Scripts.Render("~/Scripts/PersonEdit.js")

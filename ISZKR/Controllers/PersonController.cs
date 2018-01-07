@@ -255,29 +255,185 @@ namespace ISZKR.Controllers
             }
             return vm;
         }
+
         [HttpGet]
         public ActionResult setPersonsRelative(int personid, string relative)
         {
             DateTime personBirthDateTime;
-            PersonsRelativeViewModel vm = new PersonsRelativeViewModel();
-            vm.Person_list = new List<Person>();
+            string personGender;
+            PersonsRelativeViewModel vm = new PersonsRelativeViewModel
+            {
+                Person_list = new List<Person>(),
+                person_id = personid
+            };
+
             using (var context = new ISZKRDbContext())
             {
                 personBirthDateTime = context.Person.Find(personid).BirthDateTime;
+                personGender = context.Person.Find(personid).Gender;
             }
+
+            switch (relative)
+            {
+                case "father":
+                    using (var context = new ISZKRDbContext())
+                    {
+                        foreach (Person person in context.Person)
+                        {
+                            if (person.BirthDateTime < personBirthDateTime && person.Gender == "M")
+                            {
+                                vm.Person_list.Add(person);
+                            }
+                        }
+                    }
+                    return PartialView("setPersonsFather", vm);
+                case "mother":
+                    using (var context = new ISZKRDbContext())
+                    {
+                        foreach (Person person in context.Person)
+                        {
+                            if (person.BirthDateTime < personBirthDateTime && person.Gender == "K")
+                            {
+                                vm.Person_list.Add(person);
+                            }
+                        }
+                    }
+                    return PartialView("setPersonsMother", vm);
+                case "partner":
+                    using (var context = new ISZKRDbContext())
+                    {
+                        if (personGender == "M")
+                        {
+                            foreach (Person person in context.Person)
+                            {
+                                if (person.Gender == "K")
+                                {
+                                    vm.Person_list.Add(person);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            foreach (Person person in context.Person)
+                            {
+                                if (person.Gender == "M")
+                                {
+                                    vm.Person_list.Add(person);
+                                }
+                            }
+                        }
+                        
+                    }
+                    return PartialView("setPersonsPartner", vm);
+                default:
+                    return null;
+            }
+
+            
+            
+        }
+
+        [HttpGet]
+        public ActionResult EditFather(int person_id, int fathers_id)
+        {
             using (var context = new ISZKRDbContext())
             {
-                //Dopisywanie do listy wyboru kobiet starszych od osoby
-                foreach (Person person in context.Person)
-                {
-                    if (person.BirthDateTime < personBirthDateTime && person.Gender == "M")
-                    {
-                        vm.Person_list.Add(person);
-                    }
-                }
+                context.Person.Find(person_id).FathersID = fathers_id;
+                context.SaveChanges();
             }
-            return PartialView(vm);
+            return Redirect("/Person/" + person_id);
         }
-        
+
+        [HttpGet]
+        public ActionResult EditMother(int person_id, int mothers_id)
+        {
+            using (var context = new ISZKRDbContext())
+            {
+                context.Person.Find(person_id).MothersID = mothers_id;
+                context.SaveChanges();
+            }
+            return Redirect("/Person/" + person_id);
+        }
+
+        [HttpGet]
+        public ActionResult EditPartner(int person_id, int partners_id)
+        {
+            using (var context = new ISZKRDbContext())
+            {
+                context.Person.Find(person_id).PartnerID = partners_id;
+                context.SaveChanges();
+            }
+            return Redirect("/Person/" + person_id);
+        }
+
+        [HttpGet]
+        public ActionResult AddKid(int person_id, int kids_id)
+        {
+            using (var context = new ISZKRDbContext())
+            {
+                if (context.Person.Find(person_id).Gender == "M")
+                {
+                    context.Person.Find(kids_id).FathersID = person_id;
+                }
+                else
+                {
+                    context.Person.Find(kids_id).MothersID = person_id;
+                }
+                context.SaveChanges();
+            }
+            return Redirect("/Person/" + person_id);
+        }
+
+        [HttpGet]
+        public ActionResult DeleteKid(int person_id, int kids_id)
+        {
+            using (var context = new ISZKRDbContext())
+            {
+                if (context.Person.Find(person_id).Gender == "M")
+                {
+                    context.Person.Find(kids_id).FathersID = 0;
+                }
+                else
+                {
+                    context.Person.Find(kids_id).MothersID = 0;
+                }
+                context.SaveChanges();
+            }
+            return Redirect("/Person/" + person_id);
+        }
+
+        [HttpGet]
+        public ActionResult DeleteFather(int person_id)
+        {
+            using (var context = new ISZKRDbContext())
+            {
+                context.Person.Find(person_id).FathersID = 0;
+                context.SaveChanges();
+            }
+            return Redirect("/Person/" + person_id);
+        }
+
+        [HttpGet]
+        public ActionResult DeleteMother(int person_id)
+        {
+            using (var context = new ISZKRDbContext())
+            {
+                context.Person.Find(person_id).MothersID = 0;
+                context.SaveChanges();
+            }
+            return Redirect("/Person/" + person_id);
+        }
+
+        [HttpGet]
+        public ActionResult DeletePartner(int person_id)
+        {
+            using (var context = new ISZKRDbContext())
+            {
+                context.Person.Find(person_id).PartnerID = 0;
+                context.SaveChanges();
+            }
+            return Redirect("/Person/" + person_id);
+        }
+
     }
 }

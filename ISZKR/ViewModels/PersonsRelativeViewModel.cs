@@ -6,5 +6,6 @@ namespace ISZKR.ViewModels
     public class PersonsRelativeViewModel
     {
         public List<Person> Person_list {get; set;}
+        public int person_id { get; set; }
     }
 }
