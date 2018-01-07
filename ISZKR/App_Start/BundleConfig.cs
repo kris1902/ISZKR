@@ -36,7 +36,8 @@ namespace ISZKR
                       "~/Content/family-tree-style.css",
                       "~/Content/gallery-style.css",
                       "~/Content/navigation-style.css",
-                      "~/Content/search-gallery-style.css"));
+                      "~/Content/search-gallery-style.css",
+                      "~/Content/funky-radio.css"));
         }
     }
 }

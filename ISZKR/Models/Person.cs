@@ -14,7 +14,7 @@ namespace ISZKR.Models
         [Required]
         public string Surname { get; set; }
         [Required]
-        public char Gender { get; set; }
+        public string Gender { get; set; }
         [DataType(DataType.Date)]
         public DateTime BirthDateTime { get; set; }
         public string BirthPlace { get; set; }
@@ -22,9 +22,7 @@ namespace ISZKR.Models
         public DateTime DeathDateTime { get; set; }
         public string DeathPlace { get; set; }
         public string PhotoURL { get; set; }
-        public char RelationshipStatus { get; set; }
         [DataType(DataType.Date)]
-        public DateTime MarriageDateTime { get; set; }
         public string FamilySurname { get; set; }
         public int FathersID { get; set; }
         public int MothersID { get; set; }

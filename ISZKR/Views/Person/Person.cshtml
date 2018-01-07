@@ -45,7 +45,7 @@
                         <center><div class="name">@Model.FamilyTreeViewModel.FathersName<br />@Model.FamilyTreeViewModel.FathersSurname</div></center>
                         <center>
                             <div class="family-edit-group">
-                                <a href="#" class="edit" onclick="edit_relative();"><i class="glyphicon glyphicon-pencil"></i></a>
+                                <a href="#" id="father-edit" class="edit" data-toggle="modal" data-target="#setFatherModal"><i class="glyphicon glyphicon-pencil"></i></a>
                                 <a href="@Url.Action("Person", "Person", new { id = Model.Person.FathersID })" class="show"><i class="glyphicon glyphicon-user"></i></a>
                             </div>
                         </center>
@@ -53,7 +53,7 @@
                 }
                 else
                 {
-                    <a href="#">
+                    <a href="#" data-toggle="modal" data-target="#setFatherModal">
                         <img src="~/Content/Images/add_person.png" alt="">
                     </a>
                 }
@@ -84,7 +84,7 @@
                 }
                 else
                 {
-                    <a href="#">
+                    <a href="#" data-toggle="modal" data-target="#basicModal">
                         <img src="~/Content/Images/add_person.png" alt="">
                     </a>
                 }
@@ -294,7 +294,7 @@
             <!--EDIT -->
 
             <span id="born-info" class="born-info"><b> 
-            @Model.Person.Gender @if (Model.Person.Gender == 'K')
+            @if (Model.Person.Gender == "K")
             { <text>Urodzona:</text> }
             else
             { <text>Urodzony:</text> } </b> 
@@ -321,10 +321,19 @@
 
             
             <span id="death-info" class="death-info">
-            <b>Zmarły:</b>
+            <b>
+            @if (Model.Person.Gender == "K")
+            {
+                @:Zmarła:
+            }
+            else
+            {
+                @:Zmarły:
+            }
+            </b>
             @if (Model.Person.DeathDateTime == DateTime.Parse("1900-01-01") && Model.Person.DeathPlace == null)
             {
-                @:Nie dotyczy
+                @: Nie dotyczy
             }
             else
             {
@@ -345,7 +354,7 @@
             <span id="burial-info" class="burial-info"><b>Miejsce pochówku:</b>
             @if (Model.Person.RestingPlace == null)
             {
-                @:Nie dotyczy
+                @: Nie dotyczy
             }
             else
             {
@@ -619,5 +628,11 @@
         </div>
     </div>
     }
+
+<!--MODALS -->
+
+<div class="modal fade" id="setFatherModal" data-url="@Url.Action("setPersonsRelative", "Person", new { personid = Model.Person.ID, relative = "father" })" tabindex="-1" role="dialog" aria-labelledby="setFatherModal" aria-hidden="true">
+
+</div>
 
 @Scripts.Render("~/Scripts/PersonEdit.js")

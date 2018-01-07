@@ -61,15 +61,31 @@ namespace ISZKR.Controllers
             return false;
         }
 
-        // POST: Person/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create()
         {
+            int id;
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                using (var context = new ISZKRDbContext())
+                {
+                    Person new_person = new Person
+                    {
+                        Name = "Imię",
+                        Surname = "Nazwisko",
+                        Gender = "M",
+                        BirthDateTime = DateTime.Parse("1900-01-01"),
+                        DeathDateTime = DateTime.Parse("1900-01-01"),
+                        Description = "Tutaj napisz coś o tej osobie...",
+                        FathersID = 0,
+                        MothersID = 0,
+                        PartnerID = 0
+                        //Jeszcze trzeba przekazać ID kroniki jakoś
+                    };
+                    context.Person.Add(new_person);
+                    id = new_person.ID;
+                    context.SaveChanges();
+                }
+                return RedirectToAction("Person", id);
             }
             catch
             {
@@ -239,5 +255,29 @@ namespace ISZKR.Controllers
             }
             return vm;
         }
+        [HttpGet]
+        public ActionResult setPersonsRelative(int personid, string relative)
+        {
+            DateTime personBirthDateTime;
+            PersonsRelativeViewModel vm = new PersonsRelativeViewModel();
+            vm.Person_list = new List<Person>();
+            using (var context = new ISZKRDbContext())
+            {
+                personBirthDateTime = context.Person.Find(personid).BirthDateTime;
+            }
+            using (var context = new ISZKRDbContext())
+            {
+                //Dopisywanie do listy wyboru kobiet starszych od osoby
+                foreach (Person person in context.Person)
+                {
+                    if (person.BirthDateTime < personBirthDateTime && person.Gender == "M")
+                    {
+                        vm.Person_list.Add(person);
+                    }
+                }
+            }
+            return PartialView(vm);
+        }
+        
     }
 }

@@ -221,6 +221,10 @@
     <Compile Include="Migrations\201801061604181_[ISZKR-4].Designer.cs">
       <DependentUpon>201801061604181_[ISZKR-4].cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801071218413_ISZKR-5.cs" />
+    <Compile Include="Migrations\201801071218413_ISZKR-5.Designer.cs">
+      <DependentUpon>201801071218413_ISZKR-5.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\EducationHistory.cs" />
     <Compile Include="Models\Event.cs" />
@@ -236,6 +240,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\FamilyTreeViewModel.cs" />
     <Compile Include="ViewModels\OutsideViewModel.cs" />
+    <Compile Include="ViewModels\PersonsRelativeViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -317,6 +322,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Person\Person.cshtml" />
     <Content Include="Views\Account\LogOff.cshtml" />
+    <Content Include="Views\Person\setPersonsRelative.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -346,6 +352,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801061604181_[ISZKR-4].resx">
       <DependentUpon>201801061604181_[ISZKR-4].cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801071218413_ISZKR-5.resx">
+      <DependentUpon>201801071218413_ISZKR-5.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

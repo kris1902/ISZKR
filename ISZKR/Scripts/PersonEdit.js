@@ -59,3 +59,14 @@ function successEditPersonBurial(data) {
         $('#burial-info').css('display', 'inherit');
     }
 }
+
+$(document).ready(function () {
+    $('#father-edit').click(function () {
+        var url = $('#setFatherModal').data('url');
+
+        $.get(url, function (data) {
+            $('#setFatherModal').html(data);
+            $('#setFatherModal').modal('show');
+        });
+    });
+});
