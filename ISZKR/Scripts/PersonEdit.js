@@ -70,3 +70,40 @@ $(document).ready(function () {
         });
     });
 });
+
+$(document).ready(function () {
+    $('#mother-edit').click(function () {
+        var url = $('#setMotherModal').data('url');
+
+        $.get(url, function (data) {
+            $('#setMotherModal').html(data);
+            $('#setMotherModal').modal('show');
+        });
+    });
+});
+
+$(document).ready(function () {
+    $('#partner-edit').click(function () {
+        var url = $('#setPartnerModal').data('url');
+
+        $.get(url, function (data) {
+            $('#setPartnerModal').html(data);
+            $('#setPartnerModal').modal('show');
+        });
+    });
+});
+
+$(document).ready(function () {
+    $('#kid-edit').click(function () {
+        var url = $('#setKidModal').data('url');
+
+        $.get(url, function (data) {
+            $('#setKidModal').html(data);
+            $('#setKidModal').modal('show');
+        });
+    });
+});
+
+function onKidDeleteClick(kid_id) {
+    $('#deleteKidBtn').attr('href', $('#deleteKidBtn').attr('href') + '&kids_id=' + kid_id);
+};

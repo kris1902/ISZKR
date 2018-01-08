@@ -325,6 +325,18 @@ namespace ISZKR.Controllers
                         
                     }
                     return PartialView("setPersonsPartner", vm);
+                case "kid":
+                    using (var context = new ISZKRDbContext())
+                    {
+                        foreach (Person person in context.Person)
+                        {
+                            if (person.BirthDateTime > personBirthDateTime)
+                            {
+                                vm.Person_list.Add(person);
+                            }
+                        }
+                    }
+                    return PartialView("setPersonsKid", vm);
                 default:
                     return null;
             }
@@ -336,10 +348,13 @@ namespace ISZKR.Controllers
         [HttpGet]
         public ActionResult EditFather(int person_id, int fathers_id)
         {
-            using (var context = new ISZKRDbContext())
+            if (fathers_id >= 0)
             {
-                context.Person.Find(person_id).FathersID = fathers_id;
-                context.SaveChanges();
+                using (var context = new ISZKRDbContext())
+                {
+                    context.Person.Find(person_id).FathersID = fathers_id;
+                    context.SaveChanges();
+                }
             }
             return Redirect("/Person/" + person_id);
         }
@@ -347,10 +362,13 @@ namespace ISZKR.Controllers
         [HttpGet]
         public ActionResult EditMother(int person_id, int mothers_id)
         {
-            using (var context = new ISZKRDbContext())
+            if (mothers_id >= 0)
             {
-                context.Person.Find(person_id).MothersID = mothers_id;
-                context.SaveChanges();
+                using (var context = new ISZKRDbContext())
+                {
+                    context.Person.Find(person_id).MothersID = mothers_id;
+                    context.SaveChanges();
+                }
             }
             return Redirect("/Person/" + person_id);
         }
@@ -358,10 +376,14 @@ namespace ISZKR.Controllers
         [HttpGet]
         public ActionResult EditPartner(int person_id, int partners_id)
         {
-            using (var context = new ISZKRDbContext())
+            if (partners_id >= 0)
             {
-                context.Person.Find(person_id).PartnerID = partners_id;
-                context.SaveChanges();
+                using (var context = new ISZKRDbContext())
+                {
+                    context.Person.Find(person_id).PartnerID = partners_id;
+                    context.Person.Find(partners_id).PartnerID = person_id;
+                    context.SaveChanges();
+                }
             }
             return Redirect("/Person/" + person_id);
         }
@@ -369,17 +391,20 @@ namespace ISZKR.Controllers
         [HttpGet]
         public ActionResult AddKid(int person_id, int kids_id)
         {
-            using (var context = new ISZKRDbContext())
+            if (kids_id >= 0)
             {
-                if (context.Person.Find(person_id).Gender == "M")
+                using (var context = new ISZKRDbContext())
                 {
-                    context.Person.Find(kids_id).FathersID = person_id;
+                    if (context.Person.Find(person_id).Gender == "M")
+                    {
+                        context.Person.Find(kids_id).FathersID = person_id;
+                    }
+                    else
+                    {
+                        context.Person.Find(kids_id).MothersID = person_id;
+                    }
+                    context.SaveChanges();
                 }
-                else
-                {
-                    context.Person.Find(kids_id).MothersID = person_id;
-                }
-                context.SaveChanges();
             }
             return Redirect("/Person/" + person_id);
         }

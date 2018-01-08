@@ -116,7 +116,7 @@
             }
             else
             {
-                <a href="#">
+                <a href="#" id="partner-edit" class="edit" data-toggle="modal" data-target="#setPartnerModal">
                     <img src="~/Content/Images/add_person.png" alt="">
                 </a>
             }
@@ -129,7 +129,14 @@
 
     <div class="family-tree-person">
         <div class="family-tree-image">
-            <a href="#"><img src="~/Content/Images/@Model.FamilyTreeViewModel.PersonPhotoURL" alt=""></a>
+            @if (Model.FamilyTreeViewModel.PersonPhotoURL == null)
+            {
+                <img src="~/Content/Images/person.jpg" alt="">
+            }
+            else
+            {
+                <a href="#"><img src="~/Content/Images/@Model.FamilyTreeViewModel.PersonPhotoURL" alt=""></a>
+            }
         </div>
     </div>
 
@@ -149,7 +156,7 @@
                     <center><div class="name">@kid.Name<br />@kid.Surname</div></center>
                     <center>
                         <div class="family-edit-group-small">
-                            <a href="#" id="kid-edit" class="edit edit-small" data-toggle="modal" data-target="#setKidModal"><i class="glyphicon glyphicon-pencil"></i></a>
+                            <a href="#" id="kid-delete" class="edit edit-small" data-toggle="modal" data-target="#deleteKidModal" onclick="onKidDeleteClick(@kid.ID)"><i class="glyphicon glyphicon-trash"></i></a>
                             <a href="@Url.Action("Person", "Person", new { id = kid.ID })" class="show show-small"><i class="glyphicon glyphicon-user"></i></a>
                         </div>
                     </center>
@@ -159,8 +166,9 @@
     }
     <div class="family-tree-child">
         <div class="family-tree-image">
-            <a href="#">
-                <img src="~/Content/Images/add_person.png" alt=""></a>
+            <a href="#" id="kid-edit" class="edit edit-small" data-toggle="modal" data-target="#setKidModal">
+                <img src="~/Content/Images/add_person.png" alt="">
+            </a>
         </div>
     </div>
 
@@ -636,5 +644,19 @@
 <div class="modal fade" id="setMotherModal" data-url="@Url.Action("setPersonsRelative", "Person", new { personid = Model.Person.ID, relative = "mother" })" tabindex="-1" role="dialog" aria-labelledby="setMotherModal" aria-hidden="true"></div>
 <div class="modal fade" id="setPartnerModal" data-url="@Url.Action("setPersonsRelative", "Person", new { personid = Model.Person.ID, relative = "partner" })" tabindex="-1" role="dialog" aria-labelledby="setPartnerModal" aria-hidden="true"></div>
 <div class="modal fade" id="setKidModal" data-url="@Url.Action("setPersonsRelative", "Person", new { personid = Model.Person.ID, relative = "kid" })" tabindex="-1" role="dialog" aria-labelledby="setKidModal" aria-hidden="true"></div>
+
+<div class="modal fade" id="deleteKidModal" tabindex="-1" role="dialog" aria-labelledby="deleteKidModal" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h3>Czy na pewno chcesz skasować to dziecko?</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                @Html.ActionLink("Skasuj", "DeleteKid", "Person", new { person_id = Model.Person.ID }, new { @id = "deleteKidBtn", @class = "btn btn-danger" })
+            </div>
+        </div>
+    </div>
+</div>
 
 @Scripts.Render("~/Scripts/PersonEdit.js")
