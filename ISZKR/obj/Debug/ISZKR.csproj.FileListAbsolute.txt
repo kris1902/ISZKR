@@ -290,3 +290,4 @@ C:\Users\Kris\Documents\Visual Studio 2017\ISZKR\ISZKR\obj\Debug\ISZKR.dll
 C:\Users\Kris\Documents\Visual Studio 2017\ISZKR\ISZKR\obj\Debug\ISZKR.pdb
 C:\Users\KRIS\Documents\Visual Studio 2017\Projects\ISZKR\ISZKR\obj\Debug\ISZKR.Migrations.ISZKR4.resources
 C:\Users\KRIS\Documents\Visual Studio 2017\Projects\ISZKR\ISZKR\obj\Debug\ISZKR.Migrations.ISZKR5.resources
+C:\Users\KRIS\Documents\Visual Studio 2017\Projects\ISZKR\ISZKR\obj\Debug\ISZKR.Migrations.ISZKR6.resources

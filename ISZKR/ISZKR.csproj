@@ -195,6 +195,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
@@ -225,6 +226,10 @@
     <Compile Include="Migrations\201801071218413_ISZKR-5.Designer.cs">
       <DependentUpon>201801071218413_ISZKR-5.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801102055237_ISZKR-6.cs" />
+    <Compile Include="Migrations\201801102055237_ISZKR-6.Designer.cs">
+      <DependentUpon>201801102055237_ISZKR-6.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\EducationHistory.cs" />
     <Compile Include="Models\Event.cs" />
@@ -241,6 +246,7 @@
     <Compile Include="ViewModels\FamilyTreeViewModel.cs" />
     <Compile Include="ViewModels\OutsideViewModel.cs" />
     <Compile Include="ViewModels\PersonsRelativeViewModel.cs" />
+    <Compile Include="ViewModels\PersonTablesViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -326,10 +332,13 @@
     <Content Include="Views\Person\setPersonsMother.cshtml" />
     <Content Include="Views\Person\setPersonsPartner.cshtml" />
     <Content Include="Views\Person\setPersonsKid.cshtml" />
+    <Content Include="Views\Person\PersonTables.cshtml" />
+    <Content Include="Views\Events\Events.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\Event\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -358,6 +367,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801071218413_ISZKR-5.resx">
       <DependentUpon>201801071218413_ISZKR-5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801102055237_ISZKR-6.resx">
+      <DependentUpon>201801102055237_ISZKR-6.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

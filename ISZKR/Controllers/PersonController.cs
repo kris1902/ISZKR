@@ -261,6 +261,9 @@ namespace ISZKR.Controllers
         {
             DateTime personBirthDateTime;
             string personGender;
+            int personMotherID;
+            int personFatherID;
+            int personPartnerID;
             PersonsRelativeViewModel vm = new PersonsRelativeViewModel
             {
                 Person_list = new List<Person>(),
@@ -271,6 +274,9 @@ namespace ISZKR.Controllers
             {
                 personBirthDateTime = context.Person.Find(personid).BirthDateTime;
                 personGender = context.Person.Find(personid).Gender;
+                personMotherID = context.Person.Find(personid).MothersID;
+                personFatherID = context.Person.Find(personid).FathersID;
+                personPartnerID = context.Person.Find(personid).PartnerID;
             }
 
             switch (relative)
@@ -280,7 +286,7 @@ namespace ISZKR.Controllers
                     {
                         foreach (Person person in context.Person)
                         {
-                            if (person.BirthDateTime < personBirthDateTime && person.Gender == "M")
+                            if (person.BirthDateTime < personBirthDateTime && person.Gender == "M" && person.ID != personPartnerID)
                             {
                                 vm.Person_list.Add(person);
                             }
@@ -292,7 +298,7 @@ namespace ISZKR.Controllers
                     {
                         foreach (Person person in context.Person)
                         {
-                            if (person.BirthDateTime < personBirthDateTime && person.Gender == "K")
+                            if (person.BirthDateTime < personBirthDateTime && person.Gender == "K" && person.ID != personPartnerID)
                             {
                                 vm.Person_list.Add(person);
                             }
@@ -306,7 +312,7 @@ namespace ISZKR.Controllers
                         {
                             foreach (Person person in context.Person)
                             {
-                                if (person.Gender == "K")
+                                if (person.Gender == "K" && person.ID != personMotherID)
                                 {
                                     vm.Person_list.Add(person);
                                 }
@@ -316,7 +322,7 @@ namespace ISZKR.Controllers
                         {
                             foreach (Person person in context.Person)
                             {
-                                if (person.Gender == "M")
+                                if (person.Gender == "M" && person.ID != personFatherID)
                                 {
                                     vm.Person_list.Add(person);
                                 }
@@ -330,7 +336,7 @@ namespace ISZKR.Controllers
                     {
                         foreach (Person person in context.Person)
                         {
-                            if (person.BirthDateTime > personBirthDateTime)
+                            if (person.BirthDateTime > personBirthDateTime && person.ID != personPartnerID && person.ID != personFatherID && person.ID != personMotherID)
                             {
                                 vm.Person_list.Add(person);
                             }
@@ -454,11 +460,32 @@ namespace ISZKR.Controllers
         {
             using (var context = new ISZKRDbContext())
             {
+                int partner_id = context.Person.Find(person_id).PartnerID;
                 context.Person.Find(person_id).PartnerID = 0;
+                context.Person.Find(partner_id).PartnerID = 0;
                 context.SaveChanges();
             }
             return Redirect("/Person/" + person_id);
         }
 
+        [ChildActionOnly]
+        public ActionResult RenderTables(Person p)
+        {
+            PersonTablesViewModel vm = new PersonTablesViewModel();
+            using (var context = new ISZKRDbContext())
+            {
+                var edu = context.EducationHistory.Where(c => c.Person == p);
+                foreach (var item in edu)
+                {
+                    vm.EducationHistoryList.Add(new EducationHistory
+                    {
+                        SchoolType = item.SchoolType
+                    });
+                }
+                //vm.ResidenceHistoryList = context.ResidenceHistory.Where(c => c.Person == p).ToList();
+                //vm.ProfessionHistoryList = context.ProfessionHistory.Where(c => c.Person == p).ToList();
+            }
+            return PartialView("PersonTables", vm);
+        }
     }
 }

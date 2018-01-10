@@ -30,8 +30,8 @@ namespace ISZKR.Models
         public string Description { get; set; }
         public string RestingPlace { get; set; }
         public virtual ICollection<Photo> IsOnPhotos { get; private set; }
-        public virtual ICollection<Event> EventMainParticipant { get; private set; }
-        public virtual ICollection<Event> EventParticipant { get; private set; }
+        public virtual ICollection<Events> EventMainParticipant { get; private set; }
+        public virtual ICollection<Events> EventParticipant { get; private set; }
         [Required]
         public virtual Chronicle Chronicle { get; set; }
     }

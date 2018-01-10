@@ -16,6 +16,6 @@ namespace ISZKR.Models
         public virtual ICollection<Person> Person { get; private set; }
         [Required]
         public virtual Chronicle Chronicle { get; set; }
-        public virtual Event Event { get; set; }
+        public virtual Events Events { get; set; }
     }
 }

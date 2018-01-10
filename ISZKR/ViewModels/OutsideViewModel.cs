@@ -18,6 +18,8 @@ namespace ISZKR.ViewModels
         public ApplicationUser User { get; }
         public LoginAndRegisterViewModel LoginAndRegisterViewModel { get; set; }
         public Person Person { get; set; }
+        public Events Events { get; set; }
         public FamilyTreeViewModel FamilyTreeViewModel { get; set; }
+        public PersonTablesViewModel PersonTablesViewModel { get; set; }
     }
 }

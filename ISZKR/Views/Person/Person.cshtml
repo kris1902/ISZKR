@@ -289,18 +289,6 @@
                 @Html.ValidationMessageFor(Model => Model.Person.Name, "", new { @class = "text-danger" })
             }
 
-            <!--  <h1 id="person-name">
-                     @**Model.Person.Name @Model.Person.Surname
-                     <span class="family-name">
-                         @if (Model.Person.FamilySurname != null)
-                     {@: (@Model.Person.FamilySurname )
-                                             ;
-                     }*@
-                 </span>
-             </h1>
-                -->
-            <!--EDIT -->
-
             <span id="born-info" class="born-info"><b> 
             @if (Model.Person.Gender == "K")
             { <text>Urodzona:</text> }
@@ -390,162 +378,7 @@
         </div>
     </div>
 
-    <div class="tables">
-        <h3>Wykształcenie</h3>
-        <table class="table table-striped" id="edu-table">
-            <thead>
-                <tr>
-                    <th>Wykształcenie</th>
-                    <th>Nazwa</th>
-                    <th>Rozpoczęcie</th>
-                    <th>Ukończenie</th>
-                    <th>Uwagi</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr id="edu-row1">
-                    <td id="edu-level-row1">Podstawowe</td>
-                    <td id="edu-name-row1">SP nr 13 w Chorzowie</td>
-                    <td id="edu-start-row1">1988-09-02</td>
-                    <td id="edu-end-row1">1988-09-03</td>
-                    <td id="edu-comment-row1"></td>
-                    <td>
-                        <button id="edu_edit_button1" value="Edit" class="btn-primary table-edit-btn" onclick="edu_edit_row('1')"><i class="glyphicon glyphicon-pencil"></i></button>
-                        <button id="edu_save_button1" value="Save" class="btn-success table-save-btn" onclick="edu_save_row('1')"><i class="glyphicon glyphicon-ok"></i></button>
-                        <button value="Delete" class="btn-danger table-delete-btn" onclick="edu_delete_row('1')"><i class="glyphicon glyphicon-trash"></i></button>
-                    </td>
-                </tr>
-                <tr id="edu-row2">
-                    <td id="edu-level-row2">Gimnazjalne</td>
-                    <td id="edu-name-row2">SP nr 13 w Chorzowie</td>
-                    <td id="edu-start-row2">1988-09-07</td>
-                    <td id="edu-end-row2">1988-10-10</td>
-                    <td id="edu-comment-row2">Jakiś komentarz</td>
-                    <td>
-                        <button id="edu_edit_button2" value="Edit" class="btn-primary table-edit-btn" onclick="edu_edit_row('2')"><i class="glyphicon glyphicon-pencil"></i></button>
-                        <button id="edu_save_button2" value="Save" class="btn-success table-save-btn" onclick="edu_save_row('2')"><i class="glyphicon glyphicon-ok"></i></button>
-                        <button value="Delete" class="btn-danger table-delete-btn" onclick="edu_delete_row('2')"><i class="glyphicon glyphicon-trash"></i></button>
-                    </td>
-                </tr>
-                <tr id="edu-row3">
-                    <td id="edu-level-row3">Licencjackie</td>
-                    <td id="edu-name-row3">Uniwersytet Śląski</td>
-                    <td id="edu-start-row3">1988-09-01</td>
-                    <td id="edu-end-row3">1996-06-26</td>
-                    <td id="edu-comment-row3"></td>
-                    <td>
-                        <button id="edu_edit_button3" value="Edit" class="btn-primary table-edit-btn" onclick="edu_edit_row('3')"><i class="glyphicon glyphicon-pencil"></i></button>
-                        <button id="edu_save_button3" value="Save" class="btn-success table-save-btn" onclick="edu_save_row('3')"><i class="glyphicon glyphicon-ok"></i></button>
-                        <button value="Delete" class="btn-danger table-delete-btn" onclick="edu_delete_row('3')"><i class="glyphicon glyphicon-trash"></i></button>
-                    </td>
-
-                </tr>
-                <tr>
-                    <td>
-                        <select id="new-edu-level">
-
-                            <option value="Podstawowe">Podstawowe</option>
-                            <option value="Gimnazjalne">Gimnazjalne</option>
-
-                            <option value="Techniczne">Techniczne</option>
-                            <option value="Zawodowe">Zawodowe</option>
-
-                            <option value="Licealne">Licealne</option>
-                            <option value="Licencjackie">Licencjackie</option>
-
-                            <option value="Inżynierskie">Inżynierskie</option>
-                            <option value="Magisterskie">Magisterskie</option>
-
-                            <option value="Doktorskie">Doktorskie</option>
-                            <option value="Profesorskie">Profesorskie</option>
-
-                        </select>
-
-                    </td>
-
-                    <td><input type="text" id="new-edu-name"></td>
-                    <td><input type="date" id="new-edu-start"></td>
-                    <td><input type="date" id="new-edu-end"></td>
-                    <td><input type="text" id="new-edu-comment"></td>
-                    <td><button class="btn-primary table-add-btn" onclick="edu_add_row();"><i class="glyphicon glyphicon-plus"></i></button></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <h3>Historia zawodowa</h3>
-        <table class="table table-striped" id="work-table">
-            <thead>
-                <tr>
-                    <th>Stanowisko</th>
-                    <th>Pracodawca</th>
-                    <th>Rozpoczęcie</th>
-                    <th>Zakończenie</th>
-                    <th>Adres</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr id='work-row1'>
-                    <td id='work-name-row1'>Kierowca</td>
-                    <td id='work-employer-row1'>Taxi Radio</td>
-                    <td id='work-start-row1'>16 sierpnia 2005 r.</td>
-                    <td id='work-end-row1'>9 grudnia 2005 r.</td>
-                    <td id='work-address-row1'>Katowice, Grundmana 2</td>
-                    <td>
-                        <button id="work_edit_button1" value="Edit" class="btn-primary table-edit-btn" onclick="work_edit_row('1')"><i class="glyphicon glyphicon-pencil"></i></button>
-                        <button id="work_save_button1" value="Save" class="btn-success table-save-btn" onclick="work_save_row('1')"><i class="glyphicon glyphicon-ok"></i></button>
-                        <button value="Delete" class="btn-danger table-delete-btn" onclick="work_delete_row('1')"><i class="glyphicon glyphicon-trash"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td><input type="text" id='new-work-name'></td>
-                    <td><input type="text" id='new-work-employer'></td>
-                    <td><input type="date" id='new-work-start'></td>
-                    <td><input type="date" id='new-work-end'></td>
-                    <td><input type="text" id='new-work-address'></td>
-                    <td><button class="btn-primary table-add-btn" onclick="work_add_row();"><i class="glyphicon glyphicon-plus"></i></button></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <h3>Historia zamieszkania</h3>
-        <table class="table table-striped" id="home-table">
-            <thead>
-                <tr>
-                    <th>Miasto</th>
-                    <th>Adres</th>
-                    <th>Kraj</th>
-                    <th>Rozpoczęcie</th>
-                    <th>Zakończenie</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr id='home-row1'>
-                    <td id='home-city-row1'>Chorzów</td>
-                    <td id='home-address-row1'>Katowicka 14</td>
-                    <td id='home-country-row1'>Polska</td>
-                    <td id='home-start-row1'>1981-11-21</td>
-                    <td id='home-end-row1'>2005-10-15</td>
-                    <td>
-                        <button id="home_edit_button1" value="Edit" class="btn-primary table-edit-btn" onclick="home_edit_row('1')"><i class="glyphicon glyphicon-pencil"></i></button>
-                        <button id="home_save_button1" value="Save" class="btn-success table-save-btn" onclick="home_save_row('1')"><i class="glyphicon glyphicon-ok"></i></button>
-                        <button value="Delete" class="btn-danger table-delete-btn" onclick="home_delete_row('1')"><i class="glyphicon glyphicon-trash"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td><input type="text" id='new-home-city'></td>
-                    <td><input type="text" id='new-home-address'></td>
-                    <td><input type="text" id='new-home-country'></td>
-                    <td><input type="date" id='new-home-start'></td>
-                    <td><input type="date" id='new-home-end'></td>
-                    <td><button class="btn-primary table-add-btn" onclick="home_add_row();"><i class="glyphicon glyphicon-plus"></i></button></td>
-                </tr>
-            </tbody>
-        </table>
-
-    </div>
+    @Html.Action("RenderTables", "Person", new { Model.Person })
 
     <!-- ############################## GALERIA ZDJĘĆ ############################## -->
     <h3>Zdjęcia</h3>
@@ -636,9 +469,6 @@
         </div>
     </div>
     }
-
-<!--MODALS -->
-<!--Coś nie działa (poza ojcem) SPRAWDZIĆ! -->
 
 <div class="modal fade" id="setFatherModal" data-url="@Url.Action("setPersonsRelative", "Person", new { personid = Model.Person.ID, relative = "father" })" tabindex="-1" role="dialog" aria-labelledby="setFatherModal" aria-hidden="true"></div>
 <div class="modal fade" id="setMotherModal" data-url="@Url.Action("setPersonsRelative", "Person", new { personid = Model.Person.ID, relative = "mother" })" tabindex="-1" role="dialog" aria-labelledby="setMotherModal" aria-hidden="true"></div>

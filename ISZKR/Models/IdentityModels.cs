@@ -34,7 +34,7 @@ namespace ISZKR.Models
         public DbSet<Person> Person { get; set; }
         public DbSet<Chronicle> Chronicle { get; set; }
         public DbSet<EducationHistory> EducationHistory { get; set; }
-        public DbSet<Event> Event { get; set; }
+        public DbSet<Events> Events { get; set; }
         public DbSet<Photo> Photo { get; set; }
         public DbSet<ProfessionHistory> ProfessionHistory { get; set; }
         public DbSet<ResidenceHistory> ResidenceHistory { get; set; }

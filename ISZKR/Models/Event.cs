@@ -6,7 +6,7 @@ using System.Web;
 
 namespace ISZKR.Models
 {
-    public class Event
+    public class Events
     {
         [Key]
         [Required]
