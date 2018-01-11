@@ -474,13 +474,22 @@ namespace ISZKR.Controllers
             PersonTablesViewModel vm = new PersonTablesViewModel();
             using (var context = new ISZKRDbContext())
             {
-                var edu = context.EducationHistory.Where(c => c.Person == p);
+                var edu = context.EducationHistory.Where(c => c.Person.ID == p.ID).ToList();
                 foreach (var item in edu)
                 {
-                    vm.EducationHistoryList.Add(new EducationHistory
-                    {
-                        SchoolType = item.SchoolType
-                    });
+                    vm.EducationHistoryList.Add(item);
+                }
+
+                var res = context.ResidenceHistory.Where(c => c.Person.ID == p.ID).ToList();
+                foreach (var item in res)
+                {
+                    vm.ResidenceHistoryList.Add(item);
+                }
+
+                var pro = context.ProfessionHistory.Where(c => c.Person.ID == p.ID).ToList();
+                foreach (var item in pro)
+                {
+                    vm.ProfessionHistoryList.Add(item);
                 }
                 //vm.ResidenceHistoryList = context.ResidenceHistory.Where(c => c.Person == p).ToList();
                 //vm.ProfessionHistoryList = context.ProfessionHistory.Where(c => c.Person == p).ToList();

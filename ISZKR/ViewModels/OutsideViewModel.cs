@@ -21,5 +21,6 @@ namespace ISZKR.ViewModels
         public Events Events { get; set; }
         public FamilyTreeViewModel FamilyTreeViewModel { get; set; }
         public PersonTablesViewModel PersonTablesViewModel { get; set; }
+        public List<EducationHistory> EducationHistoryList { get; set; }
     }
 }

@@ -1,8 +1,6 @@
 ﻿@*
     TO DO:
-        1.Forma do dodania członka rodziny (modal) - wybór z listy istniejących osób + link do formy z dodaniem osoby
-                                                    (w miarę możliwości z pamietaniem że ma być tym kimś dla obecnie oglądanej osoby)
-        2.???
+        2.Dodawanie osoby - nowa strona z początkowymi danymi do uzupełnienia. W miarę możliwości pamiętanie członka jakim nowa osoba ma być dla tej z którego poziomu dodajemy osobę.
         3.Edytowanie tabelek:
             - historia wykształcenia
             - historia zawodowa
@@ -373,7 +371,7 @@
 
         <div data-editable class="description" data-name="description-content">
 
-            @Model.Person.Description
+            @Html.Raw(Model.Person.Description)
 
         </div>
     </div>
