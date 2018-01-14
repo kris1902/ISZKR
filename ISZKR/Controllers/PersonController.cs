@@ -14,7 +14,7 @@ namespace ISZKR.Controllers
     {
         // GET: Person
         [Route("Person/{id:int}")]
-        public ActionResult Person(int id=0)
+        public ActionResult Person(int id = 0)
         {
             if (isPersonExist(id))
             {
@@ -116,7 +116,7 @@ namespace ISZKR.Controllers
             {
                 throw;
             }
-            
+
             return Json(new
             {
                 result = "success"
@@ -189,7 +189,7 @@ namespace ISZKR.Controllers
                 using (var context = new ISZKRDbContext())
                 {
                     Person person = context.Person.Find(outsideViewModel.Person.ID);
-                    
+
                     person.RestingPlace = outsideViewModel.Person.RestingPlace;
 
                     context.Set<Person>().Attach(person);
@@ -219,35 +219,35 @@ namespace ISZKR.Controllers
                                   where p.ID == outsideViewModel.Person.FathersID
                                   select p.Name).SingleOrDefault();
                 vm.FathersSurname = (from p in context.Person
-                                  where p.ID == outsideViewModel.Person.FathersID
-                                  select p.Surname).SingleOrDefault();
+                                     where p.ID == outsideViewModel.Person.FathersID
+                                     select p.Surname).SingleOrDefault();
                 vm.FathersPhotoURL = (from p in context.Person
                                       where p.ID == outsideViewModel.Person.FathersID
                                       select p.PhotoURL).SingleOrDefault();
                 //Mother
                 vm.MothersName = (from p in context.Person
-                                where p.ID == outsideViewModel.Person.MothersID
-                                select p.Name).SingleOrDefault();
+                                  where p.ID == outsideViewModel.Person.MothersID
+                                  select p.Name).SingleOrDefault();
                 vm.MothersSurname = (from p in context.Person
-                                   where p.ID == outsideViewModel.Person.MothersID
-                                   select p.Surname).SingleOrDefault();
+                                     where p.ID == outsideViewModel.Person.MothersID
+                                     select p.Surname).SingleOrDefault();
                 vm.MothersPhotoURL = (from p in context.Person
                                       where p.ID == outsideViewModel.Person.MothersID
                                       select p.PhotoURL).SingleOrDefault();
                 //Partner
                 vm.PartnersName = (from p in context.Person
-                                where p.ID == outsideViewModel.Person.PartnerID
-                                select p.Name).SingleOrDefault();
-                vm.PartnersSurname = (from p in context.Person
                                    where p.ID == outsideViewModel.Person.PartnerID
+                                   select p.Name).SingleOrDefault();
+                vm.PartnersSurname = (from p in context.Person
+                                      where p.ID == outsideViewModel.Person.PartnerID
                                       select p.Surname).SingleOrDefault();
                 vm.PartnersPhotoURL = (from p in context.Person
                                        where p.ID == outsideViewModel.Person.PartnerID
                                        select p.PhotoURL).SingleOrDefault();
                 //Kids
                 vm.Kids = (from p in context.Person
-                          where p.FathersID == PersonID || p.MothersID == PersonID
-                          select p).ToList();
+                           where p.FathersID == PersonID || p.MothersID == PersonID
+                           select p).ToList();
                 //Person photo
                 vm.PersonPhotoURL = (from p in context.Person
                                      where p.ID == PersonID
@@ -328,7 +328,7 @@ namespace ISZKR.Controllers
                                 }
                             }
                         }
-                        
+
                     }
                     return PartialView("setPersonsPartner", vm);
                 case "kid":
@@ -347,8 +347,8 @@ namespace ISZKR.Controllers
                     return null;
             }
 
-            
-            
+
+
         }
 
         [HttpGet]
@@ -495,6 +495,36 @@ namespace ISZKR.Controllers
                 //vm.ProfessionHistoryList = context.ProfessionHistory.Where(c => c.Person == p).ToList();
             }
             return PartialView("PersonTables", vm);
+        }
+
+        [HttpPost]
+        public JsonResult AddEdu(EducationHistory edu_data)
+        {
+            try
+            {
+                EducationHistory new_edu = new EducationHistory
+                {
+                    //Person = model.Person,
+                    EducationLevel = edu_data.EducationLevel,
+                    InstitutionName = edu_data.InstitutionName,
+                    StartDateTime = edu_data.StartDateTime,
+                    EndDateTime = edu_data.EndDateTime
+                };
+
+                using (var context = new ISZKRDbContext())
+                {
+                    context.EducationHistory.Add(new_edu);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return Json(new
+            {
+                result = "success"
+            });
         }
     }
 }

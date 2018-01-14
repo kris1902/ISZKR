@@ -22,7 +22,6 @@ namespace ISZKR.Models
         public DateTime DeathDateTime { get; set; }
         public string DeathPlace { get; set; }
         public string PhotoURL { get; set; }
-        [DataType(DataType.Date)]
         public string FamilySurname { get; set; }
         public int FathersID { get; set; }
         public int MothersID { get; set; }
