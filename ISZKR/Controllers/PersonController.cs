@@ -498,9 +498,23 @@ namespace ISZKR.Controllers
             return PartialView("PersonTables", vm);
         }
 
-        [HttpPost]
-        public JsonResult AddOrEditEdu(string EducationLevel = "", string InstitutionName = "", string StartDateTime = "1900-01-01", string EndDateTime = "1900-01-01", int personID = 0, int eduID=0)
+        [ChildActionOnly]
+        public ActionResult RenderGallery(Person p)
         {
+            PersonGalleryViewModel vm = new PersonGalleryViewModel();
+            vm.person = p;
+            using (var context = new ISZKRDbContext())
+            {
+                
+            }
+            return PartialView("_PersonGallery", vm);
+        }
+
+        [HttpPost]
+        public JsonResult AddOrEditEdu(string EducationLevel, string InstitutionName, string StartDateTime, string EndDateTime, int personID, int eduID=0)
+        {
+            if (StartDateTime == "") StartDateTime = "1900-01-01";
+            if (EndDateTime == "") EndDateTime = "1900-01-01";
             if (eduID == 0)
             {
                 try
@@ -522,7 +536,10 @@ namespace ISZKR.Controllers
                 }
                 catch (Exception)
                 {
-                    throw;
+                    return Json(new
+                    {
+                        result = "failure"
+                    });
                 }
 
                 return Json(new
@@ -547,10 +564,13 @@ namespace ISZKR.Controllers
                 }
                 catch (Exception)
                 {
-                    throw;
+                    return Json(new
+                    {
+                        result = "failure"
+                    });
                 }
 
-                return Json(new
+                return Json( new
                 {
                     result = "success"
                 });
@@ -572,8 +592,11 @@ namespace ISZKR.Controllers
                 }
                 catch (Exception)
                 {
-                    throw;
-                }
+                return Json(new
+                {
+                    result = "failure"
+                });
+            }
 
                 return Json(new
                 {
@@ -582,8 +605,10 @@ namespace ISZKR.Controllers
         }
 
         [HttpPost]
-        public JsonResult AddOrEditPro(string address = "", string empName = "", string position = "", string startDateTime = "1900-01-01", string endDateTime = "1900-01-01", int personID = 0, int workID=0)
+        public JsonResult AddOrEditPro(string address, string empName, string position, string startDateTime, string endDateTime, int personID, int workID=0)
         {
+            if (startDateTime == "") startDateTime = "1900-01-01";
+            if (endDateTime == "") endDateTime = "1900-01-01";
             if (workID == 0)
             {
                 try
@@ -606,7 +631,10 @@ namespace ISZKR.Controllers
                 }
                 catch (Exception)
                 {
-                    throw;
+                    return Json(new
+                    {
+                        result = "failure"
+                    });
                 }
 
                 return Json(new
@@ -742,13 +770,58 @@ namespace ISZKR.Controllers
             }
             catch (Exception)
             {
-                throw;
+                return Json(new
+                {
+                    result = "failure"
+                });
             }
 
             return Json(new
             {
                 result = "success"
             });
+        }
+
+        [HttpGet]
+        public int GetLastEduID()
+        {
+            using (var context = new ISZKRDbContext())
+            {
+                if (context.EducationHistory.Any())
+                {
+                    int lastID = context.EducationHistory.Max(edu => edu.ID); ;
+                    return lastID;
+                }
+                return 1;
+            }
+        }
+
+        [HttpGet]
+        public int GetLastProID()
+        {
+            using (var context = new ISZKRDbContext())
+            {
+                if (context.ProfessionHistory.Any())
+                {
+                    int lastID = context.ProfessionHistory.Max(pro => pro.ID);
+                    return lastID;
+                }
+                return 1;
+            }
+        }
+
+        [HttpGet]
+        public int GetLastResID()
+        {
+            using (var context = new ISZKRDbContext())
+            {
+                if (context.ResidenceHistory.Any())
+                {
+                    int lastID = context.ResidenceHistory.Max(res => res.ID); ;
+                    return lastID;
+                }
+                return 1;
+            }
         }
     }
 }

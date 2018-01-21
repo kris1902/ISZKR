@@ -11,7 +11,6 @@ namespace ISZKR.Models
         [Key]
         [Required]
         public int ID { get; set; }
-        [Required]
         public string Position { get; set; }
         public string EmployerName { get; set; }
         public DateTime StartDateTime { get; set; }

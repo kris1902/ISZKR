@@ -238,6 +238,14 @@
     <Compile Include="Migrations\201801211048453_ISZKR-8.Designer.cs">
       <DependentUpon>201801211048453_ISZKR-8.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801212004083_ISZKR-8.1.cs" />
+    <Compile Include="Migrations\201801212004083_ISZKR-8.1.Designer.cs">
+      <DependentUpon>201801212004083_ISZKR-8.1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801212102334_ISZKR-8.2.cs" />
+    <Compile Include="Migrations\201801212102334_ISZKR-8.2.Designer.cs">
+      <DependentUpon>201801212102334_ISZKR-8.2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\EducationHistory.cs" />
     <Compile Include="Models\Events.cs" />
@@ -253,6 +261,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\FamilyTreeViewModel.cs" />
     <Compile Include="ViewModels\OutsideViewModel.cs" />
+    <Compile Include="ViewModels\PersonGalleryViewModel.cs" />
     <Compile Include="ViewModels\PersonsRelativeViewModel.cs" />
     <Compile Include="ViewModels\PersonTablesViewModel.cs" />
   </ItemGroup>
@@ -344,6 +353,7 @@
     <Content Include="Views\Person\setPersonsKid.cshtml" />
     <Content Include="Views\Person\PersonTables.cshtml" />
     <Content Include="Views\Events\Events.cshtml" />
+    <Content Include="Views\Person\_PersonGallery.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -386,6 +396,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801211048453_ISZKR-8.resx">
       <DependentUpon>201801211048453_ISZKR-8.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801212004083_ISZKR-8.1.resx">
+      <DependentUpon>201801212004083_ISZKR-8.1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801212102334_ISZKR-8.2.resx">
+      <DependentUpon>201801212102334_ISZKR-8.2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
