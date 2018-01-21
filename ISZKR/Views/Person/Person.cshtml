@@ -2,9 +2,8 @@
     TO DO:
         2.Dodawanie osoby - nowa strona z początkowymi danymi do uzupełnienia. W miarę możliwości pamiętanie członka jakim nowa osoba ma być dla tej z którego poziomu dodajemy osobę.
         3.Edytowanie tabelek:
-            - historia wykształcenia
-            - historia zawodowa
-            - historia zamieszkania
+            - prawie całe gotowe,
+            - należy przemyśleć dodawane ID w jQuery (teraz podaje liczebność zapisu w tabelce, a ma być oryginalne ID!)
         4.Wyświetlanie, dodawanie zdjęć.
         5.Ustawienie profilowego dla osoby. (przekierowanie do modala z miniaturkami zdjęć na których jest i tam wybór)
         6.Autentykacja dostępu do kroniki (role?)
@@ -298,7 +297,7 @@
             }
             else
             {
-                <span id="born-date">@Model.Person.BirthDateTime</span> @:(<span id = "born-city"> @Model.Person.BirthPlace </span >)<br />
+                <span id="born-date">@Model.Person.BirthDateTime.Date.ToString("d MMMM yyyy")</span> @:<span id = "born-city">(@Model.Person.BirthPlace)</span ><br />
             }
             </span>
             
@@ -331,7 +330,7 @@
             }
             else
             {
-            <span id="death-date">@Model.Person.DeathDateTime</span> @:(<span id="death-city">@Model.Person.DeathPlace</span><br />
+            <span id="death-date">@Model.Person.DeathDateTime.ToString("d MMMM yyyy")</span> @:<span id="death-city">(@Model.Person.DeathPlace)</span><br />
             }
            </span>
                 <!--EDIT -->

@@ -2,6 +2,12 @@
 
     @if (Request.IsAuthenticated)
     {
+        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-form navbar-right" }))
+        {
+            @Html.AntiForgeryToken()
+            <a href="javascript:document.getElementById('logoutForm').submit()" class="btn btn-default btn-primary">Wyloguj się</a>
+        }
+
         @Html.AntiForgeryToken()
         <form class="navbar-form navbar-right" role="search">
             <div class="input-group">
@@ -11,17 +17,9 @@
                 </div>
             </div>
             <a class="account-menu-panel" href="./ustawienia.html">Twoje konto</a>
-            <a href="javascript:document.getElementById('logoutForm').submit()">Wyloguj się</a>
-            @Html.ActionLink("Wyloguj się", "LogOff", "Account", new { ReturnUrl = "" }, new { @class = "btn btn-default btn-primary", role = "button" })
         </form>
 
-            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
-            {
-                @Html.AntiForgeryToken()
-                <ul>
-                    <li><a href="javascript:document.getElementById('logoutForm').submit()">Wyloguj się</a></li>
-                </ul>
-            }
+        
 
     }
     else
