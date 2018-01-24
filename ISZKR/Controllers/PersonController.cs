@@ -472,6 +472,7 @@ namespace ISZKR.Controllers
         public ActionResult RenderTables(Person p)
         {
             PersonTablesViewModel vm = new PersonTablesViewModel();
+            vm.person = p;
             using (var context = new ISZKRDbContext())
             {
                 var edu = context.EducationHistory.Where(c => c.Person.ID == p.ID).ToList();
@@ -497,23 +498,212 @@ namespace ISZKR.Controllers
             return PartialView("PersonTables", vm);
         }
 
+        [ChildActionOnly]
+        public ActionResult RenderGallery(Person p)
+        {
+            PersonGalleryViewModel vm = new PersonGalleryViewModel();
+            using (var context = new ISZKRDbContext())
+            {
+                p = context.Person.Find(p.ID);
+                vm.person = p;
+                var result = getPhotosWithPerson(p.ID);
+                //var result = context.Photo.Where(photo => photo.Person.Contains(p)); //tu ma być znajdowanie where person contains p
+                foreach (var photo in result)
+                {
+                    vm.photos.Add(photo);
+                }
+            }
+            return PartialView("_PersonGallery", vm);
+        }
+
+        private List<Photo> getPhotosWithPerson(int personID)
+        {
+            List<Photo> photos_to_return = new List<Photo>();
+            using (var context = new ISZKRDbContext())
+            {
+                var list_of_photos_with_any_person = context.Photo.Where(photo => photo.Person.Any()).ToList();
+                foreach (var photo in list_of_photos_with_any_person)
+                {
+                    foreach(var person in photo.Person)
+                    {
+                        if (person.ID == personID) photos_to_return.Add(photo);
+                    }
+                }
+            }
+            return photos_to_return;
+        }
+
         [HttpPost]
-        public JsonResult AddEdu(EducationHistory edu_data)
+        public JsonResult AddOrEditEdu(string EducationLevel, string InstitutionName, string StartDateTime, string EndDateTime, int personID, int eduID=0)
+        {
+            if (StartDateTime == "") StartDateTime = "1900-01-01";
+            if (EndDateTime == "") EndDateTime = "1900-01-01";
+            if (eduID == 0)
+            {
+                try
+                {
+                    EducationHistory new_edu = new EducationHistory
+                    {
+                        EducationLevel = EducationLevel,
+                        InstitutionName = InstitutionName,
+                        StartDateTime = DateTime.Parse(StartDateTime),
+                        EndDateTime = DateTime.Parse(EndDateTime)
+                    };
+
+                    using (var context = new ISZKRDbContext())
+                    {
+                        new_edu.Person = context.Person.Find(personID);
+                        context.EducationHistory.Add(new_edu);
+                        context.SaveChanges();
+                    }
+                }
+                catch (Exception)
+                {
+                    return Json(new
+                    {
+                        result = "failure"
+                    });
+                }
+
+                return Json(new
+                {
+                    result = "success"
+                });
+            }
+            else
+            {
+                try
+                {
+                    using (var context = new ISZKRDbContext())
+                    {
+                        EducationHistory new_edu = context.EducationHistory.Find(eduID);
+
+                        new_edu.EducationLevel = EducationLevel;
+                        new_edu.InstitutionName = InstitutionName;
+                        new_edu.StartDateTime = DateTime.Parse(StartDateTime);
+                        new_edu.EndDateTime = DateTime.Parse(EndDateTime);
+                        context.SaveChanges();
+                    }
+                }
+                catch (Exception)
+                {
+                    return Json(new
+                    {
+                        result = "failure"
+                    });
+                }
+
+                return Json( new
+                {
+                    result = "success"
+                });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult DeleteEdu(int eduID)
+        {
+                try
+                {
+                    using (var context = new ISZKRDbContext())
+                    {
+                        EducationHistory edu = context.EducationHistory.Find(eduID);
+                        context.EducationHistory.Attach(edu);
+                        context.EducationHistory.Remove(edu);
+                        context.SaveChanges();
+                    }
+                }
+                catch (Exception)
+                {
+                return Json(new
+                {
+                    result = "failure"
+                });
+            }
+
+                return Json(new
+                {
+                    result = "success"
+                });
+        }
+
+        [HttpPost]
+        public JsonResult AddOrEditPro(string address, string empName, string position, string startDateTime, string endDateTime, int personID, int workID=0)
+        {
+            if (startDateTime == "") startDateTime = "1900-01-01";
+            if (endDateTime == "") endDateTime = "1900-01-01";
+            if (workID == 0)
+            {
+                try
+                {
+                    ProfessionHistory new_pro = new ProfessionHistory
+                    {
+                        Address = address,
+                        EmployerName = empName,
+                        Position = position,
+                        StartDateTime = DateTime.Parse(startDateTime),
+                        EndDateTime = DateTime.Parse(endDateTime)
+                    };
+
+                    using (var context = new ISZKRDbContext())
+                    {
+                        new_pro.Person = context.Person.Find(personID);
+                        context.ProfessionHistory.Add(new_pro);
+                        context.SaveChanges();
+                    }
+                }
+                catch (Exception)
+                {
+                    return Json(new
+                    {
+                        result = "failure"
+                    });
+                }
+
+                return Json(new
+                {
+                    result = "success"
+                });
+            }
+            else
+            {
+                try
+                {
+                    using (var context = new ISZKRDbContext())
+                    {
+                        ProfessionHistory new_pro = context.ProfessionHistory.Find(workID);
+
+                        new_pro.Address = address;
+                        new_pro.EmployerName = empName;
+                        new_pro.Position = position;
+                        new_pro.StartDateTime = DateTime.Parse(startDateTime);
+                        new_pro.EndDateTime = DateTime.Parse(endDateTime);
+                        context.SaveChanges();
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+
+                return Json(new
+                {
+                    result = "success"
+                });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult DeleteWork(int workID)
         {
             try
             {
-                EducationHistory new_edu = new EducationHistory
-                {
-                    //Person = model.Person,
-                    EducationLevel = edu_data.EducationLevel,
-                    InstitutionName = edu_data.InstitutionName,
-                    StartDateTime = edu_data.StartDateTime,
-                    EndDateTime = edu_data.EndDateTime
-                };
-
                 using (var context = new ISZKRDbContext())
                 {
-                    context.EducationHistory.Add(new_edu);
+                    ProfessionHistory pro = context.ProfessionHistory.Find(workID);
+                    context.ProfessionHistory.Attach(pro);
+                    context.ProfessionHistory.Remove(pro);
+                    context.SaveChanges();
                 }
             }
             catch (Exception)
@@ -525,6 +715,147 @@ namespace ISZKR.Controllers
             {
                 result = "success"
             });
+        }
+
+        public JsonResult AddOrEditRes(string address, string city, string country, string StartDateTime, string EndDateTime, int personID=0, int resID=0)
+        {
+            if (StartDateTime == "") StartDateTime = "1900-01-01";
+            if (EndDateTime == "") EndDateTime = "1900-01-01";
+            if (resID == 0)
+            {
+                try
+                {
+                    ResidenceHistory new_res = new ResidenceHistory
+                    {
+                        Address = address,
+                        City = city,
+                        Country = country,
+                        StartDateTime = DateTime.Parse(StartDateTime),
+                        EndDateTime = DateTime.Parse(EndDateTime)
+                    };
+
+                    using (var context = new ISZKRDbContext())
+                    {
+                        new_res.Person = context.Person.Find(personID);
+                        context.ResidenceHistory.Add(new_res);
+                        context.SaveChanges();
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+
+                return Json(new
+                {
+                    result = "success"
+                });
+            }
+            else
+            {
+                try
+                {
+                    using (var context = new ISZKRDbContext())
+                    {
+                        ResidenceHistory new_res = context.ResidenceHistory.Find(resID);
+                        new_res.Address = address;
+                        new_res.City = city;
+                        new_res.Country = country;
+                        new_res.StartDateTime = DateTime.Parse(StartDateTime);
+                        new_res.EndDateTime = DateTime.Parse(EndDateTime);
+                        context.SaveChanges();
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+
+                return Json(new
+                {
+                    result = "success"
+                });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult DeleteRes(int resID)
+        {
+            try
+            {
+                using (var context = new ISZKRDbContext())
+                {
+                    ResidenceHistory res = context.ResidenceHistory.Find(resID);
+                    context.ResidenceHistory.Attach(res);
+                    context.ResidenceHistory.Remove(res);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new
+                {
+                    result = "failure"
+                });
+            }
+
+            return Json(new
+            {
+                result = "success"
+            });
+        }
+
+        [HttpGet]
+        public int GetLastEduID()
+        {
+            using (var context = new ISZKRDbContext())
+            {
+                if (context.EducationHistory.Any())
+                {
+                    int lastID = context.EducationHistory.Max(edu => edu.ID); ;
+                    return lastID;
+                }
+                return 1;
+            }
+        }
+
+        [HttpGet]
+        public int GetLastProID()
+        {
+            using (var context = new ISZKRDbContext())
+            {
+                if (context.ProfessionHistory.Any())
+                {
+                    int lastID = context.ProfessionHistory.Max(pro => pro.ID);
+                    return lastID;
+                }
+                return 1;
+            }
+        }
+
+        [HttpGet]
+        public int GetLastResID()
+        {
+            using (var context = new ISZKRDbContext())
+            {
+                if (context.ResidenceHistory.Any())
+                {
+                    int lastID = context.ResidenceHistory.Max(res => res.ID); ;
+                    return lastID;
+                }
+                return 1;
+            }
+        }
+
+        public void setPersonsOnPhoto(Person person, Photo photo)
+        {
+            using (var context = new ISZKRDbContext())
+            {
+                person = context.Person.Find(person.ID);
+                photo = context.Photo.Find(photo.ID);
+                person.IsOnPhotos.Add(photo);
+                context.SaveChanges();
+            }
         }
     }
 }

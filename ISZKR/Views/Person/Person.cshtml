@@ -1,10 +1,6 @@
 ﻿@*
     TO DO:
         2.Dodawanie osoby - nowa strona z początkowymi danymi do uzupełnienia. W miarę możliwości pamiętanie członka jakim nowa osoba ma być dla tej z którego poziomu dodajemy osobę.
-        3.Edytowanie tabelek:
-            - historia wykształcenia
-            - historia zawodowa
-            - historia zamieszkania
         4.Wyświetlanie, dodawanie zdjęć.
         5.Ustawienie profilowego dla osoby. (przekierowanie do modala z miniaturkami zdjęć na których jest i tam wybór)
         6.Autentykacja dostępu do kroniki (role?)
@@ -135,6 +131,12 @@
             {
                 <a href="#"><img src="~/Content/Images/@Model.FamilyTreeViewModel.PersonPhotoURL" alt=""></a>
             }
+            <center>
+                <div class="family-person-edit-group">
+                    <a href="#" id="person-photo-edit" class="edit edit-person-photo" data-toggle="modal" data-target="#"><i class="glyphicon glyphicon-camera"></i></a>
+                    <a href="@Url.Action("DeletePerson", "Person", new { id = Model.Person.MothersID })" class="person-delete"><i class="glyphicon glyphicon-erase"></i></a>
+                </div>
+            </center>
         </div>
     </div>
 
@@ -298,7 +300,7 @@
             }
             else
             {
-                <span id="born-date">@Model.Person.BirthDateTime</span> @:(<span id = "born-city"> @Model.Person.BirthPlace </span >)<br />
+                <span id="born-date">@Model.Person.BirthDateTime.Date.ToString("d MMMM yyyy")</span> @:<span id = "born-city">(@Model.Person.BirthPlace)</span ><br />
             }
             </span>
             
@@ -331,7 +333,7 @@
             }
             else
             {
-            <span id="death-date">@Model.Person.DeathDateTime</span> @:(<span id="death-city">@Model.Person.DeathPlace</span><br />
+            <span id="death-date">@Model.Person.DeathDateTime.ToString("d MMMM yyyy")</span> @:<span id="death-city">(@Model.Person.DeathPlace)</span><br />
             }
            </span>
                 <!--EDIT -->
@@ -378,94 +380,7 @@
 
     @Html.Action("RenderTables", "Person", new { Model.Person })
 
-    <!-- ############################## GALERIA ZDJĘĆ ############################## -->
-    <h3>Zdjęcia</h3>
-    <section>
-        <div class="gal-container">
-            <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-                <div class="box">
-                    <a href="#" data-toggle="modal" data-target="#1">
-                        <img src="http://nabeel.co.in/files/bootsnipp/gallery/1.jpg">
-                    </a>
-                    <div class="modal fade" id="1" tabindex="-1" role="dialog">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                                <div class="modal-body">
-                                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/1.jpg">
-                                </div>
-                                <div class="col-md-12 description">
-                                    <h4>This is the first one on my Gallery</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-                <div class="box">
-                    <a href="#" data-toggle="modal" data-target="#2">
-                        <img src="http://nabeel.co.in/files/bootsnipp/gallery/2.jpg">
-                    </a>
-                    <div class="modal fade" id="2" tabindex="-1" role="dialog">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                                <div class="modal-body">
-                                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/2.jpg">
-                                </div>
-                                <div class="col-md-12 description">
-                                    <h4>This is the second one on my Gallery</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-                <div class="box">
-                    <a href="#" data-toggle="modal" data-target="#16">
-                        <img src="http://nabeel.co.in/files/bootsnipp/gallery/16.jpg">
-                    </a>
-                    <div class="modal fade" id="16" tabindex="-1" role="dialog">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                                <div class="modal-body">
-                                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/16.jpg">
-                                </div>
-                                <div class="col-md-12 description">
-                                    <h4>This is the 16th one on my Gallery</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="modal micromodal-slide" id="modal-1" aria-hidden="true">
-        <div class="modal__overlay" tabindex="-1" data-micromodal-close>
-            <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
-                <header class="modal__header">
-                    <h2 class="modal__title" id="modal-1-title">
-                        Micromodal
-                    </h2>
-                    <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
-                </header>
-                <main class="modal__content" id="modal-1-content">
-                    <p>
-                        Try hitting the <code>tab</code> key and notice how the focus stays within the modal itself. Also, <code>esc</code> to close modal.
-                    </p>
-                </main>
-                <footer class="modal__footer">
-                    <button class="modal__btn modal__btn-primary">Continue</button>
-                    <button class="modal__btn" data-micromodal-close aria-label="Close this dialog window">Close</button>
-                </footer>
-            </div>
-        </div>
-    </div>
+    @Html.Action("RenderGallery", "Person", new { Model.Person })
     }
 
 <div class="modal fade" id="setFatherModal" data-url="@Url.Action("setPersonsRelative", "Person", new { personid = Model.Person.ID, relative = "father" })" tabindex="-1" role="dialog" aria-labelledby="setFatherModal" aria-hidden="true"></div>

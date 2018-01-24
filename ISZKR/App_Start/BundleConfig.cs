@@ -38,6 +38,10 @@ namespace ISZKR
                       "~/Content/navigation-style.css",
                       "~/Content/search-gallery-style.css",
                       "~/Content/funky-radio.css"));
+
+            bundles.Add(new ScriptBundle("~/Content/TableEdit").Include(
+                      "~/Scripts/TablesEdit.js",
+                      "~/Scripts/Moment.js"));
         }
     }
 }
