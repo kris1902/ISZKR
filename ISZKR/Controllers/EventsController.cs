@@ -58,8 +58,8 @@ namespace ISZKR.Controllers
                     if (true)   //Miejsce na sprawdzenie tożsamości użytkownika (czy może oglądać tą rzecz)
                     {
                         outsideViewModel.Events = events;
-
-                        outsideViewModel.PersonsListFromEvents = events.MainEventParticipants.ToList();
+                        outsideViewModel.MainPersonsListFromEvent = events.MainEventParticipants.ToList();
+                        outsideViewModel.PersonsListFromEvents = events.EventParticipants.ToList();
                         return View(outsideViewModel);
                     }
                     else
