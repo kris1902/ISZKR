@@ -185,6 +185,54 @@ img {
 	background-color: #333;
 }
 
+/* Edycja profilowego/usuwanie osoby */
+
+.family-tree-image .family-person-edit-group {
+    background: black;
+	display: block;
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+    margin-left: 0px;
+    margin-top: -93px;
+    height: 180px;
+    width: 180px;
+    font-size: 26px;
+}
+
+.family-tree-image:hover .family-person-edit-group {
+	display: block;
+}
+
+.family-tree-image .family-person-edit-group a.edit-person-photo {
+	color: #FFF;
+    padding-left: 19px;
+    padding-top: 40px;
+    padding-right: 4px;
+    padding-bottom: 30px;
+	float:left;
+	color: #999;
+}
+
+.family-tree-image .family-person-edit-group a.edit:hover {
+	color: #FFF;
+	background-color: #333;
+}
+
+.family-tree-image .family-person-edit-group a.person-delete {
+	color: #FFF;
+    padding-top: 29px;
+    padding-left: 10px;
+    padding-right: 13px;
+    padding-bottom: 30px;
+	float: left;
+	color: #999;
+}
+
+.family-tree-image .family-person-edit-group a.person-delete:hover {
+	color: #FFF;
+	background-color: #333;
+}
+
 /* Edycja dzieci */
 
 .family-tree-image .family-edit-group-small {

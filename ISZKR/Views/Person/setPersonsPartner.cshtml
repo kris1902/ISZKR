@@ -1,0 +1,53 @@
+﻿@model ISZKR.ViewModels.PersonsRelativeViewModel
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Ustaw małżonka</h4>
+        </div>
+        <div class="modal-body">
+            Aby ustawić małżonka dodaj nową osobę lub wybierz istniejącą:<br />
+            <h4>
+                @Html.ActionLink("Dodaj nową osobę", "Create", "Person", new { @class = "btn btn-success" })
+            </h4>
+            <h4>Wybierz z listy:</h4>
+            <div class="funkyradio">
+                <form id="radioform">
+                    @foreach (var person in Model.Person_list)
+                    {
+                        <div class="funkyradio-primary">
+                            <input type="radio" name="radio" id="radio-@person.ID" value="@person.ID" />
+                            <label for="radio-@person.ID">@person.Name @person.Surname</label>
+                        </div>
+                    }
+                    @if (Model.Person_list.Count == 0)
+                    {
+                        <h3>Brak osób do wybrania. Stwórz nową.</h3>
+                    }
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+            @Html.ActionLink("Skasuj", "DeletePartner", "Person", new { person_id = Model.person_id }, new { @id = "deletePartnerBtn", @class = "btn btn-danger" })
+            @Html.ActionLink("Zapisz", "EditPartner", "Person", new { person_id = Model.person_id }, new { @id = "savePartnerBtn", @class = "btn btn-primary" })
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#savePartnerBtn').click(function () {
+            var url = $('#savePartnerBtn').attr('href');
+            selected_person_id = $('input[name=radio]:checked', '#radioform').val()
+            if (selected_person_id != undefined) {
+                $('#savePartnerBtn').attr('href', url + '&partners_id=' + selected_person_id);
+            }
+            else {
+                $('#savePartnerBtn').attr('href', url + '&partners_id=' + "-1");
+            }
+
+        });
+    });
+</script>

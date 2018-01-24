@@ -1,0 +1,98 @@
+﻿@model ISZKR.ViewModels.OutsideViewModel
+
+@{
+    ViewBag.Title = Model.Events.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@**if (Request.IsAuthenticated)
+    {
+*@
+
+<div class="event-site-content">
+    <div class="basic-info col-sm-4">
+        <h1>@Model.Events.Title</h1>
+        <span class="event-start-date-info"><b>Początek</b> @Model.Events.StartDateTime</span><br />
+        <span class="event-end-date-info"><b>Koniec:</b> @Model.Events.EndDateTime</span><br />
+        <span class="event-place-info"><b>Miejsce: </b> @Model.Events.Place</span>
+    </div>
+
+    <!-- ############################## PANEL PODSTAWOWYCH UCZESTNIKÓW ############################## -->
+    <div class="participants-panels">
+        <div class="panel-group main-participants-panel  col-sm-4">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        Podstawowi uczestnicy
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    <a href="osoba1.html">Adam Kowalski, </a>
+                    <a href="#">Tomasz Styczeń, </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ############################## PANEL POZOSTAŁYCH UCZESTNIKÓW ############################## -->
+
+        <div class="panel-group other-participants-panel  col-sm-4">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        Inni uczestnicy
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    @*@for (var i=0; i < Model.Events.MainEventParticipants.Count(); i++)
+                    {
+                        Html.ActionLink(Model.Events.MainEventParticipants[i].Name + " " + Model.Events.MainEventParticipants[i].Surname, "Person", new { id = Model.Events.MainEventParticipants[i].ID })
+                    }*@
+
+                    @foreach (var e in Model.PersonsListFromEvents)
+                    {
+                        @:<a href="@Url.Action("Person", "Person", new { id = e.ID })">@e.Name @e.Surname</a>
+                    }
+                    <a href="#">Marek Adamiec, </a>
+                    <a href="#">Szymon Kowalski, </a>
+                    <a href="#">Renata Kowalska, </a>
+                    <a href="#">Maria Adamiec</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="description">
+
+        <h3>Opis</h3>
+        @Html.Raw(Model.Events.Content)
+    </div>
+
+    <h3>Zdjęcia</h3>
+    <section>
+        <div class="gal-container">
+            <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
+                <div class="box">
+                    <a href="#" data-toggle="modal" data-target="#1">
+                        <img src="http://nabeel.co.in/files/bootsnipp/gallery/1.jpg">
+                    </a>
+                    <div class="modal fade" id="1" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                <div class="modal-body">
+                                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/1.jpg">
+                                </div>
+                                <div class="col-md-12 description">
+                                    <h4>This is the first one on my Gallery</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+</div>
+
+}

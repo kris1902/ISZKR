@@ -131,6 +131,12 @@
             {
                 <a href="#"><img src="~/Content/Images/@Model.FamilyTreeViewModel.PersonPhotoURL" alt=""></a>
             }
+            <center>
+                <div class="family-person-edit-group">
+                    <a href="#" id="person-photo-edit" class="edit edit-person-photo" data-toggle="modal" data-target="#"><i class="glyphicon glyphicon-camera"></i></a>
+                    <a href="@Url.Action("DeletePerson", "Person", new { id = Model.Person.MothersID })" class="person-delete"><i class="glyphicon glyphicon-erase"></i></a>
+                </div>
+            </center>
         </div>
     </div>
 

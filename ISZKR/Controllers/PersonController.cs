@@ -502,12 +502,35 @@ namespace ISZKR.Controllers
         public ActionResult RenderGallery(Person p)
         {
             PersonGalleryViewModel vm = new PersonGalleryViewModel();
-            vm.person = p;
             using (var context = new ISZKRDbContext())
             {
-                
+                p = context.Person.Find(p.ID);
+                vm.person = p;
+                var result = getPhotosWithPerson(p.ID);
+                //var result = context.Photo.Where(photo => photo.Person.Contains(p)); //tu ma być znajdowanie where person contains p
+                foreach (var photo in result)
+                {
+                    vm.photos.Add(photo);
+                }
             }
             return PartialView("_PersonGallery", vm);
+        }
+
+        private List<Photo> getPhotosWithPerson(int personID)
+        {
+            List<Photo> photos_to_return = new List<Photo>();
+            using (var context = new ISZKRDbContext())
+            {
+                var list_of_photos_with_any_person = context.Photo.Where(photo => photo.Person.Any()).ToList();
+                foreach (var photo in list_of_photos_with_any_person)
+                {
+                    foreach(var person in photo.Person)
+                    {
+                        if (person.ID == personID) photos_to_return.Add(photo);
+                    }
+                }
+            }
+            return photos_to_return;
         }
 
         [HttpPost]
@@ -821,6 +844,17 @@ namespace ISZKR.Controllers
                     return lastID;
                 }
                 return 1;
+            }
+        }
+
+        public void setPersonsOnPhoto(Person person, Photo photo)
+        {
+            using (var context = new ISZKRDbContext())
+            {
+                person = context.Person.Find(person.ID);
+                photo = context.Photo.Find(photo.ID);
+                person.IsOnPhotos.Add(photo);
+                context.SaveChanges();
             }
         }
     }
