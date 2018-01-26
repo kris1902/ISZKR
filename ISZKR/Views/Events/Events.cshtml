@@ -25,11 +25,16 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         Podstawowi uczestnicy
+                        <a href="#" id="main-participants-edit" class="edit" data-toggle="modal" data-target="#editMainParticipants"><i class="glyphicon glyphicon-pencil"></i></a>
                     </h4>
                 </div>
                 <div class="panel-body">
-                    <a href="osoba1.html">Adam Kowalski, </a>
-                    <a href="#">Tomasz Styczeń, </a>
+                    @{ var comma = ", "; }
+                    @foreach (var e in Model.MainPersonsListFromEvent)
+                    {
+                        @:<a href="@Url.Action("Person", "Person", new { id = e.ID })">@e.Name @e.Surname@if (!e.Equals(Model.MainPersonsListFromEvent.Last()))
+                        {@comma}</a>
+                    }
                 </div>
             </div>
         </div>
@@ -41,22 +46,20 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         Inni uczestnicy
+                        <a href="#" id="participants-edit" class="edit" data-toggle="modal" data-target="#editParticipants"><i class="glyphicon glyphicon-pencil"></i></a>
                     </h4>
                 </div>
                 <div class="panel-body">
                     @*@for (var i=0; i < Model.Events.MainEventParticipants.Count(); i++)
-                    {
-                        Html.ActionLink(Model.Events.MainEventParticipants[i].Name + " " + Model.Events.MainEventParticipants[i].Surname, "Person", new { id = Model.Events.MainEventParticipants[i].ID })
-                    }*@
+                        {
+                            Html.ActionLink(Model.Events.MainEventParticipants[i].Name + " " + Model.Events.MainEventParticipants[i].Surname, "Person", new { id = Model.Events.MainEventParticipants[i].ID })
+                        }*@
 
                     @foreach (var e in Model.PersonsListFromEvents)
                     {
-                        @:<a href="@Url.Action("Person", "Person", new { id = e.ID })">@e.Name @e.Surname</a>
+                        @:<a href="@Url.Action("Person", "Person", new { id = e.ID })">@e.Name @e.Surname@if (!e.Equals(Model.MainPersonsListFromEvent.Last()))
+                        {@comma} </a>
                     }
-                    <a href="#">Marek Adamiec, </a>
-                    <a href="#">Szymon Kowalski, </a>
-                    <a href="#">Renata Kowalska, </a>
-                    <a href="#">Maria Adamiec</a>
                 </div>
             </div>
         </div>
@@ -96,3 +99,6 @@
 </div>
 
 }
+
+<div class="modal fade" id="editMainParticipants" data-url="@Url.Action("EditMainParticipants", "Events", new { eventsid = Model.Events.ID})" tabindex="-1" role="dialog" aria-labelledby="editMainParticipants" aria-hidden="true"></div>
+<div class="modal fade" id="editParticipants" data-url="@Url.Action("EditParticipants", "Events", new { eventsid = Model.Events.ID})" tabindex="-1" role="dialog" aria-labelledby="editParticipants" aria-hidden="true"></div>
