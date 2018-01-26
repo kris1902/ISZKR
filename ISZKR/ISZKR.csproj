@@ -354,6 +354,7 @@
     <Content Include="Views\Person\PersonTables.cshtml" />
     <Content Include="Views\Events\Events.cshtml" />
     <Content Include="Views\Person\_PersonGallery.cshtml" />
+    <Content Include="Views\Person\setPersonsPhoto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

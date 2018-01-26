@@ -256,6 +256,21 @@ namespace ISZKR.Controllers
             return vm;
         }
 
+        public ActionResult setPersonsPhoto(int personID)
+        {
+            PersonGalleryViewModel vm = new PersonGalleryViewModel();
+            using (var context = new ISZKRDbContext())
+            {
+                vm.person = context.Person.Find(personID);
+                var result = getPhotosWithPerson(personID);
+                foreach (var photo in result)
+                {
+                    vm.photos.Add(photo);
+                }
+            }
+            return PartialView("setPersonsPhoto", vm);
+        }
+
         [HttpGet]
         public ActionResult setPersonsRelative(int personid, string relative)
         {
@@ -346,9 +361,6 @@ namespace ISZKR.Controllers
                 default:
                     return null;
             }
-
-
-
         }
 
         [HttpGet]
@@ -856,6 +868,77 @@ namespace ISZKR.Controllers
                 person.IsOnPhotos.Add(photo);
                 context.SaveChanges();
             }
+        }
+
+        public RedirectResult editPersonsPhoto(int personID, int photoID)
+        {
+            if (photoID == -1) return Redirect("/Person/" + personID);
+            if (photoID == 0)
+            {
+                using (var context = new ISZKRDbContext())
+                {
+                    context.Person.Find(personID).PhotoURL = null;
+                    context.SaveChanges();
+                    return Redirect("/Person/" + personID);
+                }
+            }
+            using (var context = new ISZKRDbContext())
+            {
+                context.Person.Find(personID).PhotoURL = context.Photo.Find(photoID).Path;
+                context.SaveChanges();
+                return Redirect("/Person/" + personID);
+            }
+        }
+
+        public RedirectToRouteResult deletePerson(int person_id)
+        {
+            using (var context = new ISZKRDbContext())
+            {
+                Person person = context.Person.Find(person_id);
+                //Usuwanie osoby z pola partnera jej partnera
+                if (person.PartnerID != 0)
+                {
+                    context.Person.Find(person.PartnerID).PartnerID = 0;
+                }
+                //Usuwanie osoby z pola matki/ojca dzieci
+                if (person.Gender == "K")
+                {
+                    foreach (var kid in context.Person.Where(p => p.MothersID == person.ID).ToList())
+                    {
+                        kid.MothersID = 0;
+                    }
+                }
+                else
+                {
+                    foreach (var kid in context.Person.Where(p => p.FathersID == person.ID).ToList())
+                    {
+                        kid.FathersID = 0;
+                    }
+                }
+                //Usuwanie z tabel
+                foreach (var edu in context.EducationHistory.Where(e => e.Person.ID == person.ID).ToList())
+                {
+                    context.EducationHistory.Remove(edu);
+                }
+                foreach (var pro in context.ProfessionHistory.Where(p => p.Person.ID == person.ID).ToList())
+                {
+                    context.ProfessionHistory.Remove(pro);
+                }
+                foreach (var res in context.ResidenceHistory.Where(r => r.Person.ID == person.ID).ToList())
+                {
+                    context.ResidenceHistory.Remove(res);
+                }
+                //Usuwanie ze zdjęć
+                foreach (var photo in getPhotosWithPerson(person.ID))
+                {
+                    photo.Person.Remove(person);
+                }
+
+                //Usuwanie osoby
+                context.Person.Remove(person);
+                context.SaveChanges();
+            }
+            return RedirectToAction("Index", "Home");
         }
     }
 }

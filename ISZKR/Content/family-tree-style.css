@@ -185,30 +185,30 @@ img {
 	background-color: #333;
 }
 
-/* Edycja profilowego/usuwanie osoby */
+/* Edycja zdjęcia profilowego/usuwanie osoby */
 
 .family-tree-image .family-person-edit-group {
     background: black;
-	display: block;
+	display: none;
     opacity: 0.7;
     filter: alpha(opacity=70);
     margin-left: 0px;
-    margin-top: -93px;
-    height: 180px;
-    width: 180px;
+    margin-top: -150px;
+    height: 150px;
+    width: 150px;
     font-size: 26px;
 }
 
 .family-tree-image:hover .family-person-edit-group {
-	display: block;
+	display: inherit;
 }
 
 .family-tree-image .family-person-edit-group a.edit-person-photo {
 	color: #FFF;
-    padding-left: 19px;
-    padding-top: 40px;
-    padding-right: 4px;
-    padding-bottom: 30px;
+    padding-left: 35px;
+    padding-top: 60px;
+    padding-right: 15px;
+    padding-bottom: 53px;
 	float:left;
 	color: #999;
 }
@@ -220,17 +220,27 @@ img {
 
 .family-tree-image .family-person-edit-group a.person-delete {
 	color: #FFF;
-    padding-top: 29px;
-    padding-left: 10px;
-    padding-right: 13px;
-    padding-bottom: 30px;
+    padding-top: 60px;
+    padding-left: 15px;
+    padding-right: 33px;
+    padding-bottom: 53px;
 	float: left;
 	color: #999;
 }
 
 .family-tree-image .family-person-edit-group a.person-delete:hover {
-	color: #FFF;
+	color: #e21c02;
 	background-color: #333;
+}
+
+.person-photo-choose-radio {
+	height: 150px;
+	width: 150px;
+}
+
+.person-photo-choose {
+	height: 100px;
+	width: 100px;
 }
 
 /* Edycja dzieci */
@@ -316,6 +326,48 @@ img {
 	
 	.close-relatives-panel {
 		display: inherit;
+	}
+	
+	
+.family-tree-image .family-person-edit-group {
+    background: black;
+	display: none;
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+    margin-left: 0px;
+    margin-top: -120px;
+    height: 120px;
+    width: 120px;
+    font-size: 26px;
+}
+
+	.family-tree-image:hover .family-person-edit-group {
+		display: inherit;
+	}
+
+	.family-tree-image .family-person-edit-group a.edit-person-photo {
+		color: #FFF;
+		padding-left: 25px;
+		padding-top: 43px;
+		padding-right: 10px;
+		padding-bottom: 40px;
+		float:left;
+		color: #999;
+	}
+
+	.family-tree-image .family-person-edit-group a.edit:hover {
+		color: #FFF;
+		background-color: #333;
+	}
+
+	.family-tree-image .family-person-edit-group a.person-delete {
+		color: #FFF;
+		padding-top: 43px;
+		padding-left: 10px;
+		padding-right: 23px;
+		padding-bottom: 40px;
+		float: left;
+		color: #999;
 	}
 
 }

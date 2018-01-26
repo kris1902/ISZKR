@@ -1,8 +1,7 @@
 ﻿@*
     TO DO:
         2.Dodawanie osoby - nowa strona z początkowymi danymi do uzupełnienia. W miarę możliwości pamiętanie członka jakim nowa osoba ma być dla tej z którego poziomu dodajemy osobę.
-        4.Wyświetlanie, dodawanie zdjęć.
-        5.Ustawienie profilowego dla osoby. (przekierowanie do modala z miniaturkami zdjęć na których jest i tam wybór)
+        4.Dodawanie zdjęć.
         6.Autentykacja dostępu do kroniki (role?)
         
 *@
@@ -133,9 +132,9 @@
             }
             <center>
                 <div class="family-person-edit-group">
-                    <a href="#" id="person-photo-edit" class="edit edit-person-photo" data-toggle="modal" data-target="#"><i class="glyphicon glyphicon-camera"></i></a>
-                    <a href="@Url.Action("DeletePerson", "Person", new { id = Model.Person.MothersID })" class="person-delete"><i class="glyphicon glyphicon-erase"></i></a>
-                </div>
+                    <a href="#" id="person-photo-edit" class="edit edit-person-photo" data-toggle="modal" data-target="#PersonsPhotoModal"><i class="glyphicon glyphicon-camera"></i></a>
+                    <a href="#" id="person-delete" class="person-delete" data-toggle="modal" data-target="#deletePersonModal" onclick="onPersonDeleteClick(@Model.Person.ID)"><i class="glyphicon glyphicon-erase"></i></a>
+</div>
             </center>
         </div>
     </div>
@@ -387,6 +386,7 @@
 <div class="modal fade" id="setMotherModal" data-url="@Url.Action("setPersonsRelative", "Person", new { personid = Model.Person.ID, relative = "mother" })" tabindex="-1" role="dialog" aria-labelledby="setMotherModal" aria-hidden="true"></div>
 <div class="modal fade" id="setPartnerModal" data-url="@Url.Action("setPersonsRelative", "Person", new { personid = Model.Person.ID, relative = "partner" })" tabindex="-1" role="dialog" aria-labelledby="setPartnerModal" aria-hidden="true"></div>
 <div class="modal fade" id="setKidModal" data-url="@Url.Action("setPersonsRelative", "Person", new { personid = Model.Person.ID, relative = "kid" })" tabindex="-1" role="dialog" aria-labelledby="setKidModal" aria-hidden="true"></div>
+<div class="modal fade" id="PersonsPhotoModal" data-url="@Url.Action("setPersonsPhoto", "Person", new { personid = Model.Person.ID })" tabindex="-1" role="dialog" aria-labelledby="PersonsPhotoModal" aria-hidden="true"></div>
 
 <div class="modal fade" id="deleteKidModal" tabindex="-1" role="dialog" aria-labelledby="deleteKidModal" aria-hidden="true">
     <div class="modal-dialog modal-sm">
@@ -397,6 +397,21 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
                 @Html.ActionLink("Skasuj", "DeleteKid", "Person", new { person_id = Model.Person.ID }, new { @id = "deleteKidBtn", @class = "btn btn-danger" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deletePersonModal" tabindex="-1" role="dialog" aria-labelledby="deletePersonModal" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h3>Czy na pewno chcesz skasować tę osobę?</h3>
+                <p>Usunięcie jest nieodwracalne...</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                @Html.ActionLink("Skasuj", "DeletePerson", "Person", new { person_id = Model.Person.ID }, new { @id = "deletePersonBtn", @class = "btn btn-danger" })
             </div>
         </div>
     </div>

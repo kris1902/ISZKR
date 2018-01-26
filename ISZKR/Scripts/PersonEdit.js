@@ -107,3 +107,14 @@ $(document).ready(function () {
 function onKidDeleteClick(kid_id) {
     $('#deleteKidBtn').attr('href', $('#deleteKidBtn').attr('href') + '&kids_id=' + kid_id);
 };
+
+$(document).ready(function () {
+    $('#person-photo-edit').click(function () {
+        var url = $('#deletePersonBtn').data('url');
+
+        $.get(url, function (data) {
+            $('#deletePersonBtn').html(data);
+            $('#deletePersonBtn').modal('show');
+        });
+    });
+});
