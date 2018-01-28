@@ -126,7 +126,7 @@
 /* Gallery edit */
 
 .add-photo {
-    color: #99999999;
+    color: #999999;
     font-size: 70px;
 }
 
@@ -134,4 +134,8 @@
     color: #3281ff;
     font-size: 64px;
 	background: #eaeaea;
+}
+
+div.button-group.buttons.col-xs-2 {
+    margin-top: 150px;
 }

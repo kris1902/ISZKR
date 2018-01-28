@@ -29,6 +29,7 @@ namespace ISZKR.Controllers
                     {
                         outsideViewModel.Person = person;
                         outsideViewModel.FamilyTreeViewModel = BuildFamilyTree(id);
+                        outsideViewModel.PersonPanelsViewModel = BuildPanels(id);
                         return View(outsideViewModel);
                     }
                     else
@@ -254,6 +255,100 @@ namespace ISZKR.Controllers
                                      select p.PhotoURL).SingleOrDefault();
             }
             return vm;
+        }
+
+        private PersonPanelsViewModel BuildPanels(int personID)
+        {
+            PersonPanelsViewModel vm = new PersonPanelsViewModel();
+            vm.PersonOnEvents = getEventsWithPerson(personID);
+            using (var context = new ISZKRDbContext())
+            {
+                Person person = context.Person.Find(personID);
+                vm.PersonSiblings = getSiblingsList(person);
+                vm.PersonAuntUncle = getAuntUncleList(person);
+                vm.PersonCousins = getCousinsList(person);
+            }
+            return vm;
+        }
+
+        private List<Person> getSiblingsList(Person person)
+        {
+            List<Person> siblings = new List<Person>();
+            using (var context = new ISZKRDbContext())
+            {
+                if (person.FathersID != 0)
+                {
+                    siblings = context.Person.Where(p => p.FathersID == person.FathersID).ToList();
+                }
+                if (person.MothersID != 0)
+                {
+                    foreach (var sibling in context.Person.Where(p => p.MothersID == person.MothersID).ToList())
+                    {
+                        if (!siblings.Contains(sibling))
+                        {
+                            siblings.Add(sibling);
+                        }
+                    }
+                }
+            }
+            if (siblings.Any(p => p.ID == person.ID))
+            {
+                siblings.RemoveAll(p => p.ID == person.ID);
+            }
+            return siblings;
+        }
+
+        private List<Person> getAuntUncleList(Person person)
+        {
+            List<Person> auntuncle = new List<Person>();
+            using (var context = new ISZKRDbContext())
+            {
+                Person mother = context.Person.Find(person.MothersID);
+                Person father = context.Person.Find(person.FathersID);
+                if (father != null)
+                {
+                    auntuncle = getSiblingsList(father);
+                    if (auntuncle.Any(p => p.ID == father.ID))
+                    {
+                        auntuncle.RemoveAll(p => p.ID == father.ID);
+                    }
+                }
+                if (mother != null)
+                {
+                    auntuncle.Concat(getSiblingsList(mother));
+                    if (auntuncle.Any(p => p.ID == mother.ID))
+                    {
+                        auntuncle.RemoveAll(p => p.ID == mother.ID);
+                    }
+                }
+            }
+            return auntuncle;
+        }
+
+        private List<Person> getCousinsList(Person person)
+        {
+            List<Person> cousins = new List<Person>();
+            using (var context = new ISZKRDbContext())
+            {
+                List<Person> auntuncleList = getAuntUncleList(person);
+                foreach(Person auntuncle in auntuncleList)
+                {
+                    if (cousins.Count == 0)
+                    {
+                        cousins = ((from p in context.Person
+                                    where p.FathersID == auntuncle.ID || p.MothersID == auntuncle.ID
+                                    select p).ToList());
+                    }
+                    else
+                    {
+                        cousins.Concat((from p in context.Person
+                                    where p.FathersID == auntuncle.ID || p.MothersID == auntuncle.ID
+                                    select p).ToList());
+                    }
+                }
+
+            }
+            return cousins;
         }
 
         public ActionResult setPersonsPhoto(int personID)
@@ -519,7 +614,6 @@ namespace ISZKR.Controllers
                 p = context.Person.Find(p.ID);
                 vm.person = p;
                 var result = getPhotosWithPerson(p.ID);
-                //var result = context.Photo.Where(photo => photo.Person.Contains(p)); //tu ma być znajdowanie where person contains p
                 foreach (var photo in result)
                 {
                     vm.photos.Add(photo);
@@ -543,6 +637,31 @@ namespace ISZKR.Controllers
                 }
             }
             return photos_to_return;
+        }
+
+        private List<Events> getEventsWithPerson(int personID)
+        {
+            List<Events> events_to_return = new List<Events>();
+            using (var context = new ISZKRDbContext())
+            {
+                var list_of_events_with_any_person = context.Events.Where(e => e.MainEventParticipants.Any()).ToList();
+                foreach (var events in list_of_events_with_any_person)
+                {
+                    foreach (var person in events.MainEventParticipants)
+                    {
+                        if (person.ID == personID) events_to_return.Add(events);
+                    }
+                }
+                list_of_events_with_any_person = context.Events.Where(e => e.EventParticipants.Any()).ToList();
+                foreach (var events in list_of_events_with_any_person)
+                {
+                    foreach (var person in events.MainEventParticipants)
+                    {
+                        if (person.ID == personID) events_to_return.Add(events);
+                    }
+                }
+            }
+            return events_to_return;
         }
 
         [HttpPost]

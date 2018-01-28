@@ -27,7 +27,10 @@ namespace ISZKR
                       "~/Scripts/respond.js"));
 
             bundles.Add(new ScriptBundle("~/Content/js").Include(
-                      "~/Scripts/moment.js"));
+                      "~/Scripts/moment.js",
+                      "~/Scripts/PersonEdit.js",
+                      "~/Scripts/PhotoEdit.js",
+                      "~/Scripts/EventsEdit.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

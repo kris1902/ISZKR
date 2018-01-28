@@ -199,6 +199,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
+    <Compile Include="Controllers\PhotoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -249,6 +250,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\EducationHistory.cs" />
     <Compile Include="Models\Events.cs" />
+    <Compile Include="Models\FileModel.cs" />
     <Compile Include="Models\Photo.cs" />
     <Compile Include="Models\ProfessionHistory.cs" />
     <Compile Include="Models\ResidenceHistory.cs" />
@@ -262,18 +264,30 @@
     <Compile Include="ViewModels\FamilyTreeViewModel.cs" />
     <Compile Include="ViewModels\OutsideViewModel.cs" />
     <Compile Include="ViewModels\PersonGalleryViewModel.cs" />
+    <Compile Include="ViewModels\PersonPanelsViewModel.cs" />
     <Compile Include="ViewModels\PersonsRelativeViewModel.cs" />
     <Compile Include="ViewModels\PersonTablesViewModel.cs" />
+    <Compile Include="ViewModels\PhotoViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\edit-style.css" />
+    <Content Include="Content\family-tree-style.css" />
+    <Content Include="Content\funky-radio.css" />
+    <Content Include="Content\gallery-style.css" />
     <Content Include="Content\Images\idubiel.jpg" />
     <Content Include="Content\Images\kdubiel.jpg" />
     <Content Include="Content\Images\person.jpg" />
     <Content Include="Content\Images\tdubiel.jpg" />
+    <Content Include="Content\iszkr-small-scripts.js" />
+    <Content Include="Content\moment.js" />
+    <Content Include="Content\navigation-style.css" />
+    <Content Include="Content\search-gallery-style.css" />
+    <Content Include="Content\style.css" />
+    <Content Include="Content\tables-edit.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -289,9 +303,11 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="Properties\PublishProfiles\ISZKR20180127110704 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\EventsEdit.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
     <Content Include="Scripts\jquery-3.2.1.slim.js" />
@@ -306,6 +322,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\PersonEdit.js" />
+    <Content Include="Scripts\PhotoEdit.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
@@ -355,6 +372,7 @@
     <Content Include="Views\Events\Events.cshtml" />
     <Content Include="Views\Person\_PersonGallery.cshtml" />
     <Content Include="Views\Person\setPersonsPhoto.cshtml" />
+    <Content Include="Views\Photo\_PersonsOnPhotoEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

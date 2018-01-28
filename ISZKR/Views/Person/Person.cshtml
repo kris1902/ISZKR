@@ -133,7 +133,7 @@
             <center>
                 <div class="family-person-edit-group">
                     <a href="#" id="person-photo-edit" class="edit edit-person-photo" data-toggle="modal" data-target="#PersonsPhotoModal"><i class="glyphicon glyphicon-camera"></i></a>
-                    <a href="#" id="person-delete" class="person-delete" data-toggle="modal" data-target="#deletePersonModal" onclick="onPersonDeleteClick(@Model.Person.ID)"><i class="glyphicon glyphicon-erase"></i></a>
+                    <a href="#" id="person-delete" class="person-delete" data-toggle="modal" data-target="#deletePersonModal"><i class="glyphicon glyphicon-erase"></i></a>
 </div>
             </center>
         </div>
@@ -213,26 +213,35 @@
                     <div id="other-relatives-collapse" class="panel-collapse collapse">
                         <div class="panel-body">
                             Rodzeństwo:
-                            <a href="#">Milena Kowalska-Rak </a>
+                            @if (Model.PersonPanelsViewModel.PersonSiblings.Count == 0)
+                            {
+                                @:Brak
+                            }
+                            @foreach (var sibling in Model.PersonPanelsViewModel.PersonSiblings)
+                            {
+                                @Html.ActionLink(sibling.Name+" "+sibling.Surname + " ", "Person", "Person", new { id = sibling.ID }, new { })
+                            }
                             <br />
                             Stryjostwo/Wujostwo:
-                            <a href="#">Zenon Adamiec </a>
-                            <a href="#">Tomasz Styczeń </a>
-                            <a href="#">Zbigniew Adamiec </a>
+                            @if (Model.PersonPanelsViewModel.PersonAuntUncle.Count == 0)
+                            {
+                                @:Brak
+                            }
+                            @foreach (var auntuncle in Model.PersonPanelsViewModel.PersonAuntUncle)
+                            {
+                                @Html.ActionLink(auntuncle.Name + " " + auntuncle.Surname + " ", "Person", "Person", new { id = auntuncle.ID }, new { })
+                            }
                             <br />
                             Kuzynostwo:
-                            <a href="#">Marek Adamiec </a>
-                            <a href="#">Szymon Kowalski </a>
-                            <a href="#">Renata Kowalska </a>
-                            <a href="#">Maria Adamiec </a>
+                            @if (Model.PersonPanelsViewModel.PersonCousins.Count == 0)
+                            {
+                                @:Brak
+                            }
+                            @foreach (var cousin in Model.PersonPanelsViewModel.PersonCousins)
+                            {
+                                @Html.ActionLink(cousin.Name + " " + cousin.Surname + " ", "Person", "Person", new { id = cousin.ID }, new { })
+                            }
                             <br />
-                            Teściowie:
-                            <a href="#">Roman Zioło </a>
-                            <a href="#">Maria Zioło </a>
-                            <br />
-                            Szwagrowie/Szwagierki:
-                            <a href="#">Teresa Wilk </a>
-                            <a href="#">Marlena Zioło </a>
                         </div>
                     </div>
                 </div>
@@ -250,11 +259,14 @@
                     <div id="linked-events-collapse" class="panel-collapse collapse">
                         <div class="panel-body">
                             <ul>
-                                <li><a href="zdarzenie1.html">Przykładowe zdarzenie</a></li>
-                                <li><a href="#">Urodziny Adama w Parku 2008</a></li>
-                                <li><a href="#">Ślub Adama i Anety</a></li>
-                                <li><a href="#">Urodziny Adama 2004</a></li>
-                                <li><a href="#">Trzydziestka Adama</a></li>
+                                @if (Model.PersonPanelsViewModel.PersonOnEvents.Count == 0)
+                                {
+                                    @:Brak zdarzeń do wyświetlenia
+                                }
+                                @foreach (var events in Model.PersonPanelsViewModel.PersonOnEvents)
+                                {
+                                    <li>@Html.ActionLink(events.Title, "Events", "Events", new { id = events.ID }, new { })</li>
+                                }
                             </ul>
                         </div>
                     </div>
@@ -417,4 +429,43 @@
     </div>
 </div>
 
+<div class="modal fade" id="UploadFilesModal" tabindex="-1" role="dialog" aria-labelledby="UploadFilesModal" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                Dodaj zdjęcia
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("UploadFiles", "Photo", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.FileModel, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div>
+                                @Html.TextBoxFor(model => model.FileModel, "", new { @type = "file", @multiple = "multiple" })
+                                @Html.ValidationMessageFor(model => model.FileModel, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10 text-success">
+                                @ViewBag.UploadStatus
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                    <input type="submit" value="Prześlij" class="btn btn-primary" />
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
 @Scripts.Render("~/Scripts/PersonEdit.js")
+@Scripts.Render("~/Scripts/PhotoEdit.js")

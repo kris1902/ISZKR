@@ -1,11 +1,4 @@
-﻿//person_name.onclick = function () {
-//    overlay.style.display = "inherit";
-//    person_name.style.display = "none";
-//    person_name_edit_txt.value = person_name.firstChild.textContent;
-//    person_name_edit.style.display = "inherit";
-//}
-
-$('#person-name').click(function () {
+﻿$('#person-name').click(function () {
     $(this).css('display', 'none');
     $('form#name-edit-form').css('display', 'inline-block');
 })
@@ -14,7 +7,7 @@ function successEditPersonName(data) {
     if (data.result === "success") {
         $('form#name-edit-form').css('display', 'none');
         $('#person-name').text($('#person-name-edit-textbox').val() + " " + $('#person-surname-edit-textbox').val());
-        $('#person-familyname').text($('#person-familyname-edit-textbox').val());   //coś nie dziala
+        $('#person-familyname').text($('#person-familyname-edit-textbox').val());
         $('#person-name').css('display', 'inherit');
     }
 }
@@ -110,11 +103,11 @@ function onKidDeleteClick(kid_id) {
 
 $(document).ready(function () {
     $('#person-photo-edit').click(function () {
-        var url = $('#deletePersonBtn').data('url');
+        var url = $('#PersonsPhotoModal').data('url');
 
         $.get(url, function (data) {
-            $('#deletePersonBtn').html(data);
-            $('#deletePersonBtn').modal('show');
+            $('#PersonsPhotoModal').html(data);
+            $('#PersonsPhotoModal').modal('show');
         });
     });
 });

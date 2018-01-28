@@ -17,6 +17,30 @@ form#name-edit-form {
     z-index: 999;
 }
 
+form#title-edit-form {
+    display: none;
+    position: relative;
+    z-index: 999;
+}
+
+form#events-start-edit {
+    display: none;
+    position: relative;
+    z-index: 999;
+}
+
+form#events-end-edit {
+    display: none;
+    position: relative;
+    z-index: 999;
+}
+
+form#place-edit-form {
+    display: none;
+    position: relative;
+    z-index: 999;
+}
+
 input#person-name-edit-textbox,
 input#person-surname-edit-textbox,
 input#person-familyname-edit-textbox {
@@ -26,9 +50,9 @@ input#person-familyname-edit-textbox {
 	color: gray;
 }
 
-#name-edit-form {
+/*#name-edit-form {
 	display: inline-block;
-}
+}*/
 
 button#person-name-edit-btn {
 	margin-bottom: 7px;

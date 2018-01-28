@@ -12,10 +12,47 @@
 
 <div class="event-site-content">
     <div class="basic-info col-sm-4">
-        <h1>@Model.Events.Title</h1>
-        <span class="event-start-date-info"><b>Początek</b> @Model.Events.StartDateTime</span><br />
-        <span class="event-end-date-info"><b>Koniec:</b> @Model.Events.EndDateTime</span><br />
-        <span class="event-place-info"><b>Miejsce: </b> @Model.Events.Place</span>
+
+        <h1 id="events-title">@Model.Events.Title</h1>
+        @using (Ajax.BeginForm("EditTitle", "Events", new { },
+                    new AjaxOptions { OnSuccess = "successEditEventsTitle(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "title-edit-form" }))
+        {
+            @Html.HiddenFor(Model => Model.Events.ID)
+            @Html.EditorFor(Model => Model.Events.Title, new { htmlAttributes = new { @id = "events-title-edit-textbox" } })
+            <button class="btn btn-success events-title-edit-btn" id="events-title-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
+        }
+
+        <span id="events-start"><b>Początek</b> @Model.Events.StartDateTime</span><br />
+        <!--EDIT -->
+        @using (Ajax.BeginForm("EditStart", "Events", new { },
+                    new AjaxOptions { OnSuccess = "successEditEventsStart(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "events-start-edit" }))
+        {
+            @Html.HiddenFor(Model => Model.Events.ID)
+            @Html.EditorFor(Model => Model.Events.StartDateTime, new { htmlAttributes = new { @id = "events-start-edit-date" } })
+            <button class="btn btn-success events-start-edit-btn" id="events-start-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
+        }
+        <br />
+
+        <span id="events-end"><b>Koniec:</b> @Model.Events.EndDateTime</span><br />
+        <!--EDIT -->
+        @using (Ajax.BeginForm("EditEnd", "Events", new { },
+                        new AjaxOptions { OnSuccess = "successEditEventsEnd(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "events-end-edit" }))
+        {
+            @Html.HiddenFor(Model => Model.Events.ID)
+            @Html.EditorFor(Model => Model.Events.EndDateTime, new { htmlAttributes = new { @id = "events-end-edit-date" } })
+            <button class="btn btn-success events-end-edit-btn" id="events-end-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
+        }
+        <br />
+
+        <span id="events-place"><b>Miejsce: </b> @Model.Events.Place</span>
+        @using (Ajax.BeginForm("EditPlace", "Events", new { },
+                        new AjaxOptions { OnSuccess = "successEditEventsPlace(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "place-edit-form" }))
+        {
+            @Html.HiddenFor(Model => Model.Events.ID)
+            @Html.EditorFor(Model => Model.Events.Place, new { htmlAttributes = new { @id = "events-place-edit-textbox" } })
+            <button class="btn btn-success events-place-edit-btn" id="events-place-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
+        }
+
     </div>
 
     <!-- ############################## PANEL PODSTAWOWYCH UCZESTNIKÓW ############################## -->
@@ -102,3 +139,6 @@
 
 <div class="modal fade" id="editMainParticipants" data-url="@Url.Action("EditMainParticipants", "Events", new { eventsid = Model.Events.ID})" tabindex="-1" role="dialog" aria-labelledby="editMainParticipants" aria-hidden="true"></div>
 <div class="modal fade" id="editParticipants" data-url="@Url.Action("EditParticipants", "Events", new { eventsid = Model.Events.ID})" tabindex="-1" role="dialog" aria-labelledby="editParticipants" aria-hidden="true"></div>
+
+
+@Scripts.Render("~/Scripts/EventsEdit.js")

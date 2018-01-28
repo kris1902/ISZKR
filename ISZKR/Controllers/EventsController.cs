@@ -96,7 +96,7 @@ namespace ISZKR.Controllers
         //}
 
         [HttpPost]
-        public ActionResult EditTitleAndPlace(OutsideViewModel outsideViewModel)
+        public ActionResult EditTitle(OutsideViewModel outsideViewModel)
         {
             try
             {
@@ -105,7 +105,90 @@ namespace ISZKR.Controllers
                     Events events = context.Events.Find(outsideViewModel.Events.ID);
 
                     events.Title = outsideViewModel.Events.Title;
+
+                    context.Set<Events>().Attach(events);
+                    context.Entry(events).State = System.Data.Entity.EntityState.Modified;
+
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return Json(new
+            {
+                result = "success"
+            });
+        }
+
+        [HttpPost]
+        public ActionResult EditPlace(OutsideViewModel outsideViewModel)
+        {
+            try
+            {
+                using (var context = new ISZKRDbContext())
+                {
+                    Events events = context.Events.Find(outsideViewModel.Events.ID);
+
                     events.Place = outsideViewModel.Events.Place;
+
+                    context.Set<Events>().Attach(events);
+                    context.Entry(events).State = System.Data.Entity.EntityState.Modified;
+
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return Json(new
+            {
+                result = "success"
+            });
+        }
+
+        [HttpPost]
+        public ActionResult EditStart(OutsideViewModel outsideViewModel)
+        {
+            try
+            {
+                using (var context = new ISZKRDbContext())
+                {
+                    Events events = context.Events.Find(outsideViewModel.Events.ID);
+
+                    events.StartDateTime = outsideViewModel.Events.StartDateTime;
+
+                    context.Set<Events>().Attach(events);
+                    context.Entry(events).State = System.Data.Entity.EntityState.Modified;
+
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return Json(new
+            {
+                result = "success"
+            });
+        }
+
+        [HttpPost]
+        public ActionResult EditEnd(OutsideViewModel outsideViewModel)
+        {
+            try
+            {
+                using (var context = new ISZKRDbContext())
+                {
+                    Events events = context.Events.Find(outsideViewModel.Events.ID);
+
+                    events.EndDateTime = outsideViewModel.Events.EndDateTime;
 
                     context.Set<Events>().Attach(events);
                     context.Entry(events).State = System.Data.Entity.EntityState.Modified;

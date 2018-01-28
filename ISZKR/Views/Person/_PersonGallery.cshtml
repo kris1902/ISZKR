@@ -5,12 +5,11 @@
 <section>
     <div class="gal-container">
 
-        <a href="#" class="col-md-4 col-sm-6 co-xs-12 gal-item add-photo"><center><i class="glyphicon glyphicon-plus-sign"></i></center></a>
-        @*@Html.ActionLink("<i class='glyphicon glyphicon-plus-sign'></i>", "setPersonsOnPhoto", "Person", new { person = Model.person, photo = Model.photo }, new { @class="col-md-4 col-sm-6 co-xs-12 gal-item add-photo" })*@
+        <a href="#" id="person-delete" class="person-delete col-md-4 col-sm-6 co-xs-12 gal-item add-photo" data-toggle="modal" data-target="#UploadFilesModal"><center><i class="glyphicon glyphicon-plus-sign"></i></center></a>
 
         @foreach (var photo in Model.photos)
         {
-            <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
+            <div class="col-md-4 col-sm-6 co-xs-12 gal-item" >
                 <div class="box">
                     <a href="#" data-toggle="modal" data-target="#@photo.ID">
                         <img src="~/Content/Images/@photo.Path">
@@ -24,8 +23,9 @@
                                 </div>
                                 <div class="col-md-12 description">
                                     @photo.Description
-                                    <button id="delete-photo" class="btn btn-xs btn-danger pull-right"><i class="glyphicon glyphicon-erase"></i></button>
-                                    <button id="edit-people" class="btn btn-xs btn-primary pull-right"><i class="glyphicon glyphicon-user"></i></button>
+                                    @{ string fun = "editPersonsOnPhotoClick_" + photo.ID + "()"; }
+                                    <button id="delete-photo" class="btn btn-xs btn-danger pull-right" data-toggle="modal" data-dismiss="modal" data-target="#deletePhotoModal-@photo.ID"><i class="glyphicon glyphicon-erase"></i>Usuń zdjęcie</button>
+                                    <button id="edit-persons-on-photo" onclick="@fun" class="btn btn-xs btn-primary pull-right" data-toggle="modal" data-dismiss="modal" data-target="#PersonsOnPhotoEdit-@photo.ID"><i class="glyphicon glyphicon-user"></i>Edytuj osoby na zdjęciu</button>
                                 </div>
                             </div>
                         </div>
@@ -33,89 +33,41 @@
                 </div>
             </div>
         }
-        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-            <div class="box">
-                <a href="#" data-toggle="modal" data-target="#1">
-                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/1.jpg">
-                </a>
-                <div class="modal fade" id="1" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                            <div class="modal-body">
-                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/1.jpg">
-                            </div>
-                            <div class="col-md-12 description">
-                                This is the first one on my Gallery <!-- description -->
-                                <button id="delete-photo" class="btn btn-xs btn-danger pull-right"><i class="glyphicon glyphicon-erase"></i></button>
-                                <button id="edit-people" class="btn btn-xs btn-primary pull-right"><i class="glyphicon glyphicon-user"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-            <div class="box">
-                <a href="#" data-toggle="modal" data-target="#2">
-                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/2.jpg">
-                </a>
-                <div class="modal fade" id="2" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                            <div class="modal-body">
-                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/2.jpg">
-                            </div>
-                            <div class="col-md-12 description">
-                                <h4>This is the second one on my Gallery</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-            <div class="box">
-                <a href="#" data-toggle="modal" data-target="#16">
-                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/16.jpg">
-                </a>
-                <div class="modal fade" id="16" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                            <div class="modal-body">
-                                <img src="http://nabeel.co.in/files/bootsnipp/gallery/16.jpg">
-                            </div>
-                            <div class="col-md-12 description">
-                                <h4>This is the 16th one on my Gallery</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </section>
 
-<div class="modal micromodal-slide" id="modal-1" aria-hidden="true">
-    <div class="modal__overlay" tabindex="-1" data-micromodal-close>
-        <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
-            <header class="modal__header">
-                <h2 class="modal__title" id="modal-1-title">
-                    Micromodal
-                </h2>
-                <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
-            </header>
-            <main class="modal__content" id="modal-1-content">
-                <p>
-                    Try hitting the <code>tab</code> key and notice how the focus stays within the modal itself. Also, <code>esc</code> to close modal.
-                </p>
-            </main>
-            <footer class="modal__footer">
-                <button class="modal__btn modal__btn-primary">Continue</button>
-                <button class="modal__btn" data-micromodal-close aria-label="Close this dialog window">Close</button>
-            </footer>
+@foreach (var photo in Model.photos)
+{
+string fun = "editPersonsOnPhotoClick_" + photo.ID + "()";
+<div class="modal fade PersonsOnPhotoEdit" id="PersonsOnPhotoEdit-@photo.ID" data-url="@Url.Action("PersonsOnPhotoList", "Photo", new { photoID=photo.ID })" tabindex="-1" role="dialog" aria-labelledby="PersonsOnPhotoEdit-@photo.ID" aria-hidden="true"></div>
+
+<div class="modal fade" id="deletePhotoModal-@photo.ID" tabindex="-1" role="dialog" aria-labelledby="deletePhotoModal-@photo.ID" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h3>Czy na pewno chcesz skasować to zdjęcie?</h3>
+                <p>Usunięcie jest nieodwracalne...</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                @Html.ActionLink("Skasuj", "RemovePhoto", "Photo", new { photoID = photo.ID, personID = Model.person.ID }, new { @class = "btn btn-danger"})
+            </div>
         </div>
     </div>
 </div>
+
+<script>
+    function @fun {
+        var url = $('#PersonsOnPhotoEdit-@photo.ID').data('url');
+        console.log(url);
+        $.get(url, function (data) {
+            $('#PersonsOnPhotoEdit-@photo.ID').html(data);
+            $('#PersonsOnPhotoEdit-@photo.ID').modal('show');
+        })
+    };
+
+    $("#PersonsOnPhotoEdit-@photo.ID").on('hidden.bs.modal', function () {
+        $(this).html("");
+    });
+</script>
+}
