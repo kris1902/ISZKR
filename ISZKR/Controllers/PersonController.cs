@@ -62,7 +62,7 @@ namespace ISZKR.Controllers
             return false;
         }
 
-        public ActionResult Create()
+        public ActionResult Create(int chronicleID=10, string name="", string surname="", string gender="M")
         {
             int id;
             try
@@ -71,27 +71,55 @@ namespace ISZKR.Controllers
                 {
                     Person new_person = new Person
                     {
-                        Name = "Imię",
-                        Surname = "Nazwisko",
-                        Gender = "M",
+                        Name = name,
+                        Surname = surname,
+                        Gender = gender,
                         BirthDateTime = DateTime.Parse("1900-01-01"),
                         DeathDateTime = DateTime.Parse("1900-01-01"),
                         Description = "Tutaj napisz coś o tej osobie...",
                         FathersID = 0,
                         MothersID = 0,
-                        PartnerID = 0
-                        //Jeszcze trzeba przekazać ID kroniki jakoś
+                        PartnerID = 0,
+                        Chronicle = context.Chronicle.Find(chronicleID)
                     };
                     context.Person.Add(new_person);
-                    id = new_person.ID;
                     context.SaveChanges();
+                    id = new_person.ID;
                 }
-                return RedirectToAction("Person", id);
+                return Redirect("/Person/" + id);
             }
             catch
             {
                 return View();
             }
+        }
+
+        [HttpPost]
+        public ActionResult EditDescription(string description, int personID)
+        {
+            try
+            {
+                using (var context = new ISZKRDbContext())
+                {
+                    Person person = context.Person.Find(personID);
+
+                    person.Description = description;
+
+                    context.Set<Person>().Attach(person);
+                    context.Entry(person).State = System.Data.Entity.EntityState.Modified;
+
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return Json(new
+            {
+                result = "success"
+            });
         }
 
         [HttpPost]

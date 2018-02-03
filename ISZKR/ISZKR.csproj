@@ -195,6 +195,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\ChronicleController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -261,6 +262,7 @@
     <Compile Include="Models\Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\ChronicleViewModel.cs" />
     <Compile Include="ViewModels\FamilyTreeViewModel.cs" />
     <Compile Include="ViewModels\OutsideViewModel.cs" />
     <Compile Include="ViewModels\PersonGalleryViewModel.cs" />
@@ -373,11 +375,11 @@
     <Content Include="Views\Person\_PersonGallery.cshtml" />
     <Content Include="Views\Person\setPersonsPhoto.cshtml" />
     <Content Include="Views\Photo\_PersonsOnPhotoEdit.cshtml" />
+    <Content Include="Views\Chronicle\Chronicle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\Event\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

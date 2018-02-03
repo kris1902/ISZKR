@@ -21,8 +21,14 @@
             @Html.EditorFor(Model => Model.Events.Title, new { htmlAttributes = new { @id = "events-title-edit-textbox" } })
             <button class="btn btn-success events-title-edit-btn" id="events-title-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
         }
-
-        <span id="events-start"><b>Początek</b> @Model.Events.StartDateTime</span><br />
+        @if (Model.Events.StartDateTime == DateTime.Parse("1900-01-01"))
+        {
+            <span id="events-start"><b>Początek</b> Brak danych</span><br />
+        }
+        else
+        {
+            <span id="events-start"><b>Początek</b> @Model.Events.StartDateTime.Date.ToString("d MMMM yyyy")</span><br />
+        }
         <!--EDIT -->
         @using (Ajax.BeginForm("EditStart", "Events", new { },
                     new AjaxOptions { OnSuccess = "successEditEventsStart(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "events-start-edit" }))
@@ -31,9 +37,15 @@
             @Html.EditorFor(Model => Model.Events.StartDateTime, new { htmlAttributes = new { @id = "events-start-edit-date" } })
             <button class="btn btn-success events-start-edit-btn" id="events-start-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
         }
-        <br />
 
-        <span id="events-end"><b>Koniec:</b> @Model.Events.EndDateTime</span><br />
+        @if (Model.Events.EndDateTime == DateTime.Parse("1900-01-01"))
+        {
+            <span id="events-end"><b>Koniec:</b> Brak danych</span><br />
+        }
+        else
+        {
+            <span id="events-end"><b>Koniec:</b> @Model.Events.EndDateTime.Date.ToString("d MMMM yyyy")</span><br />
+        }
         <!--EDIT -->
         @using (Ajax.BeginForm("EditEnd", "Events", new { },
                         new AjaxOptions { OnSuccess = "successEditEventsEnd(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "events-end-edit" }))
@@ -42,7 +54,6 @@
             @Html.EditorFor(Model => Model.Events.EndDateTime, new { htmlAttributes = new { @id = "events-end-edit-date" } })
             <button class="btn btn-success events-end-edit-btn" id="events-end-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
         }
-        <br />
 
         <span id="events-place"><b>Miejsce: </b> @Model.Events.Place</span>
         @using (Ajax.BeginForm("EditPlace", "Events", new { },
@@ -104,11 +115,21 @@
 
     <div class="description">
 
-        <h3>Opis</h3>
-        @Html.Raw(Model.Events.Content)
+        <h3>
+            Opis
+            <button id="desc-edit-btn" class="btn btn-sm btn-primary" onclick="edit_desc()" type="button">Edytuj</button>
+            <button id="desc-save-btn" class="btn btn-sm btn-success" onclick="save_desc(@Model.Events.ID)" type="button">Zapisz</button>
+        </h3>
     </div>
+    <div id="description_content"></div>
 
-    <h3>Zdjęcia</h3>
+    <script>
+        $(document).ready(function () {
+            $('#description_content').html(decodeURIComponent('@Html.Raw(Model.Events.Content)'));
+        });
+    </script>
+
+    <h3 style="clear:both;">Zdjęcia</h3>
     <section>
         <div class="gal-container">
             <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
@@ -131,6 +152,7 @@
                     </div>
                 </div>
             </div>
+        </div>
     </section>
 
 </div>

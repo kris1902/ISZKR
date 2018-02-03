@@ -94,11 +94,16 @@ input#burial-info-edit-textbox {
 	color: gray;
 }
 
-/* Edycja tabel */
+#desc-save-btn
+{
+    display: none;
+}
 
+
+/* Edycja tabel */
 button.table-save-btn {
-	display: none;
-	border: none;
+    display: none;
+    border: none;
     font-size: 10px;
     padding: 6px;
     height: 22px;

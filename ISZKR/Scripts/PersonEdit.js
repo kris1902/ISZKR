@@ -111,3 +111,39 @@ $(document).ready(function () {
         });
     });
 });
+
+function edit_person_desc() {
+    $('#description_content').summernote({ focus: true });
+    $('#desc-edit-btn').css('display', 'none');
+    $('#desc-save-btn').css('display', 'inline-block');
+};
+
+function save_person_desc(personID) {
+    var desc = encodeURIComponent($("#description_content").summernote('code'));
+    $.ajax({
+        type: "POST",
+        url: "/Person/EditDescription",
+        data: {
+            description: desc,
+            personID: personID
+        },
+        success: function () {
+            $('#description_content').summernote('destroy');
+            $('#desc-edit-btn').css('display', 'inline-block');
+            $('#desc-save-btn').css('display', 'none');
+        },
+        failure: function () {
+            alert('Coś poszło nie tak...');
+        }
+    });
+};
+
+$(document).ready(function () {
+    $('#add-person-btn').click(function () {
+        var name = $('#add-person-name-edit-textbox').val();
+        var surname = $('#add-person-surname-edit-textbox').val();
+        var gender = $('#add-person-gender-select').val();
+        var currentURL = $('#add-person-btn').attr('href');
+        $('#add-person-btn').attr('href', currentURL + '&name=' + name + '&surname=' + surname + '&gender=' + gender);
+    });
+});

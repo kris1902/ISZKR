@@ -74,6 +74,60 @@ namespace ISZKR.Controllers
             }
         }
 
+        public ActionResult Create(int chronicleID = 10, string title="Nowe zdarzenie")
+        {
+            int id;
+            try
+            {
+                using (var context = new ISZKRDbContext())
+                {
+                    Events new_events = new Events
+                    {
+                        Title = title,
+                        StartDateTime = DateTime.Parse("1900-01-01"),
+                        EndDateTime = DateTime.Parse("1900-01-01"),
+                        Chronicle = context.Chronicle.Find(chronicleID)
+                    };
+                    context.Events.Add(new_events);
+                    context.SaveChanges();
+                    id = new_events.ID;
+                }
+                return Redirect("/Events/" + id);
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditDescription(string description, int eventsID)
+        {
+            try
+            {
+                using (var context = new ISZKRDbContext())
+                {
+                    Events events = context.Events.Find(eventsID);
+
+                    events.Content = description;
+
+                    context.Set<Events>().Attach(events);
+                    context.Entry(events).State = System.Data.Entity.EntityState.Modified;
+
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return Json(new
+            {
+                result = "success"
+            });
+        }
+
         private bool isEventsExist(int id)
         {
             if (id == 0)

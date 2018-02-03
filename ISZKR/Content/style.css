@@ -2,6 +2,10 @@
   display:block;
 }
 
+.add-person-form {
+    margin-bottom: 5px;
+}
+
 div.circle-avatar {
 /* make it responsive */
 max-width: 100%;

@@ -16,6 +16,7 @@
 @Scripts.Render("~/bundles/jqueryval")
 @Scripts.Render("~/bundles/bootstrap")
 @Scripts.Render("~/Content/js")
+@Scripts.Render("~/Content/Summernote")
 @RenderSection("scripts", required: false)
 <body>
     <div id="overlay"></div>
@@ -32,15 +33,16 @@
                     @Html.ActionLink("ISZKR", "Index", "Home", new { @class = "navbar-brand" })
                 </div>
 
-
                 <div class="collapse navbar-collapse" id="main-nav">
                     <ul class="nav navbar-nav">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dodaj<span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li>@Html.ActionLink("Dodaj osobę", "Index", "Home")</li>
-                                <li>@Html.ActionLink("Dodaj zdarzenie", "Index", "Home")</li>
-                            </ul>
+                            <div>
+                                <a href="#" class="dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dodaj<span class="caret"></span></a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <li><a href="#" id="add-person" data-toggle="modal" data-target="#addPerson">Dodaj osobę</a></li>
+                                    <li><a href="#" id="add-events" data-toggle="modal" data-target="#addEvents">Dodaj zdarzenie</a></li>
+                                </ul>
+                            </div>
                         </li>
                         <li>@Html.ActionLink("Osoby", "Index", "Home")</li>
                         <li>@Html.ActionLink("Zdarzenia", "Index", "Home")</li>
@@ -53,8 +55,52 @@
 
             <div class="wrap">
                 <div class="content">
+
                     @RenderBody()
                     <hr />
+
+                    <div class="modal fade" id="addPerson" tabindex="-1" role="dialog" aria-labelledby="addPerson" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3>Dodaj nowego członka rodziny</h3>
+                                </div>
+                                <div class="modal-body">
+                                    <h5>Wypełnij poniższe pola i kliknij "Utwórz"</h5>
+                                    <input class="form-control add-person-form text-box single-line" data-val="true" data-val-required="Pole imię jest wymagane." id="add-person-name-edit-textbox" placeholder="Imię" type="text">
+                                    <input class="form-control add-person-form text-box single-line" data-val="true" data-val-required="Pole nazwisko jest wymagane." id="add-person-surname-edit-textbox" placeholder="Nazwisko" type="text" />
+                                    <select id="add-person-gender-select" class="form-control add-person-form">
+                                        <option value="M">Wybierz płeć</option>
+                                        <option value="M">Mężczyzna</option>
+                                        <option value="K">Kobieta</option>
+                                    </select>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                    <a href="@Url.Action("Create", "Person", new { chronicleID=10 })" id = "add-person-btn" class="btn btn-success">Utwórz</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="addEvents" tabindex="-1" role="dialog" aria-labelledby="addEvents" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3>Dodaj nowe zdarzenie</h3>
+                                </div>
+                                <div class="modal-body">
+                                    <h5>Podaj nazwę i kliknij "Utwórz"</h5>
+                                    <input class="form-control add-events-form text-box single-line" data-val="true" data-val-required="Pole nazwa jest wymagane." id="add-events-title-edit-textbox" placeholder="Nazwa zdarzenia" type="text">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                    <a href="@Url.Action("Create", "Events", new { chronicleID=10 })" id="add-events-btn" class="btn btn-success">Utwórz</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
     </div>

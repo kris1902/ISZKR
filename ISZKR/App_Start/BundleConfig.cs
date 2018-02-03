@@ -40,11 +40,15 @@ namespace ISZKR
                       "~/Content/gallery-style.css",
                       "~/Content/navigation-style.css",
                       "~/Content/search-gallery-style.css",
-                      "~/Content/funky-radio.css"));
+                      "~/Content/funky-radio.css",
+                      "~/Content/assets/summernote/summernote.css"));
 
             bundles.Add(new ScriptBundle("~/Content/TableEdit").Include(
                       "~/Scripts/TablesEdit.js",
                       "~/Scripts/Moment.js"));
+
+            bundles.Add(new ScriptBundle("~/Content/Summernote").Include(
+                    "~/Content/assets/summernote/summernote.js"));
         }
     }
 }

@@ -1,9 +1,7 @@
 ﻿@*
     TO DO:
-        2.Dodawanie osoby - nowa strona z początkowymi danymi do uzupełnienia. W miarę możliwości pamiętanie członka jakim nowa osoba ma być dla tej z którego poziomu dodajemy osobę.
         4.Dodawanie zdjęć.
         6.Autentykacja dostępu do kroniki (role?)
-        
 *@
 
 @model ISZKR.ViewModels.OutsideViewModel
@@ -278,64 +276,66 @@
         <!-- ############################## TREŚĆ OSOBY ############################## -->
 
         <div class="person-site-content">
-            <div class="basic-info">
-                <h1 id="person-name">
-                    @Model.Person.Name @Model.Person.Surname
-                    <span id="person-familyname">
-                        @if (Model.Person.FamilySurname != null)
-                        {@: (@Model.Person.FamilySurname )
+    <div class="basic-info">
+        <h1 id="person-name">
+            @Model.Person.Name @Model.Person.Surname
+            <span id="person-familyname">
+                @if (Model.Person.FamilySurname != null)
+                {@: (@Model.Person.FamilySurname )
                                     ;
-                        }
-                </span>
-            </h1>
+                }
+            </span>
+        </h1>
 
-            @using (Ajax.BeginForm("EditName", "Person", new { },
-                new AjaxOptions { OnSuccess = "successEditPersonName(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "name-edit-form" }))
-            {
-                @Html.HiddenFor(Model => Model.Person.ID)
-                @Html.EditorFor(Model => Model.Person.Name, new { htmlAttributes = new { @id = "person-name-edit-textbox" } })
-                @Html.EditorFor(Model => Model.Person.Surname, new { htmlAttributes = new { @id = "person-surname-edit-textbox" } })
-                @:(@Html.EditorFor(Model => Model.Person.FamilySurname, new { htmlAttributes = new { @id = "person-familyname-edit-textbox" } }))
-                <button class="btn btn-success person-name-edit-btn" id="person-name-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
+        @using (Ajax.BeginForm("EditName", "Person", new { },
+                    new AjaxOptions { OnSuccess = "successEditPersonName(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "name-edit-form" }))
+        {
+            @Html.HiddenFor(Model => Model.Person.ID)
+            @Html.EditorFor(Model => Model.Person.Name, new { htmlAttributes = new { @id = "person-name-edit-textbox" } })
+            @Html.EditorFor(Model => Model.Person.Surname, new { htmlAttributes = new { @id = "person-surname-edit-textbox" } })
+            @:(@Html.EditorFor(Model => Model.Person.FamilySurname, new { htmlAttributes = new { @id = "person-familyname-edit-textbox" } }))
+            <button class="btn btn-success person-name-edit-btn" id="person-name-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
                 @Html.ValidationMessageFor(Model => Model.Person.Name, "", new { @class = "text-danger" })
-            }
+        }
 
-            <span id="born-info" class="born-info"><b> 
-            @if (Model.Person.Gender == "K")
+        <span id="born-info" class="born-info">
+            <b>
+                @if (Model.Person.Gender == "K")
             { <text>Urodzona:</text> }
             else
-            { <text>Urodzony:</text> } </b> 
+            { <text>Urodzony:</text> }
+            </b>
             @if (Model.Person.BirthDateTime == DateTime.Parse("1900-01-01") && Model.Person.BirthPlace == null)
             {
                 @:Brak danych
             }
             else
             {
-                <span id="born-date">@Model.Person.BirthDateTime.Date.ToString("d MMMM yyyy")</span> @:<span id = "born-city">(@Model.Person.BirthPlace)</span ><br />
+                <span id="born-date">@Model.Person.BirthDateTime.Date.ToString("d MMMM yyyy")</span> @:<span id="born-city">(@Model.Person.BirthPlace)</span><br />
             }
-            </span>
-            
-                <!--EDIT -->
-            @using (Ajax.BeginForm("EditBirth", "Person", new { },
-                new AjaxOptions { OnSuccess = "successEditPersonBirth(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "born-info-edit" }))
-            {
-                @Html.HiddenFor(Model => Model.Person.ID)
-                @Html.EditorFor(Model => Model.Person.BirthDateTime, new { htmlAttributes = new { @id = "born-info-edit-date" } })
-                @Html.EditorFor(Model => Model.Person.BirthPlace, new { htmlAttributes = new { @id = "born-info-edit-city" } })
-                <button class="btn btn-success born-info-edit-btn" id="born-info-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
-            }
-                <br />
+        </span>
 
-            
-            <span id="death-info" class="death-info">
+        <!--EDIT -->
+        @using (Ajax.BeginForm("EditBirth", "Person", new { },
+                    new AjaxOptions { OnSuccess = "successEditPersonBirth(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "born-info-edit" }))
+        {
+            @Html.HiddenFor(Model => Model.Person.ID)
+            @Html.EditorFor(Model => Model.Person.BirthDateTime, new { htmlAttributes = new { @id = "born-info-edit-date" } })
+            @Html.EditorFor(Model => Model.Person.BirthPlace, new { htmlAttributes = new { @id = "born-info-edit-city" } })
+            <button class="btn btn-success born-info-edit-btn" id="born-info-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
+        }
+        <br />
+
+
+        <span id="death-info" class="death-info">
             <b>
-            @if (Model.Person.Gender == "K")
+                @if (Model.Person.Gender == "K")
             {
-                @:Zmarła:
+                    @:Zmarła:
             }
             else
             {
-                @:Zmarły:
+                    @:Zmarły:
             }
             </b>
             @if (Model.Person.DeathDateTime == DateTime.Parse("1900-01-01") && Model.Person.DeathPlace == null)
@@ -344,50 +344,55 @@
             }
             else
             {
-            <span id="death-date">@Model.Person.DeathDateTime.ToString("d MMMM yyyy")</span> @:<span id="death-city">(@Model.Person.DeathPlace)</span><br />
+                <span id="death-date">@Model.Person.DeathDateTime.ToString("d MMMM yyyy")</span> @:<span id="death-city">(@Model.Person.DeathPlace)</span><br />
             }
-           </span>
-                <!--EDIT -->
-            @using (Ajax.BeginForm("EditDeath", "Person", new { },
-        new AjaxOptions { OnSuccess = "successEditPersonDeath(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "death-info-edit" }))
-            {
-                @Html.HiddenFor(Model => Model.Person.ID)
-                @Html.EditorFor(Model => Model.Person.DeathDateTime, new { htmlAttributes = new { @id = "death-info-edit-date" } })
-                @Html.EditorFor(Model => Model.Person.DeathPlace, new { htmlAttributes = new { @id = "death-info-edit-city" } })
-                <button class="btn btn-success death-info-edit-btn" id="death-info-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
-            }
-            <br />
-            
-            <span id="burial-info" class="burial-info"><b>Miejsce pochówku:</b>
+        </span>
+        <!--EDIT -->
+        @using (Ajax.BeginForm("EditDeath", "Person", new { },
+            new AjaxOptions { OnSuccess = "successEditPersonDeath(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "death-info-edit" }))
+        {
+            @Html.HiddenFor(Model => Model.Person.ID)
+            @Html.EditorFor(Model => Model.Person.DeathDateTime, new { htmlAttributes = new { @id = "death-info-edit-date" } })
+            @Html.EditorFor(Model => Model.Person.DeathPlace, new { htmlAttributes = new { @id = "death-info-edit-city" } })
+            <button class="btn btn-success death-info-edit-btn" id="death-info-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
+        }
+        <br />
+
+        <span id="burial-info" class="burial-info">
+            <b>Miejsce pochówku:</b>
             @if (Model.Person.RestingPlace == null)
             {
                 @: Nie dotyczy
             }
             else
             {
-                <span id = "burial-place" > @Model.Person.RestingPlace </span >
+                <span id="burial-place"> @Model.Person.RestingPlace </span>
             }
-            </span>
-                <!--EDIT -->
-            @using (Ajax.BeginForm("EditBurial", "Person", new { },
-            new AjaxOptions { OnSuccess = "successEditPersonBurial(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "burial-info-edit" }))
-            {
-                @Html.HiddenFor(Model => Model.Person.ID)
-                @Html.EditorFor(Model => Model.Person.RestingPlace, new { htmlAttributes = new { @id = "burial-info-edit-text" } })
-                <button class="btn btn-success burial-info-edit-btn" id="burial-info-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
-            }
-            <br />
-        </div>
-
-        <h3>Opis</h3>
-        <button class="btn btn-primary description-edit-btn" id="description-edit-btn" type="submit"><i class="glyphicon glyphicon-edit"></i></button>
-
-        <div data-editable class="description" data-name="description-content">
-
-            @Html.Raw(Model.Person.Description)
-
-        </div>
+        </span>
+        <!--EDIT -->
+        @using (Ajax.BeginForm("EditBurial", "Person", new { },
+                new AjaxOptions { OnSuccess = "successEditPersonBurial(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "burial-info-edit" }))
+        {
+            @Html.HiddenFor(Model => Model.Person.ID)
+            @Html.EditorFor(Model => Model.Person.RestingPlace, new { htmlAttributes = new { @id = "burial-info-edit-text" } })
+            <button class="btn btn-success burial-info-edit-btn" id="burial-info-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
+        }
+        <br />
     </div>
+
+    <h3>
+        Opis
+        <button id="desc-edit-btn" class="btn btn-sm btn-primary" onclick="edit_person_desc()" type="button">Edytuj</button>
+        <button id="desc-save-btn" class="btn btn-sm btn-success" onclick="save_person_desc(@Model.Person.ID)" type="button">Zapisz</button>
+    </h3>
+        </div>
+        <div id="description_content"></div>
+
+        <script>
+                $(document).ready(function () {
+                    $('#description_content').html(decodeURIComponent('@Html.Raw(Model.Person.Description)'));
+                });
+        </script>
 
     @Html.Action("RenderTables", "Person", new { Model.Person })
 
