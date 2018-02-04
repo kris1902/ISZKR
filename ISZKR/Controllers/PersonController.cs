@@ -113,7 +113,10 @@ namespace ISZKR.Controllers
             }
             catch (Exception)
             {
-                throw;
+                return Json(new
+                {
+                    result = "failure"
+                });
             }
 
             return Json(new
@@ -143,7 +146,10 @@ namespace ISZKR.Controllers
             }
             catch (Exception)
             {
-                throw;
+                return Json(new
+                {
+                    result = "failure"
+                });
             }
 
             return Json(new
@@ -172,7 +178,10 @@ namespace ISZKR.Controllers
             }
             catch (Exception)
             {
-                throw;
+                return Json(new
+                {
+                    result = "failure"
+                });
             }
 
             return Json(new
@@ -201,7 +210,10 @@ namespace ISZKR.Controllers
             }
             catch (Exception)
             {
-                throw;
+                return Json(new
+                {
+                    result = "failure"
+                });
             }
 
             return Json(new
@@ -229,7 +241,10 @@ namespace ISZKR.Controllers
             }
             catch (Exception)
             {
-                throw;
+                return Json(new
+                {
+                    result = "failure"
+                });
             }
 
             return Json(new
@@ -842,7 +857,10 @@ namespace ISZKR.Controllers
                 }
                 catch (Exception)
                 {
-                    throw;
+                    return Json(new
+                    {
+                        result = "failure"
+                    });
                 }
 
                 return Json(new
@@ -867,7 +885,10 @@ namespace ISZKR.Controllers
             }
             catch (Exception)
             {
-                throw;
+                return Json(new
+                {
+                    result = "failure"
+                });
             }
 
             return Json(new
@@ -902,7 +923,10 @@ namespace ISZKR.Controllers
                 }
                 catch (Exception)
                 {
-                    throw;
+                    return Json(new
+                    {
+                        result = "failure"
+                    });
                 }
 
                 return Json(new
@@ -927,7 +951,10 @@ namespace ISZKR.Controllers
                 }
                 catch (Exception)
                 {
-                    throw;
+                    return Json(new
+                    {
+                        result = "failure"
+                    });
                 }
 
                 return Json(new

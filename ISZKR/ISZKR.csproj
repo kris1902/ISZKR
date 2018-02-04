@@ -264,6 +264,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\ChronicleViewModel.cs" />
     <Compile Include="ViewModels\FamilyTreeViewModel.cs" />
+    <Compile Include="ViewModels\EventsViewModel.cs" />
     <Compile Include="ViewModels\OutsideViewModel.cs" />
     <Compile Include="ViewModels\PersonGalleryViewModel.cs" />
     <Compile Include="ViewModels\PersonPanelsViewModel.cs" />
@@ -376,6 +377,8 @@
     <Content Include="Views\Person\setPersonsPhoto.cshtml" />
     <Content Include="Views\Photo\_PersonsOnPhotoEdit.cshtml" />
     <Content Include="Views\Chronicle\Chronicle.cshtml" />
+    <Content Include="Views\Events\_MainEventsParticipantsEdit.cshtml" />
+    <Content Include="Views\Events\_EventsParticipantsEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

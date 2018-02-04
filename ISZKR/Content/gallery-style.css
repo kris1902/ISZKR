@@ -139,3 +139,13 @@
 div.button-group.buttons.col-xs-2 {
     margin-top: 150px;
 }
+
+.photo-description {
+    max-width:600px;
+}
+
+span.photo-description-edit {
+    display: none;
+    opacity: 0.4;
+    color: black;
+}

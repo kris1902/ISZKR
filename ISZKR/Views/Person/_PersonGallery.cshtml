@@ -22,7 +22,20 @@
                                     <img src="~/Content/Images/@photo.Path">
                                 </div>
                                 <div class="col-md-12 description">
-                                    @photo.Description
+                                    <span class="photo-description" id="photo-description-@photo.ID">
+                                        @if (photo.Description == "") { 
+                                            @:Brak opisu
+                                        }
+                                        else
+                                        {
+                                            @photo.Description
+                                        }
+                                    </span>
+                                    <span class="photo-description-edit" id="photo-description-edit-@photo.ID">
+                                        <input type="text" class='photo-description-edit-textbox' id='photo-description-textbox-@photo.ID' maxlength="100">
+                                        <button onclick="onPhotoDescriptionSaveClick(@photo.ID)" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-ok-sign"></i></button>
+                                    </span>
+
                                     @{ string fun = "editPersonsOnPhotoClick_" + photo.ID + "()"; }
                                     <button id="delete-photo" class="btn btn-xs btn-danger pull-right" data-toggle="modal" data-dismiss="modal" data-target="#deletePhotoModal-@photo.ID"><i class="glyphicon glyphicon-erase"></i>Usuń zdjęcie</button>
                                     <button id="edit-persons-on-photo" onclick="@fun" class="btn btn-xs btn-primary pull-right" data-toggle="modal" data-dismiss="modal" data-target="#PersonsOnPhotoEdit-@photo.ID"><i class="glyphicon glyphicon-user"></i>Edytuj osoby na zdjęciu</button>

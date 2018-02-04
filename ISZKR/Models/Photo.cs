@@ -14,7 +14,7 @@ namespace ISZKR.Models
         [Required]
         public string Path { get; set; }
         public string Description { get; set; }
-        public virtual ICollection<Person> Person { get; private set; }
+        public virtual ICollection<Person> Person { get; set; }
         [Required]
         public virtual Chronicle Chronicle { get; set; }
         public virtual Events Events { get; set; }

@@ -22,6 +22,7 @@ namespace ISZKR.ViewModels
         public FamilyTreeViewModel FamilyTreeViewModel { get; set; }
         public PersonTablesViewModel PersonTablesViewModel { get; set; }
         public PersonPanelsViewModel PersonPanelsViewModel { get; set; }
+        public ChronicleViewModel ChronicleViewModel { get; set; }
         public List<Person> PersonsListFromEvents { get; set; }
         public List<Person> MainPersonsListFromEvent { get; set; }
         public FileModel FileModel { get; set; }

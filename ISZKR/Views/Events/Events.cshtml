@@ -159,8 +159,7 @@
 
 }
 
-<div class="modal fade" id="editMainParticipants" data-url="@Url.Action("EditMainParticipants", "Events", new { eventsid = Model.Events.ID})" tabindex="-1" role="dialog" aria-labelledby="editMainParticipants" aria-hidden="true"></div>
-<div class="modal fade" id="editParticipants" data-url="@Url.Action("EditParticipants", "Events", new { eventsid = Model.Events.ID})" tabindex="-1" role="dialog" aria-labelledby="editParticipants" aria-hidden="true"></div>
-
+<div class="modal fade MainEventsParticipantsEdit" id="MainEventsParticipantsEdit-@Model.Events.ID" data-url="@Url.Action("MainEventsList", "Events", new { eventsID=Model.Events.ID })" tabindex="-1" role="dialog" aria-labelledby="MainEventsParticipantsEdit-@Model.Events.ID" aria-hidden="true"></div>
+<div class="modal fade EventsParticipantsEdit" id="EventsParticipantsEdit-@Model.Events.ID" data-url="@Url.Action("EventsList", "Events", new { eventsID=Model.Events.ID })" tabindex="-1" role="dialog" aria-labelledby="EventsParticipantsEdit-@Model.Events.ID" aria-hidden="true"></div>
 
 @Scripts.Render("~/Scripts/EventsEdit.js")

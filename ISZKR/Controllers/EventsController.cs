@@ -317,5 +317,31 @@ namespace ISZKR.Controllers
                 result = "success"
             });
         }
+
+        [HttpPost]
+        public JsonResult AddPersonToMainParticipants(int eventsID, int personID)
+        {
+            try
+            {
+                using (var context = new ISZKRDbContext())
+                {
+                    Person person = context.Person.Find(personID);
+                    context.Events.Find(eventsID).MainEventParticipants.Add(person);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new
+                {
+                    result = "failure"
+                });
+            }
+            return Json(new
+            {
+                result = "success"
+            });
+        }
     }
 }
+
