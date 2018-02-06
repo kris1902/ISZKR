@@ -6,6 +6,12 @@
     margin-bottom: 5px;
 }
 
+.funkyradio-scrollable {
+    height: 500px;
+    overflow-y: auto;
+    margin-top: 25px;
+}
+
 div.circle-avatar {
 /* make it responsive */
 max-width: 100%;

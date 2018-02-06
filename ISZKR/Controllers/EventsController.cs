@@ -342,6 +342,154 @@ namespace ISZKR.Controllers
                 result = "success"
             });
         }
+
+        [HttpPost]
+        public JsonResult RemovePersonFromMainParticipants(int eventsID, int personID)
+        {
+            try
+            {
+                using (var context = new ISZKRDbContext())
+                {
+                    Person person = context.Person.Find(personID);
+                    context.Events.Find(eventsID).MainEventParticipants.Remove(person);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new
+                {
+                    result = "failure"
+                });
+            }
+            return Json(new
+            {
+                result = "success"
+            });
+        }
+
+        [HttpPost]
+        public JsonResult AddPersonToParticipants(int eventsID, int personID)
+        {
+            try
+            {
+                using (var context = new ISZKRDbContext())
+                {
+                    Person person = context.Person.Find(personID);
+                    context.Events.Find(eventsID).EventParticipants.Add(person);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new
+                {
+                    result = "failure"
+                });
+            }
+            return Json(new
+            {
+                result = "success"
+            });
+        }
+
+        [HttpPost]
+        public JsonResult RemovePersonFromParticipants(int eventsID, int personID)
+        {
+            try
+            {
+                using (var context = new ISZKRDbContext())
+                {
+                    Person person = context.Person.Find(personID);
+                    context.Events.Find(eventsID).EventParticipants.Remove(person);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new
+                {
+                    result = "failure"
+                });
+            }
+            return Json(new
+            {
+                result = "success"
+            });
+        }
+
+        public ActionResult MainEventsList(int eventsID)
+        {
+            List<Person> persons_in_events = new List<Person>();
+            List<Person> main_persons_in_events = new List<Person>();
+            EventsViewModel vm = new EventsViewModel();
+            Events events = new Events();
+            using (var context = new ISZKRDbContext())
+            {
+                events = context.Events.Find(eventsID);
+                vm.AllPerson = context.Person.Where(p => p.ID != 0).ToList();   //Wszyskie osoby
+                main_persons_in_events = events.MainEventParticipants.ToList();
+                persons_in_events = main_persons_in_events.Concat(events.EventParticipants).ToList();
+                foreach (Person person in persons_in_events)
+                {
+                    vm.AllPerson.RemoveAll(p => p.ID == person.ID); //Usuń z listy ogólnej jeżeli już znajduje się w zdarzeniu.
+                }
+            }
+            vm.MainEventsParticipantsList = main_persons_in_events;
+            vm.eventsID = eventsID;
+            return PartialView("_MainEventsParticipantsEdit", vm);
+        }
+
+        public ActionResult EventsList(int eventsID)
+        {
+            List<Person> persons_in_events = new List<Person>();
+            List<Person> other_persons_in_events = new List<Person>();
+            EventsViewModel vm = new EventsViewModel();
+            Events events = new Events();
+            using (var context = new ISZKRDbContext())
+            {
+                events = context.Events.Find(eventsID);
+                vm.AllPerson = context.Person.Where(p => p.ID != 0).ToList();   //Wszyskie osoby
+                other_persons_in_events = events.EventParticipants.ToList();
+                persons_in_events = other_persons_in_events.Concat(events.MainEventParticipants).ToList();
+                foreach (Person person in persons_in_events)
+                {
+                    vm.AllPerson.RemoveAll(p => p.ID == person.ID); //Usuń z listy ogólnej jeżeli już znajduje się w zdarzeniu.
+                }
+            }
+            vm.EventsParticipantsList = other_persons_in_events;
+            vm.eventsID = eventsID;
+            return PartialView("_EventsParticipantsEdit", vm);
+        }
+
+        [ChildActionOnly]
+        public ActionResult RenderGallery(Events e)
+        {
+            PersonGalleryViewModel vm = new PersonGalleryViewModel();
+            using (var context = new ISZKRDbContext())
+            {
+                e = context.Events.Find(e.ID);
+                vm.events = e;
+                var list_of_photos = context.Photo.Where(p => p.Events.ID != null).ToList();
+                foreach (var photo in list_of_photos)
+                {
+                    vm.photos.Add(photo);
+                }
+            }
+            return PartialView("_EventsGallery", vm);
+        }
+
+        public RedirectToRouteResult RemoveEventsFromPhoto(int photoID)
+        {
+            int eventsID;
+            using (var context = new ISZKRDbContext())
+            {
+                eventsID = context.Photo.Find(photoID).Events.ID;
+                context.Photo.Find(photoID).Events = null;
+                context.SaveChanges();
+            }
+            return RedirectToAction("Events", "Events", new { id=eventsID });
+        }
     }
 }
 

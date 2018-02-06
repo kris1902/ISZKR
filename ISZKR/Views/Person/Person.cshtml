@@ -438,25 +438,19 @@
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
-                Dodaj zdjęcia
+                Dodaj zdjęcia*
             </div>
             <div class="modal-body">
                 @using (Html.BeginForm("UploadFiles", "Photo", new { personID = Model.Person.ID }, FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
                     @Html.AntiForgeryToken()
 
+                    <span style="font-size:11px;">* - mała sugestia... aby uniknąć błędów postaraj się nie wybierać plików o łącznej wielkości większej niż 40 MB</span>
                     <div class="form-horizontal">
-                        <hr />
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="form-group">
-                            @Html.LabelFor(model => model.FileModel, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div>
                                 @Html.TextBox("files", "", new { type = "file", @multiple = "multiple", @class = "btn btn-default"})
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10 text-success">
-                                @ViewBag.UploadStatus
                             </div>
                         </div>
                     </div>

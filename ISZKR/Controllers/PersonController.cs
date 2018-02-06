@@ -698,7 +698,7 @@ namespace ISZKR.Controllers
                 list_of_events_with_any_person = context.Events.Where(e => e.EventParticipants.Any()).ToList();
                 foreach (var events in list_of_events_with_any_person)
                 {
-                    foreach (var person in events.MainEventParticipants)
+                    foreach (var person in events.EventParticipants)
                     {
                         if (person.ID == personID) events_to_return.Add(events);
                     }

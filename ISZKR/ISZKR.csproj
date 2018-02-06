@@ -379,6 +379,7 @@
     <Content Include="Views\Chronicle\Chronicle.cshtml" />
     <Content Include="Views\Events\_MainEventsParticipantsEdit.cshtml" />
     <Content Include="Views\Events\_EventsParticipantsEdit.cshtml" />
+    <Content Include="Views\Events\_EventsGallery.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

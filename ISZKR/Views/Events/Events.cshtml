@@ -73,7 +73,7 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         Podstawowi uczestnicy
-                        <a href="#" id="main-participants-edit" class="edit" data-toggle="modal" data-target="#editMainParticipants"><i class="glyphicon glyphicon-pencil"></i></a>
+                        <a href="#" id="main-participants-edit" class="edit" data-toggle="modal" data-target="#editMainParticipants" onclick="editEventsMainParticipantsClick()"><i class="glyphicon glyphicon-pencil"></i></a>
                     </h4>
                 </div>
                 <div class="panel-body">
@@ -94,7 +94,7 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         Inni uczestnicy
-                        <a href="#" id="participants-edit" class="edit" data-toggle="modal" data-target="#editParticipants"><i class="glyphicon glyphicon-pencil"></i></a>
+                        <a href="#" id="participants-edit" class="edit" data-toggle="modal" data-target="#editParticipants" onclick="editEventsParticipantsClick()"><i class="glyphicon glyphicon-pencil"></i></a>
                     </h4>
                 </div>
                 <div class="panel-body">
@@ -129,37 +129,45 @@
         });
     </script>
 
-    <h3 style="clear:both;">Zdjęcia</h3>
-    <section>
-        <div class="gal-container">
-            <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
-                <div class="box">
-                    <a href="#" data-toggle="modal" data-target="#1">
-                        <img src="http://nabeel.co.in/files/bootsnipp/gallery/1.jpg">
-                    </a>
-                    <div class="modal fade" id="1" tabindex="-1" role="dialog">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                                <div class="modal-body">
-                                    <img src="http://nabeel.co.in/files/bootsnipp/gallery/1.jpg">
-                                </div>
-                                <div class="col-md-12 description">
-                                    <h4>This is the first one on my Gallery</h4>
-                                </div>
+</div>
+
+@Html.Action("RenderGallery", "Events", new { Model.Events })
+}
+
+<div class="modal fade MainEventsParticipantsEdit" id="MainEventsParticipantsEdit" data-url="@Url.Action("MainEventsList", "Events", new { eventsID=Model.Events.ID })" tabindex="-1" role="dialog" aria-labelledby="MainEventsParticipantsEdit" aria-hidden="true"></div>
+<div class="modal fade EventsParticipantsEdit" id="EventsParticipantsEdit" data-url="@Url.Action("EventsList", "Events", new { eventsID=Model.Events.ID })" tabindex="-1" role="dialog" aria-labelledby="EventsParticipantsEdit" aria-hidden="true"></div>
+
+
+<div class="modal fade" id="UploadFilesModal" tabindex="-1" role="dialog" aria-labelledby="UploadFilesModal" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                Dodaj zdjęcia*
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("UploadFiles", "Photo", new { eventsID = Model.Events.ID }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <span style="font-size:11px;">* - mała sugestia... aby uniknąć błędów postaraj się nie wybierać plików o łącznej wielkości większej niż 40 MB</span>
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            <div>
+                                @Html.TextBox("files", "", new { type = "file", @multiple = "multiple", @class = "btn btn-default" })
                             </div>
                         </div>
                     </div>
-                </div>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                    <input type="submit" value="Prześlij" class="btn btn-primary" />
+                }
             </div>
-        </div>
-    </section>
 
+        </div>
+    </div>
 </div>
 
-}
 
-<div class="modal fade MainEventsParticipantsEdit" id="MainEventsParticipantsEdit-@Model.Events.ID" data-url="@Url.Action("MainEventsList", "Events", new { eventsID=Model.Events.ID })" tabindex="-1" role="dialog" aria-labelledby="MainEventsParticipantsEdit-@Model.Events.ID" aria-hidden="true"></div>
-<div class="modal fade EventsParticipantsEdit" id="EventsParticipantsEdit-@Model.Events.ID" data-url="@Url.Action("EventsList", "Events", new { eventsID=Model.Events.ID })" tabindex="-1" role="dialog" aria-labelledby="EventsParticipantsEdit-@Model.Events.ID" aria-hidden="true"></div>
-
+@Scripts.Render("~/Scripts/PersonEdit.js")
+@Scripts.Render("~/Scripts/PhotoEdit.js")
 @Scripts.Render("~/Scripts/EventsEdit.js")
