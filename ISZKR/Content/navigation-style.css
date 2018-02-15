@@ -13,7 +13,6 @@
 
 .navbar .navbar-collapse {
     position: relative;
-    overflow: hidden !important;
 }
 
 .navbar .navbar-collapse .navbar-right > li:last-child {
