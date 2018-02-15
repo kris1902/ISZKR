@@ -16,6 +16,8 @@ namespace ISZKR.Models
             // Element authenticationType musi pasować do elementu zdefiniowanego w elemencie CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Dodaj tutaj niestandardowe oświadczenia użytkownika
+            userIdentity.AddClaim(new Claim("UsersChronicleID", this.UsersChronicleID.ToString()));
+
             return userIdentity;
         }
     }

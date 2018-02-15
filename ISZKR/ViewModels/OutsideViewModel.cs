@@ -27,5 +27,6 @@ namespace ISZKR.ViewModels
         public List<Person> PersonsListFromEvents { get; set; }
         public List<Person> MainPersonsListFromEvent { get; set; }
         public FileModel FileModel { get; set; }
+        public int chronicleID { get; set; }
     }
 }

@@ -12,25 +12,6 @@ namespace ISZKR.Controllers
     {
         public ActionResult Index()
         {
-            //Dodawanie osoby
-            //using (var context = new ISZKRDbContext())
-            //{
-            //    context.Person.Add(
-            //        new Person
-            //        {
-            //            Name = "Teresa",
-            //            Surname = "Dubiel",
-            //            Gender = 'K',
-            //            BirthDateTime = DateTime.Parse("1930-08-24"),
-            //            BirthPlace = "Dobrzyca",
-            //            DeathDateTime = DateTime.Parse("2005-11-27"),
-            //            DeathPlace = "Chorzów",
-            //            FamilySurname = "Bury",
-            //            RestingPlace = "Cmentarz przy parafii św. Barbary w Chorzowie"
-            //        }
-            //    );
-            //    context.SaveChanges();
-            //}
             return View(outsideViewModel);
         }
     }

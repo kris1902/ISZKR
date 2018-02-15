@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using ISZKR.Extensions;
 using System.Web.Mvc;
 
 namespace ISZKR.Controllers
@@ -25,7 +26,7 @@ namespace ISZKR.Controllers
                 {
                     person = context.Person.Find(id);
 
-                    if (true)   //Miejsce na sprawdzenie tożsamości użytkownika (czy może oglądać tą rzecz)
+                    if (person.Chronicle.ID == Convert.ToInt32(User.Identity.GetUsersChronicleId()))   //Miejsce na sprawdzenie tożsamości użytkownika (czy może oglądać tą rzecz)
                     {
                         outsideViewModel.Person = person;
                         outsideViewModel.FamilyTreeViewModel = BuildFamilyTree(id);
