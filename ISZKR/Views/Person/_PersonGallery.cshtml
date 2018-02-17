@@ -1,15 +1,14 @@
 ﻿@model ISZKR.ViewModels.PersonGalleryViewModel
 
 <!-- ############################## GALERIA ZDJĘĆ ############################## -->
+
 <h3>Zdjęcia</h3>
 <section>
     <div class="gal-container">
 
-        <a href="#" id="person-delete" class="person-delete col-md-4 col-sm-6 co-xs-12 gal-item add-photo" data-toggle="modal" data-target="#UploadFilesModal"><center><i class="glyphicon glyphicon-plus-sign"></i></center></a>
-
         @foreach (var photo in Model.photos)
         {
-            <div class="col-md-4 col-sm-6 co-xs-12 gal-item" >
+            <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
                 <div class="box">
                     <a href="#" data-toggle="modal" data-target="#@photo.ID">
                         <img src="~/Content/Images/thumb_@photo.Path">
@@ -23,7 +22,8 @@
                                 </div>
                                 <div class="col-md-12 description">
                                     <span class="photo-description" id="photo-description-@photo.ID">
-                                        @if (photo.Description == "") { 
+                                        @if (photo.Description == "")
+                                        {
                                             @:Brak opisu
                                         }
                                         else
@@ -31,14 +31,6 @@
                                             @photo.Description
                                         }
                                     </span>
-                                    <span class="photo-description-edit" id="photo-description-edit-@photo.ID">
-                                        <input type="text" class='photo-description-edit-textbox' id='photo-description-textbox-@photo.ID' maxlength="100">
-                                        <button onclick="onPhotoDescriptionSaveClick(@photo.ID)" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-ok-sign"></i></button>
-                                    </span>
-
-                                    @{ string fun = "editPersonsOnPhotoClick_" + photo.ID + "()"; }
-                                    <button id="delete-photo" class="btn btn-xs btn-danger pull-right" data-toggle="modal" data-dismiss="modal" data-target="#deletePhotoModal-@photo.ID"><i class="glyphicon glyphicon-erase"></i>Usuń zdjęcie</button>
-                                    <button id="edit-persons-on-photo" onclick="@fun" class="btn btn-xs btn-primary pull-right" data-toggle="modal" data-dismiss="modal" data-target="#PersonsOnPhotoEdit-@photo.ID"><i class="glyphicon glyphicon-user"></i>Edytuj osoby na zdjęciu</button>
                                 </div>
                             </div>
                         </div>
@@ -48,39 +40,3 @@
         }
     </div>
 </section>
-
-@foreach (var photo in Model.photos)
-{
-string fun = "editPersonsOnPhotoClick_" + photo.ID + "()";
-<div class="modal fade PersonsOnPhotoEdit" id="PersonsOnPhotoEdit-@photo.ID" data-url="@Url.Action("PersonsOnPhotoList", "Photo", new { photoID=photo.ID })" tabindex="-1" role="dialog" aria-labelledby="PersonsOnPhotoEdit-@photo.ID" aria-hidden="true"></div>
-
-<div class="modal fade" id="deletePhotoModal-@photo.ID" tabindex="-1" role="dialog" aria-labelledby="deletePhotoModal-@photo.ID" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-body">
-                <h3>Czy na pewno chcesz skasować to zdjęcie?</h3>
-                <p>Usunięcie jest nieodwracalne...</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
-                @Html.ActionLink("Skasuj", "RemovePhoto", "Photo", new { photoID = photo.ID, personID = Model.person.ID }, new { @class = "btn btn-danger"})
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    function @fun {
-        var url = $('#PersonsOnPhotoEdit-@photo.ID').data('url');
-        console.log(url);
-        $.get(url, function (data) {
-            $('#PersonsOnPhotoEdit-@photo.ID').html(data);
-            $('#PersonsOnPhotoEdit-@photo.ID').modal('show');
-        })
-    };
-
-    $("#PersonsOnPhotoEdit-@photo.ID").on('hidden.bs.modal', function () {
-        $(this).html("");
-    });
-</script>
-}

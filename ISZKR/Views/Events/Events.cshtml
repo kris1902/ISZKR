@@ -5,10 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-@**if (Request.IsAuthenticated)
-    {
-*@
+@if (Model.isEditable)
+{
+    @* ######################################### MOŻLIWOŚC EDYCJI #########################################*@
 
 <div class="event-site-content">
     <div class="basic-info col-sm-4">
@@ -132,7 +131,7 @@
 </div>
 
 @Html.Action("RenderGallery", "Events", new { Model.Events })
-}
+
 
 <div class="modal fade MainEventsParticipantsEdit" id="MainEventsParticipantsEdit" data-url="@Url.Action("MainEventsList", "Events", new { eventsID=Model.Events.ID })" tabindex="-1" role="dialog" aria-labelledby="MainEventsParticipantsEdit" aria-hidden="true"></div>
 <div class="modal fade EventsParticipantsEdit" id="EventsParticipantsEdit" data-url="@Url.Action("EventsList", "Events", new { eventsID=Model.Events.ID })" tabindex="-1" role="dialog" aria-labelledby="EventsParticipantsEdit" aria-hidden="true"></div>
@@ -171,3 +170,93 @@
 @Scripts.Render("~/Scripts/PersonEdit.js")
 @Scripts.Render("~/Scripts/PhotoEdit.js")
 @Scripts.Render("~/Scripts/EventsEdit.js")
+
+}
+
+else
+{
+    @* ######################################### BRAK MOŻLIWOŚCI EDYCJI #########################################*@
+<div class="event-site-content">
+    <div class="basic-info col-sm-4">
+
+        <h1 id="events-title">@Model.Events.Title</h1>
+        @if (Model.Events.StartDateTime == DateTime.Parse("1900-01-01"))
+        {
+            <span id="events-start"><b>Początek</b> Brak danych</span><br />
+        }
+        else
+        {
+            <span id="events-start"><b>Początek</b> @Model.Events.StartDateTime.Date.ToString("d MMMM yyyy")</span><br />
+        }
+
+        @if (Model.Events.EndDateTime == DateTime.Parse("1900-01-01"))
+        {
+            <span id="events-end"><b>Koniec:</b> Brak danych</span><br />
+        }
+        else
+        {
+            <span id="events-end"><b>Koniec:</b> @Model.Events.EndDateTime.Date.ToString("d MMMM yyyy")</span><br />
+        }
+
+        <span id="events-place"><b>Miejsce: </b> @Model.Events.Place</span>
+
+    </div>
+
+    <!-- ############################## PANEL PODSTAWOWYCH UCZESTNIKÓW ############################## -->
+    <div class="participants-panels">
+        <div class="panel-group main-participants-panel  col-sm-4">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        Podstawowi uczestnicy
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    @{ var comma = ", "; }
+                    @foreach (var e in Model.MainPersonsListFromEvent)
+                    {
+                        @:<a href="@Url.Action("Person", "Person", new { id = e.ID })">@e.Name @e.Surname@if (!e.Equals(Model.MainPersonsListFromEvent.Last()))
+                        {@comma}</a>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- ############################## PANEL POZOSTAŁYCH UCZESTNIKÓW ############################## -->
+
+        <div class="panel-group other-participants-panel  col-sm-4">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        Inni uczestnicy
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    @foreach (var e in Model.PersonsListFromEvents)
+                    {
+                        @:<a href="@Url.Action("Person", "Person", new { id = e.ID })">@e.Name @e.Surname@if (!e.Equals(Model.PersonsListFromEvents.Last()))
+                        {@comma} </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="description">
+
+        <h3>
+            Opis
+        </h3>
+    </div>
+    <div id="description_content"></div>
+
+    <script>
+        $(document).ready(function () {
+            $('#description_content').html(decodeURIComponent('@Html.Raw(Model.Events.Content)'));
+        });
+    </script>
+
+</div>
+
+@Html.Action("RenderEditableGallery", "Events", new { Model.Events })
+}

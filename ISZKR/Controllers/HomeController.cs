@@ -12,6 +12,7 @@ namespace ISZKR.Controllers
     {
         public ActionResult Index()
         {
+            ViewBag.Message = TempData["Message"];
             return View(outsideViewModel);
         }
     }

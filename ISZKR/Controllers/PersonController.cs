@@ -13,39 +13,64 @@ namespace ISZKR.Controllers
 {
     public class PersonController : BaseController
     {
-        // GET: Person
         [Route("Person/{id:int}")]
         public ActionResult Person(int id = 0)
         {
             if (isPersonExist(id))
             {
                 var person = new Person();
-                int usersChronicleID;
-
                 using (var context = new ISZKRDbContext())
                 {
                     person = context.Person.Find(id);
 
-                    if (person.Chronicle.ID == Convert.ToInt32(User.Identity.GetUsersChronicleId()))   //Miejsce na sprawdzenie tożsamości użytkownika (czy może oglądać tą rzecz)
+                    if (User.Identity.IsAuthenticated && IsUserEditor(id))   //Sprawdzenie tożsamości użytkownika (czy zalogowany i czy może oglądać tą rzecz)
                     {
                         outsideViewModel.Person = person;
                         outsideViewModel.FamilyTreeViewModel = BuildFamilyTree(id);
                         outsideViewModel.PersonPanelsViewModel = BuildPanels(id);
+                        outsideViewModel.isEditable = true;
+                        return View(outsideViewModel);
+                    }
+                    if (person.Chronicle.IsPublic)
+                    {
+                        outsideViewModel.Person = person;
+                        outsideViewModel.FamilyTreeViewModel = BuildFamilyTree(id);
+                        outsideViewModel.PersonPanelsViewModel = BuildPanels(id);
+                        outsideViewModel.isEditable = false;
                         return View(outsideViewModel);
                     }
                     else
                     {
+                        TempData["Message"] = "Brak dostępu";
                         return RedirectToAction("Index", "Home");
                     }
                 }
             }
             else
             {
-                return RedirectToAction("Index", "Home");   //Tutaj będzie przeniesienie do listy osób
+                return RedirectToAction("Index", "Search", new { keywords = "", chronicleID = 10, persons = true, events = false, photos = false });   //Przeniesienie do listy osób
             }
         }
 
-
+        private bool IsUserEditor(int personID=0, Person person=null)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                if (personID == 0)
+                {
+                    return person.Chronicle.ID == Convert.ToInt32(User.Identity.GetUsersChronicleId());
+                }
+                else
+                {
+                    using (var context = new ISZKRDbContext())
+                    {
+                        int chronicleID = context.Person.Find(personID).Chronicle.ID;
+                        return chronicleID == Convert.ToInt32(User.Identity.GetUsersChronicleId());
+                    }
+                }
+            }
+            return false;
+        }
 
         private bool isPersonExist(int id)
         {
@@ -63,35 +88,102 @@ namespace ISZKR.Controllers
             return false;
         }
 
-        public ActionResult Create(int chronicleID=10, string name="", string surname="", string gender="M")
+        public ActionResult Create(int chronicleID=0, string name="(imię)", string surname="(nazwisko)", string gender="M")
         {
-            int id;
-            try
+            if (User.Identity.IsAuthenticated)
+            {
+                int id;
+                try
+                {
+                    using (var context = new ISZKRDbContext())
+                    {
+                        Person new_person = new Person
+                        {
+                            Name = name,
+                            Surname = surname,
+                            Gender = gender,
+                            BirthDateTime = DateTime.Parse("1900-01-01"),
+                            DeathDateTime = DateTime.Parse("1900-01-01"),
+                            Description = "Tutaj napisz coś o tej osobie...",
+                            FathersID = 0,
+                            MothersID = 0,
+                            PartnerID = 0,
+                            Chronicle = context.Chronicle.Find(chronicleID)
+                        };
+                        context.Person.Add(new_person);
+                        context.SaveChanges();
+                        id = new_person.ID;
+                    }
+                    return Redirect("/Person/" + id);
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                TempData["Message"] = "Wybacz... ale aby dodać osobę musisz być zalogowany.";
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        public RedirectToRouteResult deletePerson(int person_id)
+        {
+            if (User.Identity.IsAuthenticated)
             {
                 using (var context = new ISZKRDbContext())
                 {
-                    Person new_person = new Person
+                    Person person = context.Person.Find(person_id);
+                    //Usuwanie osoby z pola partnera jej partnera
+                    if (person.PartnerID != 0)
                     {
-                        Name = name,
-                        Surname = surname,
-                        Gender = gender,
-                        BirthDateTime = DateTime.Parse("1900-01-01"),
-                        DeathDateTime = DateTime.Parse("1900-01-01"),
-                        Description = "Tutaj napisz coś o tej osobie...",
-                        FathersID = 0,
-                        MothersID = 0,
-                        PartnerID = 0,
-                        Chronicle = context.Chronicle.Find(chronicleID)
-                    };
-                    context.Person.Add(new_person);
+                        context.Person.Find(person.PartnerID).PartnerID = 0;
+                    }
+                    //Usuwanie osoby z pola matki/ojca dzieci
+                    if (person.Gender == "K")
+                    {
+                        foreach (var kid in context.Person.Where(p => p.MothersID == person.ID).ToList())
+                        {
+                            kid.MothersID = 0;
+                        }
+                    }
+                    else
+                    {
+                        foreach (var kid in context.Person.Where(p => p.FathersID == person.ID).ToList())
+                        {
+                            kid.FathersID = 0;
+                        }
+                    }
+                    //Usuwanie z tabel
+                    foreach (var edu in context.EducationHistory.Where(e => e.Person.ID == person.ID).ToList())
+                    {
+                        context.EducationHistory.Remove(edu);
+                    }
+                    foreach (var pro in context.ProfessionHistory.Where(p => p.Person.ID == person.ID).ToList())
+                    {
+                        context.ProfessionHistory.Remove(pro);
+                    }
+                    foreach (var res in context.ResidenceHistory.Where(r => r.Person.ID == person.ID).ToList())
+                    {
+                        context.ResidenceHistory.Remove(res);
+                    }
+                    //Usuwanie ze zdjęć
+                    foreach (var photo in getPhotosWithPerson(person.ID))
+                    {
+                        photo.Person.Remove(person);
+                    }
+
+                    //Usuwanie osoby
+                    context.Person.Remove(person);
                     context.SaveChanges();
-                    id = new_person.ID;
                 }
-                return Redirect("/Person/" + id);
+                return RedirectToAction("Index", "Home");
             }
-            catch
+            else
             {
-                return View();
+                TempData["Message"] = "Wybacz... ale aby usunąć osobę musisz być zalogowany.";
+                return RedirectToAction("Index", "Home");
             }
         }
 
@@ -418,6 +510,8 @@ namespace ISZKR.Controllers
             int personMotherID;
             int personFatherID;
             int personPartnerID;
+            int users_chronicleID = Convert.ToInt32(User.Identity.GetUsersChronicleId());
+            List<Person> all_persons = new List<Person>();
             PersonsRelativeViewModel vm = new PersonsRelativeViewModel
             {
                 Person_list = new List<Person>(),
@@ -426,6 +520,7 @@ namespace ISZKR.Controllers
 
             using (var context = new ISZKRDbContext())
             {
+                all_persons = context.Person.Where(p => p.Chronicle.ID == users_chronicleID).ToList();
                 personBirthDateTime = context.Person.Find(personid).BirthDateTime;
                 personGender = context.Person.Find(personid).Gender;
                 personMotherID = context.Person.Find(personid).MothersID;
@@ -438,7 +533,7 @@ namespace ISZKR.Controllers
                 case "father":
                     using (var context = new ISZKRDbContext())
                     {
-                        foreach (Person person in context.Person)
+                        foreach (Person person in all_persons)
                         {
                             if (person.BirthDateTime < personBirthDateTime && person.Gender == "M" && person.ID != personPartnerID)
                             {
@@ -450,7 +545,7 @@ namespace ISZKR.Controllers
                 case "mother":
                     using (var context = new ISZKRDbContext())
                     {
-                        foreach (Person person in context.Person)
+                        foreach (Person person in all_persons)
                         {
                             if (person.BirthDateTime < personBirthDateTime && person.Gender == "K" && person.ID != personPartnerID)
                             {
@@ -464,7 +559,7 @@ namespace ISZKR.Controllers
                     {
                         if (personGender == "M")
                         {
-                            foreach (Person person in context.Person)
+                            foreach (Person person in all_persons)
                             {
                                 if (person.Gender == "K" && person.ID != personMotherID)
                                 {
@@ -474,7 +569,7 @@ namespace ISZKR.Controllers
                         }
                         else
                         {
-                            foreach (Person person in context.Person)
+                            foreach (Person person in all_persons)
                             {
                                 if (person.Gender == "M" && person.ID != personFatherID)
                                 {
@@ -488,7 +583,7 @@ namespace ISZKR.Controllers
                 case "kid":
                     using (var context = new ISZKRDbContext())
                     {
-                        foreach (Person person in context.Person)
+                        foreach (Person person in all_persons)
                         {
                             if (person.BirthDateTime > personBirthDateTime && person.ID != personPartnerID && person.ID != personFatherID && person.ID != personMotherID)
                             {
@@ -620,6 +715,34 @@ namespace ISZKR.Controllers
         }
 
         [ChildActionOnly]
+        public ActionResult RenderEditableTables(Person p)
+        {
+            PersonTablesViewModel vm = new PersonTablesViewModel();
+            vm.person = p;
+            using (var context = new ISZKRDbContext())
+            {
+                var edu = context.EducationHistory.Where(c => c.Person.ID == p.ID).ToList();
+                foreach (var item in edu)
+                {
+                    vm.EducationHistoryList.Add(item);
+                }
+
+                var res = context.ResidenceHistory.Where(c => c.Person.ID == p.ID).ToList();
+                foreach (var item in res)
+                {
+                    vm.ResidenceHistoryList.Add(item);
+                }
+
+                var pro = context.ProfessionHistory.Where(c => c.Person.ID == p.ID).ToList();
+                foreach (var item in pro)
+                {
+                    vm.ProfessionHistoryList.Add(item);
+                }
+            }
+            return PartialView("_PersonEditableTables", vm);
+        }
+
+        [ChildActionOnly]
         public ActionResult RenderTables(Person p)
         {
             PersonTablesViewModel vm = new PersonTablesViewModel();
@@ -643,10 +766,8 @@ namespace ISZKR.Controllers
                 {
                     vm.ProfessionHistoryList.Add(item);
                 }
-                //vm.ResidenceHistoryList = context.ResidenceHistory.Where(c => c.Person == p).ToList();
-                //vm.ProfessionHistoryList = context.ProfessionHistory.Where(c => c.Person == p).ToList();
             }
-            return PartialView("PersonTables", vm);
+            return PartialView("_PersonTables", vm);
         }
 
         [ChildActionOnly]
@@ -664,6 +785,23 @@ namespace ISZKR.Controllers
                 }
             }
             return PartialView("_PersonGallery", vm);
+        }
+
+        [ChildActionOnly]
+        public ActionResult RenderEditableGallery(Person p)
+        {
+            PersonGalleryViewModel vm = new PersonGalleryViewModel();
+            using (var context = new ISZKRDbContext())
+            {
+                p = context.Person.Find(p.ID);
+                vm.person = p;
+                var result = getPhotosWithPerson(p.ID);
+                foreach (var photo in result)
+                {
+                    vm.photos.Add(photo);
+                }
+            }
+            return PartialView("_PersonEditableGallery", vm);
         }
 
         private List<Photo> getPhotosWithPerson(int personID)
@@ -1063,57 +1201,6 @@ namespace ISZKR.Controllers
                 context.SaveChanges();
                 return Redirect("/Person/" + personID);
             }
-        }
-
-        public RedirectToRouteResult deletePerson(int person_id)
-        {
-            using (var context = new ISZKRDbContext())
-            {
-                Person person = context.Person.Find(person_id);
-                //Usuwanie osoby z pola partnera jej partnera
-                if (person.PartnerID != 0)
-                {
-                    context.Person.Find(person.PartnerID).PartnerID = 0;
-                }
-                //Usuwanie osoby z pola matki/ojca dzieci
-                if (person.Gender == "K")
-                {
-                    foreach (var kid in context.Person.Where(p => p.MothersID == person.ID).ToList())
-                    {
-                        kid.MothersID = 0;
-                    }
-                }
-                else
-                {
-                    foreach (var kid in context.Person.Where(p => p.FathersID == person.ID).ToList())
-                    {
-                        kid.FathersID = 0;
-                    }
-                }
-                //Usuwanie z tabel
-                foreach (var edu in context.EducationHistory.Where(e => e.Person.ID == person.ID).ToList())
-                {
-                    context.EducationHistory.Remove(edu);
-                }
-                foreach (var pro in context.ProfessionHistory.Where(p => p.Person.ID == person.ID).ToList())
-                {
-                    context.ProfessionHistory.Remove(pro);
-                }
-                foreach (var res in context.ResidenceHistory.Where(r => r.Person.ID == person.ID).ToList())
-                {
-                    context.ResidenceHistory.Remove(res);
-                }
-                //Usuwanie ze zdjęć
-                foreach (var photo in getPhotosWithPerson(person.ID))
-                {
-                    photo.Person.Remove(person);
-                }
-
-                //Usuwanie osoby
-                context.Person.Remove(person);
-                context.SaveChanges();
-            }
-            return RedirectToAction("Index", "Home");
         }
     }
 }

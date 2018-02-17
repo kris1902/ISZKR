@@ -28,5 +28,6 @@ namespace ISZKR.ViewModels
         public List<Person> MainPersonsListFromEvent { get; set; }
         public FileModel FileModel { get; set; }
         public int chronicleID { get; set; }
+        public bool isEditable { get; set; }
     }
 }

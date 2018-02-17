@@ -1,10 +1,5 @@
-﻿@*
-    TO DO:
-        4.Dodawanie zdjęć.
-        6.Autentykacja dostępu do kroniki (role?)
-*@
-
-@model ISZKR.ViewModels.OutsideViewModel
+﻿@model ISZKR.ViewModels.OutsideViewModel
+@using ISZKR.Extensions;
 
 @{
     ViewBag.Title = Model.Person.Name + " " + Model.Person.Surname;
@@ -12,10 +7,9 @@
 }
 
 
-@**if (Request.IsAuthenticated)
-    {
-*@
-
+@if (Model.isEditable)
+{
+@* ######################################### MOŻLIWOŚC EDYCJI #########################################*@
 
 <div class="family-tree">
     <div class="family-tree-parents">
@@ -217,7 +211,7 @@
                             }
                             @foreach (var sibling in Model.PersonPanelsViewModel.PersonSiblings)
                             {
-                                @Html.ActionLink(sibling.Name+" "+sibling.Surname + " ", "Person", "Person", new { id = sibling.ID }, new { })
+                                @Html.ActionLink(sibling.Name + " " + sibling.Surname + " ", "Person", "Person", new { id = sibling.ID }, new { })
                             }
                             <br />
                             Stryjostwo/Wujostwo:
@@ -288,7 +282,7 @@
         </h1>
 
         @using (Ajax.BeginForm("EditName", "Person", new { },
-                    new AjaxOptions { OnSuccess = "successEditPersonName(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "name-edit-form" }))
+                new AjaxOptions { OnSuccess = "successEditPersonName(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "name-edit-form" }))
         {
             @Html.HiddenFor(Model => Model.Person.ID)
             @Html.EditorFor(Model => Model.Person.Name, new { htmlAttributes = new { @id = "person-name-edit-textbox", @maxlength = "24" } })
@@ -301,9 +295,9 @@
         <span id="born-info" class="born-info">
             <b>
                 @if (Model.Person.Gender == "K")
-            { <text>Urodzona:</text> }
-            else
-            { <text>Urodzony:</text> }
+                { <text>Urodzona:</text> }
+                else
+                { <text>Urodzony:</text> }
             </b>
             @if (Model.Person.BirthDateTime == DateTime.Parse("1900-01-01") && Model.Person.BirthPlace == null)
             {
@@ -317,7 +311,7 @@
 
         <!--EDIT -->
         @using (Ajax.BeginForm("EditBirth", "Person", new { },
-                    new AjaxOptions { OnSuccess = "successEditPersonBirth(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "born-info-edit" }))
+                new AjaxOptions { OnSuccess = "successEditPersonBirth(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "born-info-edit" }))
         {
             @Html.HiddenFor(Model => Model.Person.ID)
             @Html.EditorFor(Model => Model.Person.BirthDateTime, new { htmlAttributes = new { @id = "born-info-edit-date" } })
@@ -330,11 +324,11 @@
         <span id="death-info" class="death-info">
             <b>
                 @if (Model.Person.Gender == "K")
-            {
+                {
                     @:Zmarła:
             }
-            else
-            {
+                else
+                {
                     @:Zmarły:
             }
             </b>
@@ -349,7 +343,7 @@
         </span>
         <!--EDIT -->
         @using (Ajax.BeginForm("EditDeath", "Person", new { },
-            new AjaxOptions { OnSuccess = "successEditPersonDeath(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "death-info-edit" }))
+        new AjaxOptions { OnSuccess = "successEditPersonDeath(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "death-info-edit" }))
         {
             @Html.HiddenFor(Model => Model.Person.ID)
             @Html.EditorFor(Model => Model.Person.DeathDateTime, new { htmlAttributes = new { @id = "death-info-edit-date" } })
@@ -371,7 +365,7 @@
         </span>
         <!--EDIT -->
         @using (Ajax.BeginForm("EditBurial", "Person", new { },
-                new AjaxOptions { OnSuccess = "successEditPersonBurial(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "burial-info-edit" }))
+            new AjaxOptions { OnSuccess = "successEditPersonBurial(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "burial-info-edit" }))
         {
             @Html.HiddenFor(Model => Model.Person.ID)
             @Html.EditorFor(Model => Model.Person.RestingPlace, new { htmlAttributes = new { @id = "burial-info-edit-text", @maxlength = "80" } })
@@ -394,10 +388,9 @@
                 });
         </script>
 
-    @Html.Action("RenderTables", "Person", new { Model.Person })
+    @Html.Action("RenderEditableTables", "Person", new { Model.Person })
 
-    @Html.Action("RenderGallery", "Person", new { Model.Person })
-    }
+    @Html.Action("RenderEditableGallery", "Person", new { Model.Person })
 
 <div class="modal fade" id="setFatherModal" data-url="@Url.Action("setPersonsRelative", "Person", new { personid = Model.Person.ID, relative = "father" })" tabindex="-1" role="dialog" aria-labelledby="setFatherModal" aria-hidden="true"></div>
 <div class="modal fade" id="setMotherModal" data-url="@Url.Action("setPersonsRelative", "Person", new { personid = Model.Person.ID, relative = "mother" })" tabindex="-1" role="dialog" aria-labelledby="setMotherModal" aria-hidden="true"></div>
@@ -450,7 +443,7 @@
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="form-group">
                             <div>
-                                @Html.TextBox("files", "", new { type = "file", @multiple = "multiple", @class = "btn btn-default"})
+                                @Html.TextBox("files", "", new { type = "file", @multiple = "multiple", @class = "btn btn-default" })
                             </div>
                         </div>
                     </div>
@@ -463,7 +456,317 @@
     </div>
 </div>
 
-
-
 @Scripts.Render("~/Scripts/PersonEdit.js")
 @Scripts.Render("~/Scripts/PhotoEdit.js")
+
+}
+
+
+@* ######################################### BRAK MOŻLIWOŚCI EDYCJI #########################################*@
+else
+{
+    <div class="family-tree">
+        <div class="family-tree-parents">
+            <div class="family-tree-father">
+                <div class="family-tree-image">
+
+                    @if (Model.Person.FathersID != 0)
+                {
+                        <a href="@Url.Action("Person", "Person", new { id = Model.Person.FathersID })">
+                            @if (Model.FamilyTreeViewModel.FathersPhotoURL == null)
+                            {
+                                <img src="~/Content/Images/person.jpg" alt="">
+                            }
+                            else
+                            {
+                                <img src="~/Content/Images/@Model.FamilyTreeViewModel.FathersPhotoURL" alt="">
+                            }
+                            <center><div class="name">@Model.FamilyTreeViewModel.FathersName<br />@Model.FamilyTreeViewModel.FathersSurname</div></center>
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="#" id="father-edit" class="edit" data-toggle="modal" data-target="#setFatherModal">
+                            <img src="~/Content/Images/unknown_person.png" alt="">
+                        </a>
+                    }
+                </div>
+            </div>
+
+            <div class="family-tree-mother">
+                <div class="family-tree-image">
+                    @if (Model.Person.MothersID != 0)
+                {
+                        <a href="@Url.Action("Person", "Person", new { id = Model.Person.MothersID })">
+                            @if (Model.FamilyTreeViewModel.MothersPhotoURL == null)
+                            {
+                                <img src="~/Content/Images/person.jpg" alt="">
+                            }
+                            else
+                            {
+                                <img src="~/Content/Images/@Model.FamilyTreeViewModel.MothersPhotoURL" alt="">
+                            }
+                            <center><div class="name">@Model.FamilyTreeViewModel.MothersName<br />@Model.FamilyTreeViewModel.MothersSurname</div></center>
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="#" id="mother-edit" class="edit" data-toggle="modal" data-target="#setMotherModal">
+                            <img src="~/Content/Images/unknown_person.png" alt="">
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="family-tree-partner">
+            <div class="family-tree-image">
+                @if (Model.Person.PartnerID != 0)
+                {
+                    <a href="@Url.Action("Person", "Person", new { id = Model.Person.PartnerID })">
+                        @if (Model.FamilyTreeViewModel.PartnersPhotoURL == null)
+                    {
+                            <img src="~/Content/Images/person.jpg" alt="">
+                        }
+                        else
+                        {
+                            <img src="~/Content/Images/@Model.FamilyTreeViewModel.PartnersPhotoURL" alt="">
+                        }
+                        <center><div class="name">@Model.FamilyTreeViewModel.PartnersName<br />@Model.FamilyTreeViewModel.PartnersSurname</div></center>
+                    </a>
+                }
+                else
+                {
+                    <a href="#" id="partner-edit" class="edit" data-toggle="modal" data-target="#setPartnerModal">
+                        <img src="~/Content/Images/unknown_person.png" alt="">
+                    </a>
+                }
+            </div>
+        </div>
+
+        <div class="line-horizontal"></div>
+        <div class="line-left"></div>
+        <div class="line-right"></div>
+
+        <div class="family-tree-person">
+            <div class="family-tree-image">
+                @if (Model.FamilyTreeViewModel.PersonPhotoURL == null)
+                {
+                    <img src="~/Content/Images/person.jpg" alt="">
+                }
+                else
+                {
+                    <img src="~/Content/Images/@Model.FamilyTreeViewModel.PersonPhotoURL" alt="">
+                }
+            </div>
+        </div>
+
+        @foreach (var kid in Model.FamilyTreeViewModel.Kids)
+        {
+            <div class="family-tree-child">
+                <div class="family-tree-image">
+                    <a href="@Url.Action("Person", "Person", new { id = kid.ID })">
+                        @if (kid.PhotoURL == null)
+                    {
+                            <img src="~/Content/Images/person.jpg" alt="">
+                        }
+                        else
+                        {
+                            <img src="~/Content/Images/@kid.PhotoURL" alt="">
+                        }
+                        <center><div class="name">@kid.Name<br />@kid.Surname</div></center>
+                    </a>
+                </div>
+            </div>
+        }
+
+
+        <!-- ############################## PANEL BLISKIEGO POKREWIEŃSTWA (tylko mały ekran - zamiast drzewka) ############################## -->
+
+        <div class="panel-group close-relatives-panel">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#close-relatives-collapse">Bliskie pokrewieństwo</a>
+                    </h4>
+                </div>
+                <div id="close-relatives-collapse" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        Małżonek:
+                        <a href="#">@Model.FamilyTreeViewModel.PartnersName @Model.FamilyTreeViewModel.PartnersSurname </a>
+                        <br />
+                        Rodzice:
+                        <a href="#">@Model.FamilyTreeViewModel.FathersName @Model.FamilyTreeViewModel.FathersSurname </a>
+                        <a href="#">@Model.FamilyTreeViewModel.MothersName @Model.FamilyTreeViewModel.MothersSurname </a>
+                        <br />
+                        Dzieci:
+                        @foreach (var kid in Model.FamilyTreeViewModel.Kids)
+                        {
+                            <a href="@Url.Action("Person", "Person", new { id = kid.ID })">@kid.Name @kid.Surname</a>
+                        }
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ############################## PANEL DALSZEGO POKREWIEŃSTWA ############################## -->
+
+        <div class="panel-group other-relatives-panel">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#other-relatives-collapse">Dalsze pokrewieństwo</a>
+                    </h4>
+                </div>
+                <div id="other-relatives-collapse" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        Rodzeństwo:
+                        @if (Model.PersonPanelsViewModel.PersonSiblings.Count == 0)
+                        {
+                            @:Brak
+                            }
+                        @foreach (var sibling in Model.PersonPanelsViewModel.PersonSiblings)
+                        {
+                            @Html.ActionLink(sibling.Name + " " + sibling.Surname + " ", "Person", "Person", new { id = sibling.ID }, new { })
+                        }
+                        <br />
+                        Stryjostwo/Wujostwo:
+                        @if (Model.PersonPanelsViewModel.PersonAuntUncle.Count == 0)
+                        {
+                            @:Brak
+                            }
+                        @foreach (var auntuncle in Model.PersonPanelsViewModel.PersonAuntUncle)
+                        {
+                            @Html.ActionLink(auntuncle.Name + " " + auntuncle.Surname + " ", "Person", "Person", new { id = auntuncle.ID }, new { })
+                        }
+                        <br />
+                        Kuzynostwo:
+                        @if (Model.PersonPanelsViewModel.PersonCousins.Count == 0)
+                        {
+                            @:Brak
+                            }
+                        @foreach (var cousin in Model.PersonPanelsViewModel.PersonCousins)
+                        {
+                            @Html.ActionLink(cousin.Name + " " + cousin.Surname + " ", "Person", "Person", new { id = cousin.ID }, new { })
+                        }
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ############################## PANEL POWIĄZANYCH ZDARZEŃ ############################## -->
+
+        <div class="panel-group linked-events-panel">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#linked-events-collapse">Powiązane zdarzenia</a>
+                    </h4>
+                </div>
+                <div id="linked-events-collapse" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <ul>
+                            @if (Model.PersonPanelsViewModel.PersonOnEvents.Count == 0)
+                            {
+                                @:Brak zdarzeń do wyświetlenia
+                                }
+                            @foreach (var events in Model.PersonPanelsViewModel.PersonOnEvents)
+                            {
+                                <li>@Html.ActionLink(events.Title, "Events", "Events", new { id = events.ID }, new { })</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- ############################## KONIEC DRZEWKA ############################## -->
+        <!-- ############################## TREŚĆ OSOBY ############################## -->
+
+        <div class="person-site-content">
+            <div class="basic-info">
+                <h1 id="person-name">
+                    @Model.Person.Name @Model.Person.Surname
+                    <span id="person-familyname">
+                        @if (Model.Person.FamilySurname != null)
+                {@: (@Model.Person.FamilySurname )
+                                    ;
+                }
+                    </span>
+                </h1>
+
+               
+
+                <span id="born-info" class="born-info">
+                    <b>
+                        @if (Model.Person.Gender == "K")
+                { <text>Urodzona:</text> }
+                else
+                { <text>Urodzony:</text> }
+                    </b>
+                    @if (Model.Person.BirthDateTime == DateTime.Parse("1900-01-01") && Model.Person.BirthPlace == null)
+                    {
+                        @:Brak danych
+            }
+                    else
+                    {
+                        <span id="born-date">@Model.Person.BirthDateTime.Date.ToString("d MMMM yyyy")</span> @:<span id="born-city">(@Model.Person.BirthPlace)</span><br />
+            }
+                </span>
+                <br />
+
+                <span id="death-info" class="death-info">
+                    <b>
+                        @if (Model.Person.Gender == "K")
+                {
+                            @:Zmarła:
+            }
+                else
+                {
+                            @:Zmarły:
+            }
+                    </b>
+                    @if (Model.Person.DeathDateTime == DateTime.Parse("1900-01-01") && Model.Person.DeathPlace == null)
+                    {
+                        @: Nie dotyczy
+            }
+                    else
+                    {
+                        <span id="death-date">@Model.Person.DeathDateTime.ToString("d MMMM yyyy")</span> @:<span id="death-city">(@Model.Person.DeathPlace)</span><br />
+            }
+                </span>
+                <br />
+
+                <span id="burial-info" class="burial-info">
+                    <b>Miejsce pochówku:</b>
+                    @if (Model.Person.RestingPlace == null)
+                    {
+                        @: Nie dotyczy
+            }
+                    else
+                    {
+                        <span id="burial-place"> @Model.Person.RestingPlace </span>
+                    }
+                </span>
+                <br />
+            </div>
+
+            <h3>
+                Opis
+            </h3>
+        </div>
+        <div id="description_content"></div>
+
+        <script>
+                $(document).ready(function () {
+                    $('#description_content').html(decodeURIComponent('@Html.Raw(Model.Person.Description)'));
+                });
+        </script>
+
+        @Html.Action("RenderTables", "Person", new { Model.Person })
+
+        @Html.Action("RenderGallery", "Person", new { Model.Person })
+}

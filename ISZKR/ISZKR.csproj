@@ -374,9 +374,9 @@
     <Content Include="Views\Person\setPersonsMother.cshtml" />
     <Content Include="Views\Person\setPersonsPartner.cshtml" />
     <Content Include="Views\Person\setPersonsKid.cshtml" />
-    <Content Include="Views\Person\PersonTables.cshtml" />
+    <Content Include="Views\Person\_PersonTables.cshtml" />
     <Content Include="Views\Events\Events.cshtml" />
-    <Content Include="Views\Person\_PersonGallery.cshtml" />
+    <Content Include="Views\Person\_PersonEditableGallery.cshtml" />
     <Content Include="Views\Person\setPersonsPhoto.cshtml" />
     <Content Include="Views\Photo\_PersonsOnPhotoEdit.cshtml" />
     <Content Include="Views\Chronicle\Chronicle.cshtml" />
@@ -384,6 +384,9 @@
     <Content Include="Views\Events\_EventsParticipantsEdit.cshtml" />
     <Content Include="Views\Events\_EventsGallery.cshtml" />
     <Content Include="Views\Search\SearchResults.cshtml" />
+    <Content Include="Views\Person\_PersonGallery.cshtml" />
+    <Content Include="Views\Person\_PersonEditableTables.cshtml" />
+    <Content Include="Views\Events\_EventsEditableGallery.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
