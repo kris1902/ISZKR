@@ -22,6 +22,7 @@ function successEditPersonBirth(data) {
         $('form#born-info-edit').css('display', 'none');
         $('#born-date').text($('#born-info-edit-date').val());
         $('#born-city').text($('#born-info-edit-city').val());
+        $('#born-info-no-data').text($('#born-info-edit-date').val() + " " + $('#born-info-edit-city').val());
         $('#born-info').css('display', 'inherit');
     }
 }
@@ -36,6 +37,7 @@ function successEditPersonDeath(data) {
         $('form#death-info-edit').css('display', 'none');
         $('#death-date').text($('#death-info-edit-date').val());
         $('#death-city').text($('#death-info-edit-city').val());
+        $('#death-info-no-data').text($('#death-info-edit-date').val() + " " + $('#death-info-edit-city').val());
         $('#death-info').css('display', 'inherit');
     }
 }
@@ -49,6 +51,7 @@ function successEditPersonBurial(data) {
     if (data.result === "success") {
         $('form#burial-info-edit').css('display', 'none');
         $('#burial-place').text($('#burial-info-edit-text').val());
+        $('#burial-info-no-data').text($('#burial-info-edit-text').val());
         $('#burial-info').css('display', 'inherit');
     }
 }

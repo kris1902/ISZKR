@@ -160,10 +160,6 @@ namespace ISZKR.Controllers
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Wyślij wiadomość e-mail z tym łączem
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Potwierdź konto", "Potwierdź konto, klikając <a href=\"" + callbackUrl + "\">tutaj</a>");
 
                     //Tworzenie kroniki użytkownika
                     using (var context = new ISZKRDbContext())
@@ -182,7 +178,9 @@ namespace ISZKR.Controllers
                             AddErrors(result);
                         }
                     }
-                        return RedirectToAction("Index", "Home");
+                    AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                    TempData["Message"] = "Twoje konto i kronika zostały założone! Możesz się teraz zalogować.";
+                    return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
             }
@@ -410,6 +408,133 @@ namespace ISZKR.Controllers
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult Delete(int chronicleID)
+        {
+            RemoveAllPhotos(chronicleID);
+            RemoveAllEvents(chronicleID);
+            RemoveAllPersons(chronicleID);
+            using (var context = new ISZKRDbContext())
+            {
+                Chronicle chronicle = context.Chronicle.Find(chronicleID);
+                context.Chronicle.Remove(chronicle);
+                context.SaveChanges();
+            }
+            
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            return RedirectToAction("Index", "Home");
+        }
+
+        public void RemoveAllPhotos(int chronicleID)
+        {
+            string file_name;
+            using (var context = new ISZKRDbContext())
+            {
+                var allPhotos = context.Photo.Where(p => p.Chronicle.ID == chronicleID).ToList();
+                foreach (var photo in allPhotos)
+                {
+                    file_name = photo.Path;
+                    foreach (Person person in context.Person.Where(p => p.IsOnPhotos.Any()).ToList())
+                    {
+                        if (person.IsOnPhotos.Contains(photo))
+                        {
+                            if (person.PhotoURL == photo.Path)
+                            {
+                                person.PhotoURL = null;
+                            }
+                            person.IsOnPhotos.Remove(photo);
+                        }
+                    }
+                    context.Photo.Remove(photo);
+                    context.SaveChanges();
+                    //Usuwanie zdjęcia
+                    string file_path = Server.MapPath("/Content/Images/" + file_name);
+                    if ((System.IO.File.Exists(file_path)))
+                    {
+                        System.IO.File.Delete(file_path);
+                    }
+                    //Usuwanie miniatury
+                    file_path = Server.MapPath("/Content/Images/thumb_" + file_name);
+                    if ((System.IO.File.Exists(file_path)))
+                    {
+                        System.IO.File.Delete(file_path);
+                    }
+                }
+            }
+        }
+
+        public void RemoveAllEvents(int chronicleID)
+        {
+            using (var context = new ISZKRDbContext())
+            {
+                var allEvents = context.Events.Where(e => e.Chronicle.ID == chronicleID).ToList();
+                foreach (var e in allEvents)
+                {
+                    if (User.Identity.IsAuthenticated && e.Chronicle.ID == Convert.ToInt32(User.Identity.GetUsersChronicleId()))
+                    {
+                        foreach (var person in e.MainEventParticipants.ToList())
+                        {
+                            e.MainEventParticipants.Remove(person);
+                        }
+
+                        foreach (var person in e.EventParticipants.ToList())
+                        {
+                            e.EventParticipants.Remove(person);
+                        }
+                        context.Events.Remove(e);   //Usuwanie zdarzenia
+                        context.SaveChanges();
+                    }
+                }
+            }
+        }
+
+        public void RemoveAllPersons(int chronicleID)
+        {
+            using (var context = new ISZKRDbContext())
+            {
+                var allPersons = context.Person.Where(p => p.Chronicle.ID == chronicleID).ToList();
+                foreach (var person in allPersons)
+                {
+                    //Usuwanie osoby z pola partnera jej partnera
+                    if (person.PartnerID != 0)
+                    {
+                        context.Person.Find(person.PartnerID).PartnerID = 0;
+                    }
+                    //Usuwanie osoby z pola matki/ojca dzieci
+                    if (person.Gender == "K")
+                    {
+                        foreach (var kid in context.Person.Where(p => p.MothersID == person.ID).ToList())
+                        {
+                            kid.MothersID = 0;
+                        }
+                    }
+                    else
+                    {
+                        foreach (var kid in context.Person.Where(p => p.FathersID == person.ID).ToList())
+                        {
+                            kid.FathersID = 0;
+                        }
+                    }
+                    //Usuwanie z tabel
+                    foreach (var edu in context.EducationHistory.Where(e => e.Person.ID == person.ID).ToList())
+                    {
+                        context.EducationHistory.Remove(edu);
+                    }
+                    foreach (var pro in context.ProfessionHistory.Where(p => p.Person.ID == person.ID).ToList())
+                    {
+                        context.ProfessionHistory.Remove(pro);
+                    }
+                    foreach (var res in context.ResidenceHistory.Where(r => r.Person.ID == person.ID).ToList())
+                    {
+                        context.ResidenceHistory.Remove(res);
+                    }
+
+                    //Usuwanie osoby
+                    context.Person.Remove(person);
+                    context.SaveChanges();
+                }
+            }
         }
 
         //

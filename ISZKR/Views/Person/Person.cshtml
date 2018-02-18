@@ -285,9 +285,9 @@
                 new AjaxOptions { OnSuccess = "successEditPersonName(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "name-edit-form" }))
         {
             @Html.HiddenFor(Model => Model.Person.ID)
-            @Html.EditorFor(Model => Model.Person.Name, new { htmlAttributes = new { @id = "person-name-edit-textbox", @maxlength = "24" } })
-            @Html.EditorFor(Model => Model.Person.Surname, new { htmlAttributes = new { @id = "person-surname-edit-textbox", @maxlength = "24" } })
-            @:(@Html.EditorFor(Model => Model.Person.FamilySurname, new { htmlAttributes = new { @id = "person-familyname-edit-textbox", @maxlength = "24" } }))
+            @Html.EditorFor(Model => Model.Person.Name, new { htmlAttributes = new { @id = "person-name-edit-textbox", @maxlength = "24", @placeholder = "Imię" } })
+            @Html.EditorFor(Model => Model.Person.Surname, new { htmlAttributes = new { @id = "person-surname-edit-textbox", @maxlength = "24", @placeholder = "Nazwisko" } })
+            @:(@Html.EditorFor(Model => Model.Person.FamilySurname, new { htmlAttributes = new { @id = "person-familyname-edit-textbox", @maxlength = "24", @placeholder = "Nazwisko rodowe" } }))
             <button class="btn btn-success person-name-edit-btn" id="person-name-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
                 @Html.ValidationMessageFor(Model => Model.Person.Name, "", new { @class = "text-danger" })
         }
@@ -301,7 +301,7 @@
             </b>
             @if (Model.Person.BirthDateTime == DateTime.Parse("1900-01-01") && Model.Person.BirthPlace == null)
             {
-                @:Brak danych
+                @:<span id="born-info-no-data">Brak danych</span>
             }
             else
             {
@@ -315,7 +315,7 @@
         {
             @Html.HiddenFor(Model => Model.Person.ID)
             @Html.EditorFor(Model => Model.Person.BirthDateTime, new { htmlAttributes = new { @id = "born-info-edit-date" } })
-            @Html.EditorFor(Model => Model.Person.BirthPlace, new { htmlAttributes = new { @id = "born-info-edit-city", @maxlength = "24" } })
+            @Html.EditorFor(Model => Model.Person.BirthPlace, new { htmlAttributes = new { @id = "born-info-edit-city", @maxlength = "24", @placeholder = "Miasto" } })
             <button class="btn btn-success born-info-edit-btn" id="born-info-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
         }
         <br />
@@ -334,7 +334,7 @@
             </b>
             @if (Model.Person.DeathDateTime == DateTime.Parse("1900-01-01") && Model.Person.DeathPlace == null)
             {
-                @: Nie dotyczy
+                @:<span id="death-info-no-data">Nie dotyczy</span>
             }
             else
             {
@@ -347,7 +347,7 @@
         {
             @Html.HiddenFor(Model => Model.Person.ID)
             @Html.EditorFor(Model => Model.Person.DeathDateTime, new { htmlAttributes = new { @id = "death-info-edit-date" } })
-            @Html.EditorFor(Model => Model.Person.DeathPlace, new { htmlAttributes = new { @id = "death-info-edit-city", @maxlength = "24" } })
+            @Html.EditorFor(Model => Model.Person.DeathPlace, new { htmlAttributes = new { @id = "death-info-edit-city", @maxlength = "24", @placeholder = "Miasto" } })
             <button class="btn btn-success death-info-edit-btn" id="death-info-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
         }
         <br />
@@ -356,7 +356,7 @@
             <b>Miejsce pochówku:</b>
             @if (Model.Person.RestingPlace == null)
             {
-                @: Nie dotyczy
+                @:<span id="burial-info-no-data">Nie dotyczy</span>
             }
             else
             {
@@ -368,7 +368,7 @@
             new AjaxOptions { OnSuccess = "successEditPersonBurial(data)", HttpMethod = FormMethod.Post.ToString() }, new { id = "burial-info-edit" }))
         {
             @Html.HiddenFor(Model => Model.Person.ID)
-            @Html.EditorFor(Model => Model.Person.RestingPlace, new { htmlAttributes = new { @id = "burial-info-edit-text", @maxlength = "80" } })
+            @Html.EditorFor(Model => Model.Person.RestingPlace, new { htmlAttributes = new { @id = "burial-info-edit-text", @maxlength = "80", @placeholder = "Miejsce/cmentarz" } })
             <button class="btn btn-success burial-info-edit-btn" id="burial-info-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
         }
         <br />

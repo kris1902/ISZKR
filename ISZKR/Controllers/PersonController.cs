@@ -535,7 +535,7 @@ namespace ISZKR.Controllers
                     {
                         foreach (Person person in all_persons)
                         {
-                            if (person.BirthDateTime < personBirthDateTime && person.Gender == "M" && person.ID != personPartnerID)
+                            if (person.BirthDateTime == DateTime.Parse("1900-01-01") || person.BirthDateTime < personBirthDateTime && person.Gender == "M" && person.ID != personPartnerID)
                             {
                                 vm.Person_list.Add(person);
                             }
@@ -547,7 +547,7 @@ namespace ISZKR.Controllers
                     {
                         foreach (Person person in all_persons)
                         {
-                            if (person.BirthDateTime < personBirthDateTime && person.Gender == "K" && person.ID != personPartnerID)
+                            if (person.BirthDateTime == DateTime.Parse("1900-01-01") || person.BirthDateTime < personBirthDateTime && person.Gender == "K" && person.ID != personPartnerID)
                             {
                                 vm.Person_list.Add(person);
                             }
@@ -585,7 +585,7 @@ namespace ISZKR.Controllers
                     {
                         foreach (Person person in all_persons)
                         {
-                            if (person.BirthDateTime > personBirthDateTime && person.ID != personPartnerID && person.ID != personFatherID && person.ID != personMotherID)
+                            if (person.BirthDateTime == DateTime.Parse("1900-01-01") || person.BirthDateTime > personBirthDateTime && person.ID != personPartnerID && person.ID != personFatherID && person.ID != personMotherID)
                             {
                                 vm.Person_list.Add(person);
                             }
