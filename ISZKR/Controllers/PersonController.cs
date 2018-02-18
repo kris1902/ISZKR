@@ -182,7 +182,7 @@ namespace ISZKR.Controllers
             }
             else
             {
-                TempData["Message"] = "Wybacz... ale aby usunąć osobę musisz być zalogowany.";
+                TempData["Message"] = "Wybacz... ale aby usunąć osobę musisz być właścicielem tej kroniki.";
                 return RedirectToAction("Index", "Home");
             }
         }

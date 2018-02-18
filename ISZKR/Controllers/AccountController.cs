@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using ISZKR.Models;
 using ISZKR.ViewModels;
+using ISZKR.Extensions;
 
 namespace ISZKR.Controllers
 {
@@ -191,16 +192,25 @@ namespace ISZKR.Controllers
         }
 
         //
-        // GET: /Account/ConfirmEmail
-        [AllowAnonymous]
-        public async Task<ActionResult> ConfirmEmail(string userId, string code)
+        // GET: /Account/Settings
+        public ActionResult Settings()
         {
-            if (userId == null || code == null)
+            using (var context = new ISZKRDbContext())
             {
-                return View("Error");
+                ViewBag.isChroniclePublic = context.Chronicle.Find(Convert.ToInt32(User.Identity.GetUsersChronicleId())).IsPublic;
+                ViewBag.ChronicleID = Convert.ToInt32(User.Identity.GetUsersChronicleId());
             }
-            var result = await UserManager.ConfirmEmailAsync(userId, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
+            return View();
+        }
+
+        public ActionResult EditChroniclePublic(int chronicleID, bool isPublic)
+        {
+            using (var context = new ISZKRDbContext())
+            {
+                context.Chronicle.Find(chronicleID).IsPublic = isPublic;
+                context.SaveChanges();
+            }
+            return RedirectToAction("Settings", "Account");
         }
 
         //
@@ -287,17 +297,6 @@ namespace ISZKR.Controllers
         public ActionResult ResetPasswordConfirmation()
         {
             return View();
-        }
-
-        //
-        // POST: /Account/ExternalLogin
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult ExternalLogin(string provider, string returnUrl)
-        {
-            // Żądaj przekierowania do dostawcy logowania zewnętrznego
-            return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
 
         //

@@ -62,6 +62,8 @@
             @Html.EditorFor(Model => Model.Events.Place, new { htmlAttributes = new { @id = "events-place-edit-textbox" } })
             <button class="btn btn-success events-place-edit-btn" id="events-place-edit-btn" type="submit"><i class="glyphicon glyphicon-ok"></i></button>
         }
+        <br />
+        <a href="#" id="events-delete" class="events-delete btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteEventsModal"><i class="glyphicon glyphicon-erase"></i>Skasuj zdarzenie</a>
 
     </div>
 
@@ -104,7 +106,7 @@
 
                     @foreach (var e in Model.PersonsListFromEvents)
                     {
-                        @:<a href="@Url.Action("Person", "Person", new { id = e.ID })">@e.Name @e.Surname@if (!e.Equals(Model.MainPersonsListFromEvent.Last()))
+                        @:<a href="@Url.Action("Person", "Person", new { id = e.ID })">@e.Name @e.Surname@if (!e.Equals(Model.PersonsListFromEvents.Last()))
                         {@comma} </a>
                     }
                 </div>
@@ -162,6 +164,21 @@
                 }
             </div>
 
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteEventsModal" tabindex="-1" role="dialog" aria-labelledby="deleteEventsModal" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h3>Czy na pewno chcesz skasować to zdarzenie?</h3>
+                <p>Usunięcie jest nieodwracalne...</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                @Html.ActionLink("Skasuj", "Delete", "Events", new { eventsID = Model.Events.ID }, new { @id = "deleteEventsBtn", @class = "btn btn-danger" })
+            </div>
         </div>
     </div>
 </div>

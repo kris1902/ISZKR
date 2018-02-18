@@ -30,7 +30,8 @@ namespace ISZKR
                       "~/Scripts/moment.js",
                       "~/Scripts/PersonEdit.js",
                       "~/Scripts/PhotoEdit.js",
-                      "~/Scripts/EventsEdit.js"));
+                      "~/Scripts/EventsEdit.js",
+                      "~/Scripts/SettingsEdit.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

@@ -14,9 +14,9 @@
                 </h4>
             </div>
             <div class="panel-body">
-                Ilość osób: 21<br />
-                Ilość mężczyzn: 11<br />
-                Ilość kobiet: 10<br />
+                Ilość osób: @ViewBag.PersonsQuantity<br />
+                Ilość mężczyzn: @ViewBag.MenQuantity<br />
+                Ilość kobiet: @ViewBag.WomenQuantity<br />
             </div>
         </div>
 
@@ -27,8 +27,8 @@
                 </h4>
             </div>
             <div class="panel-body">
-                Ilość zdarzeń: 19<br />
-                Ilość zdjęć: 69<br />
+                Ilość zdarzeń: @ViewBag.EventsQuantity<br />
+                Ilość zdjęć: @ViewBag.PhotosQuantity<br />
             </div>
 
         </div>
@@ -44,11 +44,10 @@
                             </h4>
                         </div>
                         <div class="panel-body">
-                            <a href="./osoba1.html">Adam Kowalski</a><br />
-                            Martyna Zioło<br />
-                            Janina Białkowska<br />
-                            Stefan Białkowski<br />
-                            Ryszard Kawka<br />
+                            @foreach(var person in ViewBag.LastAddedPersons)
+                            {
+                                <a href="@Url.Action("Person", "Person", new { id = person.ID })">@person.Name @person.Surname</a><br />
+                            }
                         </div>
                     </div>
 
@@ -59,11 +58,10 @@
                             </h4>
                         </div>
                         <div class="panel-body">
-                            <a href="./zdarzenie1.html">Jakieś zdarzenie</a><br />
-                            Wypad w góry 20 lipca 2011<br />
-                            Wakacje - Barcelona 2008<br />
-                            Pasowanie na przedszkolaka<br />
-                            Narodziny Natalki<br />
+                            @foreach (var events in ViewBag.LastAddedEvents)
+                            {
+                                <a href="@Url.Action("Events", "Events", new { id = events.ID })">@events.Title</a><br />
+                            }
                         </div>
                     </div>
                 </div>

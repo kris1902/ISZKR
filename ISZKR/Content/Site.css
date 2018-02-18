@@ -137,11 +137,9 @@ footer a {
     color: gray;
 }
 
-
-/* Search */
-
-.search-input {
-    display: inline-block;
+a#events-delete {
+    margin-top: 10px;
+    margin-bottom: 12px;
 }
 
 .search-result {

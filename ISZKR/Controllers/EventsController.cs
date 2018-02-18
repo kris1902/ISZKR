@@ -87,6 +87,37 @@ namespace ISZKR.Controllers
             }
         }
 
+        public ActionResult Delete(int eventsID)
+        {
+            using (var context = new ISZKRDbContext())
+            {
+                Events e = context.Events.Find(eventsID);
+                if (User.Identity.IsAuthenticated && e.Chronicle.ID == Convert.ToInt32(User.Identity.GetUsersChronicleId()))
+                {
+                    foreach(var photo in context.Photo.Where(p => p.Chronicle.ID == e.Chronicle.ID && p.Events.ID == e.ID))
+                    {
+                        photo.Events = null;    //Odepnij zdjęcie od zdarzenia
+                    }
+                    
+                    foreach (var person in e.MainEventParticipants.ToList())
+                    {
+                        e.MainEventParticipants.Remove(person);
+                    }
+                    
+                    foreach (var person in e.EventParticipants.ToList())
+                    {
+                        e.EventParticipants.Remove(person);
+                    }
+                    context.Events.Remove(e);   //Usuwanie zdarzenia
+                    context.SaveChanges();
+
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            TempData["Message"] = "Wybacz... ale aby usunąć zdarzenie musisz być właścicielem tej kroniki.";
+            return RedirectToAction("Index", "Home");
+        }
+
         [HttpPost]
         public ActionResult EditDescription(string description, int eventsID)
         {
