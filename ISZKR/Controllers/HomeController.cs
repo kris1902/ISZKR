@@ -30,5 +30,10 @@ namespace ISZKR.Controllers
             }
             return View(outsideViewModel);
         }
+
+        public ActionResult Instructions()
+        {
+            return View();
+        }
     }
 }

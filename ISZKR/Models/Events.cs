@@ -14,7 +14,6 @@ namespace ISZKR.Models
         public string Title { get; set; }
         public string Content { get; set; }
         public virtual Chronicle Chronicle { get; set; }
-        public virtual EventType EventType { get; set; }
         public virtual ICollection<Person> MainEventParticipants { get; set; }
         public virtual ICollection<Person> EventParticipants { get; set; }
         [DataType(DataType.Date)]
@@ -22,10 +21,5 @@ namespace ISZKR.Models
         [DataType(DataType.Date)]
         public DateTime EndDateTime { get; set; }
         public string Place { get; set; }
-    }
-    public class EventType
-    {
-        public int ID { get; set; }
-        public string Name { get; set; }
     }
 }

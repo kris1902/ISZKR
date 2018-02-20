@@ -166,8 +166,7 @@ namespace ISZKR.Controllers
                     {
                         var new_chronicle = new Chronicle()
                         {
-                            IsPublic = false,
-                            SharingLinkCode = ""
+                            IsPublic = false
                         };
                         context.Chronicle.Add(new_chronicle);
                         context.SaveChanges();
@@ -410,18 +409,18 @@ namespace ISZKR.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        //Deletes all users chronicle data
         public ActionResult Delete(int chronicleID)
         {
             RemoveAllPhotos(chronicleID);
             RemoveAllEvents(chronicleID);
             RemoveAllPersons(chronicleID);
-            using (var context = new ISZKRDbContext())
-            {
-                Chronicle chronicle = context.Chronicle.Find(chronicleID);
-                context.Chronicle.Remove(chronicle);
-                context.SaveChanges();
-            }
-            
+            //using (var context = new ISZKRDbContext())
+            //{
+            //    Chronicle chronicle = context.Chronicle.Find(chronicleID);
+            //    context.Chronicle.Remove(chronicle);
+            //    context.SaveChanges();
+            //}
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }

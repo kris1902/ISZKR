@@ -13,6 +13,5 @@ namespace ISZKR.Models
         public int ID { get; set; }
         [Required]
         public bool IsPublic { get; set; }
-        public string SharingLinkCode { get; set; }
     }
 }

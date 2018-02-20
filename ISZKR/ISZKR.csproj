@@ -250,6 +250,10 @@
     <Compile Include="Migrations\201801212102334_ISZKR-8.2.Designer.cs">
       <DependentUpon>201801212102334_ISZKR-8.2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802201742464_ISZKR-9.cs" />
+    <Compile Include="Migrations\201802201742464_ISZKR-9.Designer.cs">
+      <DependentUpon>201802201742464_ISZKR-9.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\EducationHistory.cs" />
     <Compile Include="Models\Events.cs" />
@@ -384,6 +388,7 @@
     <Content Include="Views\Person\_PersonEditableTables.cshtml" />
     <Content Include="Views\Events\_EventsEditableGallery.cshtml" />
     <Content Include="Views\Account\Settings.cshtml" />
+    <Content Include="Views\Home\Instructions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -431,6 +436,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801212102334_ISZKR-8.2.resx">
       <DependentUpon>201801212102334_ISZKR-8.2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802201742464_ISZKR-9.resx">
+      <DependentUpon>201802201742464_ISZKR-9.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

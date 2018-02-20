@@ -302,3 +302,4 @@ C:\Users\Kris\Documents\Visual Studio 2017\ISZKR\ISZKR\obj\Debug\ISZKR.Migration
 C:\Users\Kris\Documents\Visual Studio 2017\ISZKR\ISZKR\obj\Debug\ISZKR.Migrations.ISZKR8.resources
 C:\Users\Kris\Documents\Visual Studio 2017\ISZKR\ISZKR\obj\Debug\ISZKR.Migrations.ISZKR81.resources
 C:\Users\Kris\Documents\Visual Studio 2017\ISZKR\ISZKR\obj\Debug\ISZKR.Migrations.ISZKR82.resources
+C:\Users\KRIS\Documents\Visual Studio 2017\Projects\ISZKR\ISZKR\obj\Debug\ISZKR.Migrations.ISZKR9.resources
