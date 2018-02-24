@@ -535,11 +535,12 @@ namespace ISZKR.Controllers
                     {
                         foreach (Person person in all_persons)
                         {
-                            if (person.BirthDateTime == DateTime.Parse("1900-01-01") || person.BirthDateTime < personBirthDateTime && person.Gender == "M" && person.ID != personPartnerID)
+                            if ((person.BirthDateTime == DateTime.Parse("1900-01-01") && person.Gender == "M" ) || person.BirthDateTime < personBirthDateTime && person.Gender == "M" && person.ID != personPartnerID)
                             {
                                 vm.Person_list.Add(person);
                             }
                         }
+                        vm.Person_list.Remove(context.Person.Find(personid));
                     }
                     return PartialView("setPersonsFather", vm);
                 case "mother":
@@ -547,11 +548,12 @@ namespace ISZKR.Controllers
                     {
                         foreach (Person person in all_persons)
                         {
-                            if (person.BirthDateTime == DateTime.Parse("1900-01-01") || person.BirthDateTime < personBirthDateTime && person.Gender == "K" && person.ID != personPartnerID)
+                            if ((person.BirthDateTime == DateTime.Parse("1900-01-01") && person.Gender == "K") || person.BirthDateTime < personBirthDateTime && person.Gender == "K" && person.ID != personPartnerID)
                             {
                                 vm.Person_list.Add(person);
                             }
                         }
+                        vm.Person_list.Remove(context.Person.Find(personid));
                     }
                     return PartialView("setPersonsMother", vm);
                 case "partner":
@@ -577,7 +579,6 @@ namespace ISZKR.Controllers
                                 }
                             }
                         }
-
                     }
                     return PartialView("setPersonsPartner", vm);
                 case "kid":
@@ -590,6 +591,7 @@ namespace ISZKR.Controllers
                                 vm.Person_list.Add(person);
                             }
                         }
+                        vm.Person_list.Remove(context.Person.Find(personid));
                     }
                     return PartialView("setPersonsKid", vm);
                 default:
