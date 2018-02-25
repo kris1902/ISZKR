@@ -7,5 +7,6 @@ namespace ISZKR.ViewModels
     {
         public List<Person> Person_list {get; set;}
         public int person_id { get; set; }
+        public bool personHasSibling { get; set; }
     }
 }

@@ -542,6 +542,7 @@ namespace ISZKR.Controllers
                         }
                         vm.Person_list.Remove(context.Person.Find(personid));
                     }
+                    vm.personHasSibling = (personFatherID != 0);
                     return PartialView("setPersonsFather", vm);
                 case "mother":
                     using (var context = new ISZKRDbContext())
@@ -555,6 +556,7 @@ namespace ISZKR.Controllers
                         }
                         vm.Person_list.Remove(context.Person.Find(personid));
                     }
+                    vm.personHasSibling = (personMotherID != 0);
                     return PartialView("setPersonsMother", vm);
                 case "partner":
                     using (var context = new ISZKRDbContext())
@@ -580,6 +582,7 @@ namespace ISZKR.Controllers
                             }
                         }
                     }
+                    vm.personHasSibling = (personPartnerID != 0);
                     return PartialView("setPersonsPartner", vm);
                 case "kid":
                     using (var context = new ISZKRDbContext())

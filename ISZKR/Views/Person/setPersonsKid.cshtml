@@ -27,6 +27,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+            <a class="btn btn-success" href="#" id="add-person" data-toggle="modal" data-target="#addPerson">Dodaj nową osobę</a>
             @Html.ActionLink("Zapisz", "AddKid", "Person", new { person_id = Model.person_id }, new { @id = "saveKidBtn", @class = "btn btn-primary" })
         </div>
     </div>

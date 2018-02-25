@@ -27,7 +27,11 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
-            @Html.ActionLink("Skasuj", "DeleteFather", "Person", new { person_id = Model.person_id }, new { @id = "deleteFatherBtn", @class = "btn btn-danger" })
+            <a class="btn btn-success" href="#" id="add-person" data-toggle="modal" data-target="#addPerson">Dodaj nową osobę</a>
+            @if (Model.personHasSibling)
+            {
+                @Html.ActionLink("Skasuj powiązanie", "DeleteFather", "Person", new { person_id = Model.person_id }, new { @id = "deleteFatherBtn", @class = "btn btn-danger" })
+            }
             @Html.ActionLink("Zapisz", "EditFather", "Person", new { person_id = Model.person_id}, new { @id="saveFatherBtn", @class= "btn btn-primary" })
         </div>
     </div>
